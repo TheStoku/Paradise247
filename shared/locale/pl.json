@@ -1,0 +1,92 @@
+{
+  "general" : {
+    "localeName" : "Polski",
+    "translatedBy" : "Stoku"
+  },
+  "ServerWelcomeMessage" : "👋Witaj {1} na serwerze {2}!",
+
+  "LoginSuccess" : "✅Zalogowałeś się pomyślnie, miłej gry!",
+  "AccountDoesntExist" : "❗Konto dla tej nazwy użytkownika nie istnieje. Zarejestruj je poprzez komendę /register [hasło].",
+  "AccountExistsOnSpawn" : "❗Konto dla użytkownika {1} już istnieje. Jeśli to Twoje konto, użyj '/login'",
+  "RegisterAccountExists" : "❗Konto dla użytkownika {1} już istnieje.",
+  "RegisterSuccess" : "✅Konto założone pomyślnie!",
+  "LoginSyntaxError" : "❌Niepoprawna składnia. Wymagane: /login [hasło]",
+  "LoginIncorrectPassword" : "❌Niepoprawne hasło. Spróbuj ponownie.",
+  "RegisterMissingPassword" : "❌Niepoprawna składnia. Brakuje parametru hasła. Użycie: /register [hasło]",
+
+  "SetLanguage" : "✅Zmieniłeś język na {1}.",
+  "SetLanguageError" : "❗Nie można znaleźć języka '{1}'. Sprawdź komendę '/jezyki'.",
+
+  "PlayerConnected" : "📣{1} dołączył z {2} ({3}).",
+  "PlayerWelcomeMessage" : "👋Witaj {1}! Jak się masz?",
+  "PlayerQuit" : "📣{1} rozłączył się.",
+  "PlayerSpawned" : "🚑{1} odrodził się jako {2}.",
+  "PlayerEnterDojoMessage" : "🔫Wszedłeś na dojo '{1}'. Użyj '/dojoexit' aby opuścić pole bitwy.",
+  "PlayerEnterDojo" : "🔫{1} wszedł na dojo '{2}'. Dołącz do niego używając /dojo {3}",
+  "KillMessage" : "🔫 {1} zabił {2} bronią {3} [ {4} | {5} m | {6} HP ]",
+  "DiedInExplosion" : "💣{1} pracował przy ładunkach wybuchowych. Umarł.",
+  "Drowned" : "🏊{1} utopił swoje problemy.",
+  "Suicide" : "🔪\"Samobójstwo jest odpowiedzią.\" {1}~{2}",
+
+  "InfoPickup10" : "Odblokowałeś osiągnięcie 'Małego Odkrywcy'!",
+  "InfoPickup25" : "Odblokowałeś osiągnięcie 'Średniego Odkrywcy'!",
+  "InfoPickup50" : "Odblokowałeś osiągnięcie 'Wielkiego Odkrywcy'!",
+  "InfoPickup1000" : "Odblokowałeś osiągnięcie 'Ekstremalnego Odkrywcy'!",
+
+  "AchievementReward" : "Nagroda za osiągnięcie: ${1}",
+
+  "EnteredVehicle" : "🚘Wsiadłeś do {1} [{2}]. Możesz go kupić za ${3}.",
+  "EnteredOwnedVehicle" : "🚘Wsiadłeś do {1} [{2}]. Właścicielem tego pojazdu jest {3}.",
+  "CommandSyntaxError" : "❗Podałeś niepoprawną składnię dla komendy '{1}'. Użycie: {2}",
+
+  "command" : {
+    "description" : {
+      "login" : "Login command.",
+      "register" : "Register command.",
+      "stats" : "Stats command.",
+
+      "help" : "Help command.",
+      "info" : "Info command.",
+      "command" : "Commands help.",
+      "cmds" : "Stats command.",
+
+      "dojolist" : "List of available dojos.",
+      "dojo" : "Enter dojo and have some fun!",
+      "dojoexit" : "Exit current dojo.",
+
+      "v" : "Spawn vehicle.",
+      "col1" : "Set colour for vehicle.",
+      "col2" : "Set colour for vehicle.",
+      "fix" : "Fix vehicle.",
+      "flip" : "Flip vehicle.",
+
+      "goto" : "Use teleport.",
+      "gotolist" : "List of available teleports.",
+      "follow" : "Follow last teleport.",
+
+      "savetele" : "Save current teleport to database.",
+      "savecar" : "Save current vehicle to database.",
+      "acol1" : "Set colour for vehicle.",
+      "acol2" : "Set colour for vehicle.",
+      "afix" : "Fix vehicle.",
+      "aflip" : "Flip vehicle.",
+      "aveh" : "Spawn vehicle."
+    },
+
+    "Syntax" : {
+      "login" : "password",
+      "register" : "password",
+      "stats" : "player or empty",
+      "command" : "name",
+      "dojo" : "name",
+      "v" : "name",
+      "col1" :"colorID",
+      "col2" :"colorID",
+      "goto" : "name",
+      "savetele" : "name",
+      "acol1" :"colorID",
+      "acol2" :"colorID",
+      "aveh" : "name"
+    }
+  }
+}

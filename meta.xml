@@ -1,0 +1,151 @@
+<meta>
+	<info title="Paradise247" author="Stoku" version="1.0" description="Paradise247 TDM" />
+
+	<!-- Locale system -->
+	<file type="client" src="shared/locale/en.json" />
+	<file type="client" src="shared/locale/pl.json"/>
+	<script language="javascript" type="client" src="shared/locale.js" />
+	<script language="javascript" type="server" src="shared/locale.js" />
+
+	<!-- mexui -->
+	<file type="client" src="mexui/Images/down-arrow.png" />
+	
+	<script language="javascript" type="client" src="mexui/mexui.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Native.js" />
+	<script language="javascript" type="client" src="mexui/Core/Utility.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Entity/Transition.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entity/StyleableEntity.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entity/Component.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Component/Control.js" />
+	<script language="javascript" type="client" src="mexui/Core/Component/Entry.js" />
+	<script language="javascript" type="client" src="mexui/Core/Component/Event.js" />
+	<script language="javascript" type="client" src="mexui/Core/Component/Window.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Entity/ControlAxis.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entity/ControlWithEntries.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Entry/DropDownItem.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entry/GridColumn.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entry/GridRow.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entry/ListRow.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entry/Tab.js" />
+	<script language="javascript" type="client" src="mexui/Core/Entry/TreeRow.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Control/Button.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/CheckBox.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/DropDown.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Grid.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Image.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Line.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/List.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/ProgressBar.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/RadioButton.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Rectangle.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/ScrollBar.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Slider.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/TabPanel.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Text.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/TextInput.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Tree.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Control/Character.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Characters.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Day.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Date.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Digit.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Digits.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Hour.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Integer.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Letter.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/LetterDigit.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Letters.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/LettersDigits.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Minute.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Month.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Number.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Password.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/PositiveInteger.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/PositiveNumber.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/RangedInteger.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/RangedNumber.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Second.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/TextArea.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Time.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Week.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/WeekDay.js" />
+	<script language="javascript" type="client" src="mexui/Core/Control/Year.js" />
+	
+	<script language="javascript" type="client" src="mexui/Core/Init.js" />
+
+	<!-- Additional files/mods -->
+	<!--<file type="client" src="files/hud.txd" />-->
+	<!--<file type="client" src="files/Clnm_stadium.dff" />
+	<file type="client" src="files/Clnm_stadium.col" />
+	<file type="client" src="files/comstadium.txd" />
+	<file type="client" src="files/vehicles.col" />
+	<file type="client" src="files/particle.txd" />
+	<file type="client" src="files/wheels.dff" />
+	<file type="client" src="files/MISC.TXD" />
+	<file type="client" src="files/fonts.txd" />
+	<file type="client" src="files/weapons.dff" />
+	<file type="client" src="files/pricedown.ttf" />-->
+	<!--<script src="client/mods.js" type="client" language="javascript" />-->
+	<file type="client" src="files/pricedown.ttf"/>
+
+	<!-- Shared files -->
+	<script language="javascript" type="client" src="shared/shared.js" />
+	<script language="javascript" type="server" src="shared/shared.js" />
+	<script language="javascript" type="client" src="shared/players.js" />
+	<script language="javascript" type="server" src="shared/players.js" />
+	<script language="javascript" type="client" src="shared/vehicles.js" />
+	<script language="javascript" type="server" src="shared/vehicles.js" />
+	<script language="javascript" type="client" src="shared/spawns.js" />
+	<script language="javascript" type="server" src="shared/spawns.js" />
+	<script language="javascript" type="client" src="shared/util.js" />
+	<script language="javascript" type="server" src="shared/util.js" />
+
+	<!-- Server files -->
+	<script language="javascript" type="server" src="server/top.js" />
+	<script language="javascript" type="server" src="server/xpsystem.js" />
+	<script language="javascript" type="server" src="server/inventory.js" />
+	<script language="javascript" type="server" src="server/database.js" />
+	<script language="javascript" type="server" src="server/economy.js" />
+	<script language="javascript" type="server" src="server/zones.js" />
+	<script language="javascript" type="server" src="server/commands.js" />
+	<script language="javascript" type="server" src="server/teleports.js" />
+	<script language="javascript" type="server" src="server/spheres.js" />
+	<script language="javascript" type="server" src="server/bank.js" />
+	<script language="javascript" type="server" src="server/packages.js" />
+	<script language="javascript" type="server" src="server/server.js" />
+	<script language="javascript" type="server" src="server/dojo.js" />
+	<script language="javascript" type="server" src="server/achievements.js" />
+	<script language="javascript" type="client" src="server/achievements.js" />
+	<script language="javascript" type="server" src="server/missions/quests.js" />
+	<script language="javascript" type="server" src="server/missions/convoy.js" />
+	<script language="javascript" type="server" src="server/infopickup.js" />
+	<script language="javascript" type="server" src="server/weather.js" />
+	
+	
+	<!-- Client files -->
+	<script language="javascript" type="client" src="server/xpsystem.js" />
+	<script language="javascript" type="client" src="server/economy.js" />
+	<script language="javascript" type="client" src="client/tutorial.js" />
+	<script language="javascript" type="client" src="client/gui/logo.js" />
+	<script language="javascript" type="client" src="client/gui/speedo.js" />
+	<script language="javascript" type="client" src="client/gui/util.js" />
+	<script language="javascript" type="client" src="client/gui/styles.js" />
+	<script language="javascript" type="client" src="client/gui/statistics.js" />
+	<script language="javascript" type="client" src="client/gui/dashboard.js" />
+	<script language="javascript" type="client" src="client/gui/popup.js" />
+	<script language="javascript" type="client" src="client/gui/prompt.js" />
+	<script language="javascript" type="client" src="client/gui/loginwindow.js" />
+	<script language="javascript" type="client" src="client/player.js" />
+	<script language="javascript" type="client" src="client/vehicle.js" />
+	<script language="javascript" type="client" src="client/main.js" />
+	<script language="javascript" type="client" src="client/spawnscreen.js" />
+	<script language="javascript" type="client" src="client/events.js" />
+	
+</meta>

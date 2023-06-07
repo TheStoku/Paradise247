@@ -1,0 +1,103 @@
+"use strict";
+
+const localeFiles = [ "en", "pl" ];
+let locale = [];
+
+bindEventHandler("OnResourceStart", thisResource, function (event, resource) {
+    //console.log(TAG + `Loading locale files.`);
+    log(`Loading locale files.`, Log.INFORMATION);
+
+	for (let i of localeFiles) {
+        let file = loadTextFile(`shared/locale/${i}.json`);
+
+        if(file != null) {
+            new Locale(JSON.parse(file));
+        }
+    }
+});
+
+
+
+class Locale {
+    constructor(text) {
+        this.text = text;
+        this.id = locale.push(this);
+
+        console.log(TAG + `Loaded ${this.text.general.localeName} [${this.id}/${localeFiles.length}].`);
+    }
+
+    getLocaleString(stringName) {
+        try {
+            stringName = stringName.split(".");
+        
+            let output = this.text;
+            for (let i = 0; i < stringName.length; i++) {
+                output = output[stringName[i]];
+            }
+
+            if (typeof output != "undefined")
+                return output;
+
+            else return `Error: missing ${stringName} string in translation.`;
+        } catch (error) {
+            for (let index = 0; index <= 7; index++) {
+                message("We have encountered an error. Please /reconnect", COLOUR_RED);
+            }
+        }
+    }
+
+    getString(stringName) {
+        //console.log(stringName);
+        if (typeof arguments == "undefined")
+            return this.getLocaleString(stringName);
+
+        else {
+            let string = this.getLocaleString(stringName);
+
+            // Filter useless arguments, starts from 4 for server and 0 for client.
+            let fixParamIndex = !isServer ? 0 : 4;
+
+            for (let i = fixParamIndex; i < arguments.length; i++) {
+                string = string.replace(`{${i-fixParamIndex}}`, arguments[i]);
+            }
+
+            return string;
+        }
+    }
+
+    static getString() {
+        return locale[0].getString(...arguments);
+    }
+
+    /**
+	 * Send chat message
+	 * @param {Object} client or null (to all).
+	 * @param {Boolean} exceptClient if client is specified and set to true, the message will be sent to all players except client.
+	 * @param {Number} colour
+     * @param {String} stringName from JSON language file
+	 */
+    static sendMessage(client, exceptClient, colour, stringName) {
+        //log(stringName, Log.ALL);
+
+        // To all clients or to all clients, excluding 'client'.
+        if (client == null || exceptClient) {
+            getPlayers().forEach(player => {
+                let clientId = getClientFromPlayerElement(player);
+
+                if (exceptClient == true && client && clientId == client) return;
+
+                let clientLocale = Player.get(clientId).getLocale();
+
+                messageClient(clientLocale.getString(stringName, ...arguments), clientId, colour);
+            });
+        } else {
+            // Private message to single client.
+            let player = Player.get(client);
+
+            if (player) {
+                let clientLocale = player.getLocale();
+                messageClient(clientLocale.getString(stringName, ...arguments), client, colour);
+            }
+        }
+    }
+}
