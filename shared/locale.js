@@ -1,103 +1,96 @@
-"use strict";
+'use strict';
 
-const localeFiles = [ "en", "pl" ];
-let locale = [];
+const localeFiles = ['en', 'pl'];
+const locale = [];
 
-bindEventHandler("OnResourceStart", thisResource, function (event, resource) {
-    //console.log(TAG + `Loading locale files.`);
-    log(`Loading locale files.`, Log.INFORMATION);
+bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
+	// console.log(TAG + `Loading locale files.`);
+	log(`Loading locale files.`, Log.INFORMATION);
 
-	for (let i of localeFiles) {
-        let file = loadTextFile(`shared/locale/${i}.json`);
+	for (const i of localeFiles) {
+		const file = loadTextFile(`shared/locale/${i}.json`);
 
-        if(file != null) {
-            new Locale(JSON.parse(file));
-        }
-    }
+		if (file != null) {
+			new Locale(JSON.parse(file));
+		}
+	}
 });
 
-
-
 class Locale {
-    constructor(text) {
-        this.text = text;
-        this.id = locale.push(this);
+	constructor(text) {
+		this.text = text;
+		this.id = locale.push(this);
 
-        console.log(TAG + `Loaded ${this.text.general.localeName} [${this.id}/${localeFiles.length}].`);
-    }
+		console.log(TAG + `Loaded ${this.text.general.localeName} [${this.id}/${localeFiles.length}].`);
+	}
 
-    getLocaleString(stringName) {
-        try {
-            stringName = stringName.split(".");
-        
-            let output = this.text;
-            for (let i = 0; i < stringName.length; i++) {
-                output = output[stringName[i]];
-            }
+	getLocaleString(stringName) {
+		try {
+			stringName = stringName.split('.');
 
-            if (typeof output != "undefined")
-                return output;
+			let output = this.text;
+			for (let i = 0; i < stringName.length; i++) {
+				output = output[stringName[i]];
+			}
 
-            else return `Error: missing ${stringName} string in translation.`;
-        } catch (error) {
-            for (let index = 0; index <= 7; index++) {
-                message("We have encountered an error. Please /reconnect", COLOUR_RED);
-            }
-        }
-    }
+			if (typeof output != 'undefined') {
+				return output;
+			} else return `Error: missing ${stringName} string in translation.`;
+		} catch (error) {
+			for (let index = 0; index <= 7; index++) {
+				message('We have encountered an error. Please /reconnect', COLOUR_RED);
+			}
+		}
+	}
 
-    getString(stringName) {
-        //console.log(stringName);
-        if (typeof arguments == "undefined")
-            return this.getLocaleString(stringName);
+	getString(stringName, ...args) {
+		// console.log(stringName);
+		if (!args) {
+			return this.getLocaleString(stringName);
+		} else {
+			let string = this.getLocaleString(stringName);
 
-        else {
-            let string = this.getLocaleString(stringName);
+			for (let i = 0; i < args.length; i++) {
+				string = string.replace(`{${i+1}}`, args[i]);
+			}
 
-            // Filter useless arguments, starts from 4 for server and 0 for client.
-            let fixParamIndex = !isServer ? 0 : 4;
+			return string;
+		}
+	}
 
-            for (let i = fixParamIndex; i < arguments.length; i++) {
-                string = string.replace(`{${i-fixParamIndex}}`, arguments[i]);
-            }
+	static getString(...args) {
+		return locale[0].getString(...args);
+	}
 
-            return string;
-        }
-    }
-
-    static getString() {
-        return locale[0].getString(...arguments);
-    }
-
-    /**
+	/**
 	 * Send chat message
 	 * @param {Object} client or null (to all).
 	 * @param {Boolean} exceptClient if client is specified and set to true, the message will be sent to all players except client.
 	 * @param {Number} colour
      * @param {String} stringName from JSON language file
 	 */
-    static sendMessage(client, exceptClient, colour, stringName) {
-        //log(stringName, Log.ALL);
+	static sendMessage(client, exceptClient, colour, stringName, ...args) {
+		// log(stringName, Log.ALL);
 
-        // To all clients or to all clients, excluding 'client'.
-        if (client == null || exceptClient) {
-            getPlayers().forEach(player => {
-                let clientId = getClientFromPlayerElement(player);
+		// To all clients or to all clients, excluding 'client'.
+		if (client == null || exceptClient) {
+			getPlayers().forEach((player) => {
+				const clientId = getClientFromPlayerElement(player);
 
-                if (exceptClient == true && client && clientId == client) return;
+				if (exceptClient == true && client && clientId == client) return;
 
-                let clientLocale = Player.get(clientId).getLocale();
+				const clientLocale = Player.get(clientId).getLocale();
 
-                messageClient(clientLocale.getString(stringName, ...arguments), clientId, colour);
-            });
-        } else {
-            // Private message to single client.
-            let player = Player.get(client);
+				messageClient(clientLocale.getString(stringName, ...args), clientId, colour);
+			});
+		} else {
+			// Private message to single client.
+			const player = Player.get(client);
 
-            if (player) {
-                let clientLocale = player.getLocale();
-                messageClient(clientLocale.getString(stringName, ...arguments), client, colour);
-            }
-        }
-    }
+			if (player) {
+				const clientLocale = player.getLocale();
+				messageClient(clientLocale.getString(stringName, ...args), client, colour);
+			}
+		}
+	}
 }

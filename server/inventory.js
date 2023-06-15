@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // Source: https://gist.github.com/diazvictor/3fea12958d61f7cba14ca561989fbdb0
 
 /* jshint esversion: 8 */
@@ -14,20 +14,20 @@ class Inventory {
 
 	/**
 	 * I look at what I carry in my inventory
-	 * @returns {Boolean} true or false if there are items
+	 * @return {Boolean} true or false if there are items
 	 */
-	getItems (client) {
+	getItems(client) {
 		if (this.items[0]) {
-			Locale.sendMessage(client, false, COLOUR_ORANGE, "inventory.status", this.items.length, this.size);
-			//Locale.sendMessage(super.client, false, COLOUR_ORANGE, "inventory.youCarry");
+			Locale.sendMessage(client, false, COLOUR_ORANGE, 'inventory.status', this.items.length, this.size);
+			// Locale.sendMessage(super.client, false, COLOUR_ORANGE, "inventory.youCarry");
 
 			this.items.forEach((inventory, index) => {
-				//Locale.sendMessage(super.client, false, COLOUR_ORANGE, "inventory.status", this.items.length, this.size);
+				// Locale.sendMessage(super.client, false, COLOUR_ORANGE, "inventory.status", this.items.length, this.size);
 				messageClient(`${index+1}. ${inventory.name} - ${inventory.desc}.`, client, COLOUR_WHITE);
 			});
 			return true;
 		} else {
-			Locale.sendMessage(client, false, COLOUR_RED, "inventory.noItems");
+			Locale.sendMessage(client, false, COLOUR_RED, 'inventory.noItems');
 			return false;
 		}
 	}
@@ -35,46 +35,46 @@ class Inventory {
 	/**
 	 * Stoku edit: added for database store. Items are stored in database by name.
 	 * I look at what I carry in my inventory
-	 * @returns {Boolean} true or false if there are items
+	 * @return {Boolean} true or false if there are items
 	 */
-	getItemsForStore () {
+	getItemsForStore() {
 		if (this.items[0]) {
-			let items = "";
-			
+			let items = '';
+
 			this.items.forEach((inventory, index) => {
-				items += inventory.name + ",";
+				items += inventory.name + ',';
 			});
 
 			return items;
 		} else {
-			return "";
+			return '';
 		}
 	}
 
 	/**
 	 * I check if an item exists
 	 * @param {String} item name
-	 * @returns {Boolean} true or false if the item exists
+	 * @return {Boolean} true or false if the item exists
 	 */
-	hasItem (name) {
-		for (var i in this.items) {
+	hasItem(name) {
+		for (const i in this.items) {
 			if (name == this.items[i].name) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * I add an item to the inventory
 	 * @param {String} item name
 	 * @param {String} item description
-	 * @returns {Number} the number of items in the inventory
+	 * @return {Number} the number of items in the inventory
 	 */
-	addItem (name, desc) {
+	addItem(name, desc) {
 		this.items.push({
-			"name": name,
-			"desc": desc
+			'name': name,
+			'desc': desc,
 		});
 		return this.items.length;
 	}
@@ -82,18 +82,18 @@ class Inventory {
 	/**
 	 * I remove an item from inventory
 	 * @param {String} item name
-	 * @returns {Boolean} true or false if the item has been removed successfully
+	 * @return {Boolean} true or false if the item has been removed successfully
 	 */
-	removeItem (name) {
+	removeItem(name) {
 		this.items.find((inventory, index) => {	// Stoku: Replaced foreach loop and .pop() to .splice() to fix issues with incorrectly removed items.
 			if (name == inventory.name) {
-				this.items.splice(index, 1);	
+				this.items.splice(index, 1);
 				return true;
 			} else {
 				return false;
 			}
 		});
-		/*this.items.forEach((inventory) => {
+		/* this.items.forEach((inventory) => {
 			if (name == inventory.name) {
 				this.items.pop();
 				return true;
@@ -111,25 +111,25 @@ class BackPack extends Inventory {
 	 * been reached.
 	 * @param {String} item name
 	 * @param {String} item description
-	 * @returns {Number} the number of items in the inventory
+	 * @return {Number} the number of items in the inventory
 	 */
-	addItem (client, name, desc) {
-		let playerDb = Player.get(client).db;
+	addItem(client, name, desc) {
+		const playerDb = Player.get(client).db;
 		this.size = Number(playerDb.backpackSize);
 
 		if (this.items.length >= this.size) {
-			Locale.sendMessage(client, false, COLOUR_RED, "inventory.backpackIsFull", this.items.length, this.size);
+			Locale.sendMessage(client, false, COLOUR_RED, 'inventory.backpackIsFull', this.items.length, this.size);
 			return false;
-		} else if (typeof name != "undefined") { // Stoku: added simple check, but it should be replaced
+		} else if (typeof name != 'undefined') { // Stoku: added simple check, but it should be replaced
 			super.addItem(name, desc);
 			return true;
 		}
 	}
 }
 
-/////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////
 
-let Items = [];
+const Items = [];
 class Item {
 	constructor(name, description, value) {
 		this.name = name;
@@ -139,40 +139,40 @@ class Item {
 	}
 
 	static use(client, item) {
-		let player = Player.get(client);
+		const player = Player.get(client);
 
 		switch (item) {
-			case "water":
-				triggerNetworkEvent("setPlayerHealth", client, 50, true);
-				break;
-			case "apple":
-				triggerNetworkEvent("setPlayerHealth", client, 25, true);
-				break;
-			case "vest":
-				triggerNetworkEvent("setPlayerArmour", client, 100, true);
-				break;
-			case "shoppingbag":
-				player.db.backpackSize += 5;
-				player.backpack.size = player.db.backpackSize;
-				// TODO: Add message
-				break;
-			case "kitbag":
-				player.db.backpackSize += 10;
-				player.backpack.size = player.db.backpackSize;
-				// TODO: Add message
-				break;
-			case "suitcase":
-				player.db.backpackSize += 20;
-				player.backpack.size = player.db.backpackSize;
-				// TODO: Add message
-				break;
+		case 'water':
+			triggerNetworkEvent('setPlayerHealth', client, 50, true);
+			break;
+		case 'apple':
+			triggerNetworkEvent('setPlayerHealth', client, 25, true);
+			break;
+		case 'vest':
+			triggerNetworkEvent('setPlayerArmour', client, 100, true);
+			break;
+		case 'shoppingbag':
+			player.db.backpackSize += 5;
+			player.backpack.size = player.db.backpackSize;
+			// TODO: Add message
+			break;
+		case 'kitbag':
+			player.db.backpackSize += 10;
+			player.backpack.size = player.db.backpackSize;
+			// TODO: Add message
+			break;
+		case 'suitcase':
+			player.db.backpackSize += 20;
+			player.backpack.size = player.db.backpackSize;
+			// TODO: Add message
+			break;
 		}
 
 		setAnim(client, 56, 1000);
 	}
 
 	static getDesc(item) {
-		let i = Items.findIndex( element => element.name == item );
+		const i = Items.findIndex( (element) => element.name == item );
 
 		if (i != -1) {
 			return Items[i].description;
@@ -180,9 +180,9 @@ class Item {
 	}
 }
 
-new Item("shoppingbag", "Adds 5 slots to your backpack size", 10000);
-new Item("kitbag", "Adds 10 slots to your backpack size", 15000);
-new Item("suitcase", "Adds 20 slots to your backpack size", 20000);
-new Item("water", "Renewes your health by 50%", 50);
-new Item("apple", "Renewes your health by 25%", 25);
-new Item("vest", "Renewes your armour by 100%", 1000);
+new Item('shoppingbag', 'Adds 5 slots to your backpack size', 10000);
+new Item('kitbag', 'Adds 10 slots to your backpack size', 15000);
+new Item('suitcase', 'Adds 20 slots to your backpack size', 20000);
+new Item('water', 'Renewes your health by 50%', 50);
+new Item('apple', 'Renewes your health by 25%', 25);
+new Item('vest', 'Renewes your armour by 100%', 1000);

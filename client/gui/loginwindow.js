@@ -1,77 +1,77 @@
-"use strict";
+'use strict';
 
 // Register/login window
 class LoginWindow {
-    constructor(type) {
-        this.type = type;
-        this.title = "";
+	constructor(type) {
+		this.type = type;
+		this.title = '';
 
-        // Player is unregistered, show register window, otherwise login one.
-        if (this.type == -1) {
-            this.title = Locale.getString("client.gui.registerWingowTitle");
-            this.buttonCaption = Locale.getString("client.gui.registerButton");
-            this.action =  this.register;
-        } else if (this.type == 0) {
-            this.title = Locale.getString("client.gui.loginWindowTitle");
-            this.buttonCaption = Locale.getString("client.gui.loginButton");
-            this.action =  this.login;
-        }
+		// Player is unregistered, show register window, otherwise login one.
+		if (this.type == -1) {
+			this.title = Locale.getString('client.gui.registerWingowTitle');
+			this.buttonCaption = Locale.getString('client.gui.registerButton');
+			this.action = this.register;
+		} else if (this.type == 0) {
+			this.title = Locale.getString('client.gui.loginWindowTitle');
+			this.buttonCaption = Locale.getString('client.gui.loginButton');
+			this.action = this.login;
+		}
 
-        // Count window size
-        this.margin = new Vec2(10, 10);
+		// Count window size
+		this.margin = new Vec2(10, 10);
 
-        this.w = gta.width/4;
-        this.h = 80;
-        
-        
-        this.window = mexui.window(gta.width/2 - this.w/2, gta.height/2 - this.h/2, this.w, this.h, this.title, defaultWindowStyle);
-        this.window.moveable = false;
-        this.window.titleBarIconShown = false;
-        this.window.setShown(true);
-        
-        this.label = this.window.text(this.margin.x, this.margin.y, this.w/4, 25, Locale.getString("client.gui.passwordText"), defaultTextStyle);
-        this.input = this.window.password(this.w/4 + 10, this.margin.y, (this.w - this.w/4) - 25, 25, "", textInputStyle);
-        this.button = this.window.button(0, this.h - 30, this.w, 25, this.buttonCaption, defaultAcceptButtonStyle, this.action.bind(this));
+		this.w = gta.width/4;
+		this.h = 80;
 
-        gui.showCursor(true, false);
-        setChatWindowEnabled(false);
-        setHUDEnabled(false);
-    }
 
-    login() {
-        let password = this.input.getText();
+		this.window = mexui.window(gta.width/2 - this.w/2, gta.height/2 - this.h/2, this.w, this.h, this.title, defaultWindowStyle);
+		this.window.moveable = false;
+		this.window.titleBarIconShown = false;
+		this.window.setShown(true);
 
-        if (!this.checkPassword(password)) return;
+		this.label = this.window.text(this.margin.x, this.margin.y, this.w/4, 25, Locale.getString('client.gui.passwordText'), defaultTextStyle);
+		this.input = this.window.password(this.w/4 + 10, this.margin.y, (this.w - this.w/4) - 25, 25, '', textInputStyle);
+		this.button = this.window.button(0, this.h - 30, this.w, 25, this.buttonCaption, defaultAcceptButtonStyle, this.action.bind(this));
 
-        triggerNetworkEvent("gui.loginButtonEvent", password.toString());
+		gui.showCursor(true, false);
+		setChatWindowEnabled(false);
+		setHUDEnabled(false);
+	}
 
-        this.close();
-        dashboard.toggle();
-    }
+	login() {
+		const password = this.input.getText();
 
-    register() {
-        let password = this.input.getText();
-        if (!this.checkPassword(password)) return;
+		if (!this.checkPassword(password)) return;
 
-        triggerNetworkEvent("gui.registerButtonEvent", password.toString());
-        this.close();
-        dashboard.toggle();
-    }
+		triggerNetworkEvent('gui.loginButtonEvent', password.toString());
 
-    checkPassword(password) {
-        // Check if password is defined and it's length is okay.
-        if (typeof password == "undefined" || password.length < 4) {
-            let title = Locale.getString("client.gui.error");
-            let message = Locale.getString("client.gui.passwordTooShort");
-            let closeButton = Locale.getString("client.gui.closeButton");
-    
-            new Popup(title, message, closeButton, this.window);
-            return false;
-        } else return true;
-    }
+		this.close();
+		dashboard.toggle();
+	}
 
-    close() {
-        this.window.remove();
-        delete this;
-    }
+	register() {
+		const password = this.input.getText();
+		if (!this.checkPassword(password)) return;
+
+		triggerNetworkEvent('gui.registerButtonEvent', password.toString());
+		this.close();
+		dashboard.toggle();
+	}
+
+	checkPassword(password) {
+		// Check if password is defined and it's length is okay.
+		if (typeof password == 'undefined' || password.length < 4) {
+			const title = Locale.getString('client.gui.error');
+			const message = Locale.getString('client.gui.passwordTooShort');
+			const closeButton = Locale.getString('client.gui.closeButton');
+
+			new Popup(title, message, closeButton, this.window);
+			return false;
+		} else return true;
+	}
+
+	close() {
+		this.window.remove();
+		delete this;
+	}
 }

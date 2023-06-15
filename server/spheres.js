@@ -1,89 +1,87 @@
-"use strict";
+'use strict';
 
-let Spheres = [];
+const Spheres = [];
 
 class Sphere {
-    constructor(position, radius, callback) {
-        //this.instance = gta.createSphere(position, radius); // Spheres are producing crashes on GTAC. Hotfixed it with pickup.
-        this.instance = gta.createPickup(1384, position, PICKUP_ON_STREET);
-        this.instance.setData("isSphere", true, true);
-        this.instance.setData("radius", radius, true);
-        // End of hotfix.
-        this.id = Spheres.push(this);
-        this.callback = callback;
+	constructor(position, radius, callback, ...args) {
+		// this.instance = gta.createSphere(position, radius); // Spheres are producing crashes on GTAC. Hotfixed it with pickup.
+		this.instance = gta.createPickup(1384, position, PICKUP_ON_STREET);
+		this.instance.setData('isSphere', true, true);
+		this.instance.setData('radius', radius, true);
+		// End of hotfix.
+		this.id = Spheres.push(this);
+		this.callback = callback;
 
-        // Create radar blip
-        if (arguments[3] != null) {
-            this.blip = gta.createBlipAttachedTo(this.instance, arguments[3], arguments[4] = 2, arguments[5] = 0, arguments[6] = true, arguments[7] = false); // optional: , [ int size = 2, int colour = 0, bool blip = true, bool marker = false ]
-        }
+		// Create radar blip
+		if (args[0] != null) {
+			this.blip = gta.createBlipAttachedTo(
+				this.instance, args[0],
+				args[1] = 2, // Size
+				args[2] = 0, // Colour
+				args[3] = true, // Blip
+				args[4] = false); // Marker
+		}
 
-        //log(`Sphere() - sID: ${this.instance.id}, ID: ${this.id}; Len: ${Spheres.length}`, Log.DEBUG);
+		// log(`Sphere() - sID: ${this.instance.id}, ID: ${this.id}; Len: ${Spheres.length}`, Log.DEBUG);
 
-        return this;
-    }
+		return this;
+	}
 
-    destructor() {
-        let index = Sphere.getIndex(this);
+	destructor() {
+		const index = Sphere.getIndex(this);
 
-        Spheres.splice(index, 1);
-        
-        if (typeof this.blip != "undefined") destroyElement(this.blip);
-        destroyElement(this.instance);
-        log(Spheres.toString(), Log.DEBUG);
+		Spheres.splice(index, 1);
 
-        delete this;
-    }
+		if (typeof this.blip != 'undefined') destroyElement(this.blip);
+		destroyElement(this.instance);
+		log(Spheres.toString(), Log.DEBUG);
 
-    static getInstance(sphereId) {
-        let instance = Spheres.findIndex(sphere => sphere.instance == sphereId);
+		delete this;
+	}
 
-        if (instance) return instance;
-        else return false;
-    }
+	static getInstance(sphereId) {
+		const instance = Spheres.findIndex((sphere) => sphere.instance == sphereId);
 
-    static get(sphereId) {
-        let sphere = Spheres.findIndex(sphere => sphere.instance.id == sphereId);
+		return instance ? instance : false;
+	}
 
-        if (sphere > -1) {
-            return Spheres[sphere];
-        }
-        else return -1;
-    }
+	static get(sphereId) {
+		const index = Spheres.findIndex((sphere) => sphere.instance.id == sphereId);
 
-    static getIndex(sphere) {
-        let index = Spheres.indexOf(sphere);
+		return index > -1 ? Spheres[index] : -1;
+	}
 
-        if (index > -1) {
-            return index;
-        }
-        else return -1;
-    }
+	static getIndex(sphere) {
+		const index = Spheres.indexOf(sphere);
 
-    static enter(event, pedId, sphereId) {
-        let sphere = Sphere.get(sphereId);
+		return index > -1 ? index : -1;
+	}
 
-        log(`Sphere::enter() - Player: ${pedId.name}, Sphere: ${sphereId}`, Log.DEBUG);
-        sphere.callback(event, pedId, sphere, true);
-    }
+	static enter(event, pedId, sphereId) {
+		const sphere = Sphere.get(sphereId);
 
-    static exit(event, pedId, sphereId) {
-        let sphere = Sphere.get(sphereId);
+		log(`Sphere::enter() - Player: ${pedId.name}, Sphere: ${sphereId}`, Log.DEBUG);
+		sphere.callback(event, pedId, sphere, true);
+	}
 
-        log(`Sphere::exit() - Player: ${pedId.name}, Sphere: ${sphereId}`, Log.DEBUG);
-        sphere.callback(event, pedId, sphere, false);
-    }
+	static exit(event, pedId, sphereId) {
+		const sphere = Sphere.get(sphereId);
+
+		log(`Sphere::exit() - Player: ${pedId.name}, Sphere: ${sphereId}`, Log.DEBUG);
+		sphere.callback(event, pedId, sphere, false);
+	}
 }
 
-addEventHandler("OnPedEnteredSphereEx", (event, pedId, sphereId) => {
-    log(`OnPedEnteredSphereEx(): ${pedId.index}, ${sphereId.id}`, Log.DEBUG);
+addEventHandler('OnPedEnteredSphereEx', (event, pedId, sphereId) => {
+	log(`OnPedEnteredSphereEx(): ${pedId.index}, ${sphereId.id}`, Log.DEBUG);
 
 	if (pedId.type == ELEMENT_PLAYER) {
 		Sphere.enter(event, pedId, sphereId.id);
 	}
 });
 
-addEventHandler("OnPedExitedSphereEx", (event, pedId, sphereId) => {
-    log(`OnPedExitedSphereEx(): ${pedId.index}, ${sphereId.id}`, Log.DEBUG);
+addEventHandler('OnPedExitedSphereEx', (event, pedId, sphereId) => {
+	log(`OnPedExitedSphereEx(): ${pedId.index}, ${sphereId.id}`, Log.DEBUG);
 
 	if (pedId.type == ELEMENT_PLAYER) {
 		Sphere.exit(event, pedId, sphereId.id);

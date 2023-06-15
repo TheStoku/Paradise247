@@ -1,111 +1,106 @@
-"use strict";
+'use strict';
 
 const FOLLOW_EXPIRATION_TIME = 15000; // 15s
 
-let teleports = [];
+const teleports = [];
 
-let follow = {
-    "client" : null,
-    "position" : null,
-    "heading" : null
+const follow = {
+	'client': null,
+	'position': null,
+	'heading': null,
 };
 
 function goTo(client, type, params) {
-    if (type == "stop") {
-        triggerNetworkEvent("goTo", client, type);
-        return true;
-    }
-    if (params.length == 0) makeList(client, "teleports", teleports, true);
-    else {
-        let target = getClientFromParams(params);
+	if (type == 'stop') {
+		triggerNetworkEvent('goTo', client, type);
+		return true;
+	}
+	if (params.length == 0) makeList(client, 'teleports', teleports, true);
+	else {
+		const target = getClientFromParams(params);
 
-        if (target) {
-            Locale.sendMessage(null, false, COLOUR_WHITE, type, `${COL_ORANGE}${client.name}`, target.player.name);
-            triggerNetworkEvent("goTo", client, type, target.player.position);
-            return true;
-        }
+		if (target) {
+			Locale.sendMessage(null, false, COLOUR_WHITE, type, `${COL_ORANGE}${client.name}`, target.player.name);
+			triggerNetworkEvent('goTo', client, type, target.player.position);
+			return true;
+		}
 
-        let i = null;
+		let i = null;
 
-        if (!isNaN(params)) {
-            i = params;
-        } else {
-            i = teleports.findIndex( teleports => teleports.name == params.toString() );
-        }
-        
-        if (i >= 0) {
-            Locale.sendMessage(null, false, COLOUR_WHITE, type, `${COL_ORANGE}${client.name}`, teleports[i].name);
+		i = !isNaN(params) ? params : teleports.findIndex( (teleports) => teleports.name == params.toString() );
 
-            let position = new Vec3(teleports[i].x, teleports[i].y, teleports[i].z)
-            let heading = teleports[i].heading;
+		if (i >= 0) {
+			Locale.sendMessage(null, false, COLOUR_WHITE, type, `${COL_ORANGE}${client.name}`, teleports[i].name);
 
-            triggerNetworkEvent("goTo", client, type, position);
-            return true;
-        }
-    }
+			const position = new Vec3(teleports[i].x, teleports[i].y, teleports[i].z);
+
+			triggerNetworkEvent('goTo', client, type, position);
+			return true;
+		}
+	}
 }
 
 function teleport(client, params) {
-    if (params.length == 0) makeList(client, "teleports", teleports, true);
-    else {
-        let target = getClientFromParams(params);
+	if (params.length == 0) makeList(client, 'teleports', teleports, true);
+	else {
+		const target = getClientFromParams(params);
 
-        if (target) {
-            if (target == client) {
-                Locale.sendMessage(client, false, COLOUR_WHITE, "teleportToPlayerError");
-            } else {
-                Player.get(client).teleport(target.player.position, target.player.heading);
-                Locale.sendMessage(null, false, COLOUR_WHITE, "teleportToPlayerMessage", `${COL_ORANGE}${client.name}`, target.name);
-                return;
-            }
-        }
+		if (target) {
+			if (target == client) {
+				Locale.sendMessage(client, false, COLOUR_WHITE, 'teleportToPlayerError');
+			} else {
+				Player.get(client).teleport(target.player.position, target.player.heading);
+				Locale.sendMessage(null, false, COLOUR_WHITE, 'teleportToPlayerMessage', `${COL_ORANGE}${client.name}`, target.name);
+				return;
+			}
+		}
 
-        let i = null;
+		let i = null;
 
-        if (!isNaN(params)) {
-            i = params;
-        } else {
-            i = teleports.findIndex( teleports => teleports.name == params.toString() );
-        }
-        
-        if (i >= 0) {
-            Locale.sendMessage(null, false, COLOUR_WHITE, "teleportMessage", `${COL_ORANGE}${client.name}`, teleports[i].name);
+		if (!isNaN(params)) {
+			i = params;
+		} else {
+			i = teleports.findIndex( (teleports) => teleports.name == params.toString() );
+		}
 
-            let position = new Vec3(teleports[i].x, teleports[i].y, teleports[i].z)
-            let heading = teleports[i].heading;
+		if (i >= 0) {
+			Locale.sendMessage(null, false, COLOUR_WHITE, 'teleportMessage', `${COL_ORANGE}${client.name}`, teleports[i].name);
 
-            Player.get(client).teleport(position, heading);
+			const position = new Vec3(teleports[i].x, teleports[i].y, teleports[i].z);
+			const heading = teleports[i].heading;
 
-            setFollow(client, position, heading);
+			Player.get(client).teleport(position, heading);
 
-            setTimeout(function() {
-                setFollow(null, null, null);
-            }, FOLLOW_EXPIRATION_TIME);
+			setFollow(client, position, heading);
 
-            return true;
-        }
-    }
+			setTimeout(function() {
+				setFollow(null, null, null);
+			}, FOLLOW_EXPIRATION_TIME);
+
+			return true;
+		}
+	}
 }
 
-function setFollow(client,position,heading) {
-    follow.client = client;
-    follow.position = position;
-    follow.heading = heading;
+function setFollow(client, position, heading) {
+	follow.client = client;
+	follow.position = position;
+	follow.heading = heading;
 }
 
 function goFollow(client) {
-    if (!follow.position) {
-        Locale.sendMessage(client, false, COLOUR_ORANGE, "teleportExpired");
-        return false;
-    } else {
-        if (client == follow.client) {
-            Locale.sendMessage(client, false, COLOUR_ORANGE, "teleportError");
-            return false;
-        }
+	if (!follow.position) {
+		Locale.sendMessage(client, false, COLOUR_ORANGE, 'teleportExpired');
+		return false;
+	} else {
+		if (client == follow.client) {
+			Locale.sendMessage(client, false, COLOUR_ORANGE, 'teleportError');
+			return false;
+		}
 
-        Locale.sendMessage(client, false, COLOUR_ORANGE, "teleportFollow", follow.client.name);
+		Locale.sendMessage(client, false, COLOUR_ORANGE, 'teleportFollow', follow.client.name);
 
-        client.player.position = follow.position;
-        client.player.heading = follow.heading;
-    }
+		client.player.position = follow.position;
+		client.player.heading = follow.heading;
+	}
 }

@@ -1,80 +1,76 @@
-"use strict";
+'use strict';
 
 /*
     Hidden Packages system
 */
 
-let Packages = [];
+const Packages = [];
 
 class Package {
-    constructor(id, position) {
-        this.id = id;
-        this.pickup = gta.createPickup(1321, position, PICKUP_ONCE);
-        this.pickup.setData("isHiddenPackage", true, false);
-        
-        Packages.push(this);
-    }
+	constructor(id, position) {
+		this.id = id;
+		this.pickup = gta.createPickup(1321, position, PICKUP_ONCE);
+		this.pickup.setData('isHiddenPackage', true, false);
 
-    collect(client) {
-        let packages = Player.get(client).db.packages[thisGame];
+		Packages.push(this);
+	}
 
-        packages[this.id] = 1;
+	collect(client) {
+		const packages = Player.get(client).db.packages[thisGame];
 
-        let collectedCount = Package.count(client);
-        Player.get(client).db.hiddenPackages = collectedCount;
-        //Player.get(client).setMoney(earningBase.hiddenPackage, true);
-        Locale.sendMessage(client, false, COLOUR_ORANGE, "collectedPackage", this.id.toString(), collectedCount);
+		packages[this.id] = 1;
 
-        earn(client, earningBase.hiddenPackage, xpBase.hiddenPackage);
+		const collectedCount = Package.count(client);
+		Player.get(client).db.hiddenPackages = collectedCount;
+		// Player.get(client).setMoney(earningBase.hiddenPackage, true);
+		Locale.sendMessage(client, false, COLOUR_ORANGE, 'collectedPackage', this.id.toString(), collectedCount);
 
-        client.setData("hiddenPackages", collectedCount);
-        Achievement.check("hiddenPackages", collectedCount, client);
+		earn(client, earningBase.hiddenPackage, xpBase.hiddenPackage);
 
-        Quest.check(client, "hiddenPackages");
+		client.setData('hiddenPackages', collectedCount);
+		Achievement.check('hiddenPackages', collectedCount, client);
 
-        updateGlobalStat("collectedPackages", 1, true, true);
-    }
+		Quest.check(client, 'hiddenPackages');
 
-    static get(id) {
-        let hiddenPackage = Packages.findIndex( hiddenPackage => hiddenPackage.id == id );
+		updateGlobalStat('collectedPackages', 1, true, true);
+	}
 
-        if (hiddenPackage > -1) {
-            return Packages[hiddenPackage];
-        }
-        else return null;
-    }
+	static get(id) {
+		const index = Packages.findIndex( (hiddenPackage) => hiddenPackage.id == id );
 
-    static getInstance(pickup) {
-        let hiddenPackage = Packages.findIndex( hiddenPackage => hiddenPackage.pickup.id == pickup.id );
+		return index > -1 ? Packages[index] : null;
+	}
 
-        if (hiddenPackage > -1) {
-            return Packages[hiddenPackage];
-        }
-        else return null;
-    }
+	static getInstance(pickup) {
+		const hiddenPackage = Packages.findIndex( (hiddenPackage) => hiddenPackage.pickup.id == pickup.id );
 
-    static count(client) {
-        let packages = Player.get(client).db.packages[thisGame];
-        let count = 0;
+		if (hiddenPackage > -1) {
+			return Packages[hiddenPackage];
+		} else return null;
+	}
 
-        packages.forEach((element) => {
-            if (element == 1) count++;
-        });
+	static count(client) {
+		const packages = Player.get(client).db.packages[thisGame];
+		let count = 0;
 
-        return count;
-    }
+		packages.forEach((element) => {
+			if (element == 1) count++;
+		});
+
+		return count;
+	}
 }
 
 function initHiddenPackages() {
-    hiddenPackages[thisGame].forEach((element, index) => {
-        new Package(index, element);
-    });
+	hiddenPackages[thisGame].forEach((element, index) => {
+		new Package(index, element);
+	});
 }
 
-addNetworkHandler("OnPickupCollected_C", function (client, pickupId) {
-    let pickup = getElementFromId(pickupId);
+addNetworkHandler('OnPickupCollected_C', function(client, pickupId) {
+	const pickup = getElementFromId(pickupId);
 
-	if (pickup.getData("isHiddenPackage") == true) Package.getInstance(pickup).collect(client);
+	if (pickup.getData('isHiddenPackage') == true) Package.getInstance(pickup).collect(client);
 });
 
 /*

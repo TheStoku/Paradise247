@@ -1,98 +1,97 @@
-"use strict";
+'use strict';
 
-addNetworkHandler("setTaxiLight", (client, enabled) => {
-    let vehicle = gta.STORE_CAR_PLAYER_IS_IN(client);
+addNetworkHandler('setTaxiLight', (client, enabled) => {
+	const vehicle = gta.STORE_CAR_PLAYER_IS_IN(client);
 
-    gta.SET_TAXI_LIGHTS(vehicle, enabled ? 1 : 0);
+	gta.SET_TAXI_LIGHTS(vehicle, enabled ? 1 : 0);
 });
 
-addNetworkHandler("respawnVehicle", (vehicleId, x, y, z, heading) => {
-    let vehicle = getElementFromId(vehicleId);
+addNetworkHandler('respawnVehicle', (vehicleId, x, y, z, heading) => {
+	const vehicle = getElementFromId(vehicleId);
 
-    if (vehicle != null) {
-        vehicle.fix();
-        vehicle.position = new Vec3(x, y, z);
-        vehicle.turnVelocity = new Vec3(0.0, 0.0, 0.0);
-        vehicle.setRotation(new Vec3(0.0, 0.0, heading));
-        vehicle.lights = false;
-        vehicle.engine = false;
-    }
+	if (vehicle != null) {
+		vehicle.fix();
+		vehicle.position = new Vec3(x, y, z);
+		vehicle.turnVelocity = new Vec3(0.0, 0.0, 0.0);
+		vehicle.setRotation(new Vec3(0.0, 0.0, heading));
+		vehicle.lights = false;
+		vehicle.engine = false;
+	}
 });
 
-addNetworkHandler("explodeVehicle", (vehicleId) => {
-    let vehicle = getElementFromId(vehicleId);
+addNetworkHandler('explodeVehicle', (vehicleId) => {
+	const vehicle = getElementFromId(vehicleId);
 
-    if (vehicle.syncer != localClient) vehicle.blow();
+	if (vehicle.syncer != localClient) vehicle.blow();
 });
 
-addNetworkHandler("flipVehicle", () => {
-    if (!localPlayer.vehicle) return;
+addNetworkHandler('flipVehicle', () => {
+	if (!localPlayer.vehicle) return;
 
-    localPlayer.vehicle.turnVelocity = new Vec3(0.0, 0.0, 0.0);
+	localPlayer.vehicle.turnVelocity = new Vec3(0.0, 0.0, 0.0);
 	localPlayer.vehicle.setRotation(new Vec3(0.0, 0.0, localPlayer.vehicle.heading));
 });
 
-addEventHandler("onVehicleExplode", (event, vehicle) => {
-    if (vehicle.isSyncer) {
-        if (localPlayer.vehicle == vehicle) {
-            //message(localPlayer.vehicle.toString());
-            //message(vehicle.toString());
-            localPlayer.removeFromVehicle;
-        }
-        triggerNetworkEvent("onVehicleExplode", vehicle.id);
-    }
+addEventHandler('onVehicleExplode', (event, vehicle) => {
+	if (vehicle.isSyncer) {
+		if (localPlayer.vehicle == vehicle) {
+			// message(localPlayer.vehicle.toString());
+			// message(vehicle.toString());
+			localPlayer.removeFromVehicle;
+		}
+		triggerNetworkEvent('onVehicleExplode', vehicle.id);
+	}
 });
 
 function toggleDoor(vehicle, door) {
-    let doorStatus = vehicle.getDoorStatus(door);
+	const doorStatus = vehicle.getDoorStatus(door);
 
-    doorStatus == AUTOMOBILEDOORSTATUS_CLOSED ? vehicle.setDoorStatus(door, AUTOMOBILEDOORSTATUS_PHYSICS) : vehicle.setDoorStatus(door, AUTOMOBILEDOORSTATUS_CLOSED);
+	doorStatus == AUTOMOBILEDOORSTATUS_CLOSED ? vehicle.setDoorStatus(door, AUTOMOBILEDOORSTATUS_PHYSICS) : vehicle.setDoorStatus(door, AUTOMOBILEDOORSTATUS_CLOSED);
 
-    message("Door status changed.");
+	message('Door status changed.');
 }
 
 // TODO: needs refactoring
 function callService(vehicle, type) {
-    if (!vehicle) return;
+	if (!vehicle) return;
 
-    switch(type) {
-		case "fix":
-			if (vehicle.health < 1000.0) type = "fix";
-            else type = "none";
-			break;
-		case "flip":
-            if (vehicle.flipped) type = "flip";
-            else type = "none";
-			break;
-		case "flip&fix":
-			type = "flip&fix";
-			break;
+	switch (type) {
+	case 'fix':
+		if (vehicle.health < 1000.0) type = 'fix';
+		else type = 'none';
+		break;
+	case 'flip':
+		if (vehicle.flipped) type = 'flip';
+		else type = 'none';
+		break;
+	case 'flip&fix':
+		type = 'flip&fix';
+		break;
 	}
-    if (type != "none") triggerNetworkEvent("callService", vehicle.id, type);
-    else message(`Everything is fine, no service needed.`);
+	if (type != 'none') triggerNetworkEvent('callService', vehicle.id, type);
+	else message(`Everything is fine, no service needed.`);
 }
 
-bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
-    bindKey(SDLK_l, KEYSTATE_DOWN, function(e) {
-        toggleLights();
-    });
-
+bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
+	bindKey(SDLK_l, KEYSTATE_DOWN, function(e) {
+		toggleLights();
+	});
 });
 
 function toggleLights() {
-    if (localPlayer && localPlayer.vehicle && localPlayer.seat == 0) {
-        let vehicle = localPlayer.vehicle;
+	if (localPlayer && localPlayer.vehicle && localPlayer.seat == 0) {
+		const vehicle = localPlayer.vehicle;
 
-        vehicle.lights = !vehicle.lights;
+		vehicle.lights = !vehicle.lights;
 
-        triggerNetworkEvent("onSetVehicleLights", localPlayer.vehicle.id, vehicle.lights);
-    }
+		triggerNetworkEvent('onSetVehicleLights', localPlayer.vehicle.id, vehicle.lights);
+	}
 }
 
-addNetworkHandler("setVehicleLights", (vehicleId, status) => {
-    let vehicle = getElementFromId(vehicleId);
+addNetworkHandler('setVehicleLights', (vehicleId, status) => {
+	const vehicle = getElementFromId(vehicleId);
 
-    if (vehicle.syncer == localClient) return;
+	if (vehicle.syncer == localClient) return;
 
-    vehicle.lights = status;
+	vehicle.lights = status;
 });
