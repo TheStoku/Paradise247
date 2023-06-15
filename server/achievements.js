@@ -172,4 +172,10 @@ function initAchievements() {
 	new Achievement('level', 10, earningBase.onlineAchievement, 'apple');
 	new Achievement('level', 30, earningBase.onlineAchievement, 'vest');
 	new Achievement('level', 60, earningBase.onlineAchievement, 'vest');
+
+	new Achievement('headshots', 10, earningBase.headshots);
+	new Achievement('headshots', 50, earningBase.headshots);
+	new Achievement('headshots', 100, earningBase.headshots);
+	new Achievement('headshots', 200, earningBase.headshots, 'water');
+	new Achievement('headshots', 500, earningBase.headshots, 'vest');
 }

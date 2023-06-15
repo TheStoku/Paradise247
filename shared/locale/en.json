@@ -47,7 +47,8 @@
     "quests" : "Missionaire",
     "mileage" : "Globe Trotter",
     "onlineTime": "Gamer",
-    "level" : "Roleplayer"
+    "level" : "Roleplayer",
+    "headshots" : "Headshoter"
   },
 
   "quest" : {

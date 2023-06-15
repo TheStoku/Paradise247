@@ -262,6 +262,7 @@ class Player {
 		this.client.setData('mileage', this.db.mileage);
 		this.client.setData('onlineTime', this.db.onlineTime);
 		this.client.setData('level', XP.parseByXP(this.db.xp).level);
+		this.client.setData('headshots', this.db.headshots);
 
 		// Stored spawnscreen data
 		this.client.setData('team', this.db.team, true);
