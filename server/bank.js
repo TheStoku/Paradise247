@@ -6,15 +6,18 @@
 
 class Bank {
 	static enter(event, ped, sphere, entered) {
-		const player = getElementFromId(ped.id);
+		log(`bank enter: ${ped.name}`);
+		const player = ped;
+		const client = getClientFromPlayerElement(player);
+		// const player = Player.get(ped);
 
 		if (entered) {
-			getClientFromPlayerElement(player).setData('inBank', true);
-			Locale.sendMessage(player.client, false, COLOUR_WHITE, 'bank.welcome');
-			Locale.sendMessage(player.client, false, COLOUR_WHITE, 'bank.commands');
+			client.setData('inBank', true);
+			Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.welcome');
+			Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.commands');
 		} else {
-			getClientFromPlayerElement(player).setData('inBank', false);
-			Locale.sendMessage(player.client, false, COLOUR_WHITE, 'bank.bye');
+			client.setData('inBank', false);
+			Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.bye');
 		}
 	}
 

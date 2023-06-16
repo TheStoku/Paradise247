@@ -73,7 +73,7 @@ class Sphere {
 }
 
 addEventHandler('OnPedEnteredSphereEx', (event, pedId, sphereId) => {
-	log(`OnPedEnteredSphereEx(): ${pedId.index}, ${sphereId.id}`, Log.DEBUG);
+	log(`OnPedEnteredSphereEx(): ${pedId.name}, ${sphereId.id}`, Log.DEBUG);
 
 	if (pedId.type == ELEMENT_PLAYER) {
 		Sphere.enter(event, pedId, sphereId.id);
@@ -81,7 +81,7 @@ addEventHandler('OnPedEnteredSphereEx', (event, pedId, sphereId) => {
 });
 
 addEventHandler('OnPedExitedSphereEx', (event, pedId, sphereId) => {
-	log(`OnPedExitedSphereEx(): ${pedId.index}, ${sphereId.id}`, Log.DEBUG);
+	log(`OnPedExitedSphereEx(): ${pedId.name}, ${sphereId.id}`, Log.DEBUG);
 
 	if (pedId.type == ELEMENT_PLAYER) {
 		Sphere.exit(event, pedId, sphereId.id);

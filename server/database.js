@@ -53,12 +53,12 @@ function buildQueryKeys(data) {
 	let n = 1;
 
 	for (const i in data) {
-		//if (Object.hasOwnProperty(data, i)) {
+		if (Object.hasOwnProperty(data, i)) {
 			builtQuery += '\`' + i + '\`';
 
 			if (n < Object.keys(data).length) builtQuery += ', ';
 			n++;
-		//}
+		}
 	}
 
 	return builtQuery;
