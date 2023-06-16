@@ -100,7 +100,6 @@ function goFollow(client) {
 
 		Locale.sendMessage(client, false, COLOUR_ORANGE, 'teleportFollow', follow.client.name);
 
-		client.player.position = follow.position;
-		client.player.heading = follow.heading;
+		Player.get(client).teleport(follow.position, follow.heading);
 	}
 }
