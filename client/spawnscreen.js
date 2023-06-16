@@ -2,7 +2,6 @@
 
 let pricedown = null;
 const myFont = lucasFont.createDefaultFont(14.0, 'Roboto', 'Light');
-const myFont3 = lucasFont.createDefaultFont(14.0, 'Tahoma', 'Bold');
 
 class SpawnScreen {
 	constructor() {
@@ -241,9 +240,43 @@ addEventHandler('OnDrawnHUD', (event) => {
 
 		// TODO: Maybe switch to mexui?
 		if (pricedown) {
-			pricedown.render(`Team: ${teamName}\nGang Car: ${gangCarName}\nPrimary weapon: ${selectedWeaponName}`, [0, gta.height / 3.5], gta.width, 0.05, 0.0, pricedown.size, COLOUR_WHITE, true, true, false, true);
-			if (teamLevel > XP.parseByXP(xp).level) pricedown.render(`UNLOCK AT LEVEL ${teamLevel}`, [0, gta.height/2], gta.width, 0.5, 0.0, pricedown.size, COLOUR_RED, true, true, false, true);
+			pricedown.render(
+				`Team: ${teamName}\nGang Car: ${gangCarName}\nPrimary weapon: ${selectedWeaponName}`,
+				[0, gta.height / 3.5], // Vec2 position
+				gta.width, // width
+				0.05, // align
+				0.0, // justify
+				pricedown.size, // size
+				COLOUR_WHITE, // colour
+				true, // word wrap
+				true, // colour codes
+				false, // ignore colour codes
+				true); // shadow
+			if (teamLevel > XP.parseByXP(xp).level) {
+				pricedown.render(`UNLOCK AT LEVEL ${teamLevel}`,
+					[0, gta.height/2],
+					gta.width,
+					0.5,
+					0.0,
+					pricedown.size,
+					COLOUR_RED,
+					true,
+					true,
+					false,
+					true);
+			}
 		}
-		myFont.render('Use Left/Right arrows to select class.\nUse Up/Down arrows to select primary weapon.\nPress \'Enter\' for spawn.', [0, gta.height / 3.5], gta.width, 0.9, 0.0, myFont.size, COLOUR_WHITE, true, true, false, true);
+		myFont.render(
+			'Use Left/Right arrows to select class.\nUse Up/Down arrows to select primary weapon.\nPress \'Enter\' for spawn.',
+			[0, gta.height / 3.5],
+			gta.width,
+			0.9,
+			0.0,
+			myFont.size,
+			COLOUR_WHITE,
+			true,
+			true,
+			false,
+			true);
 	}
 });

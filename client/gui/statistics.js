@@ -1,10 +1,10 @@
 'use strict';
 
-const lastKeyPress = sdl.ticks;
 let tick = sdl.ticks;
 let iFPS = 0;
 let fps = 0;
 const enabledStats = true;
+const myFont3 = lucasFont.createDefaultFont(14.0, 'Tahoma', 'Bold');
 
 addEventHandler('OnDrawnHUD', (event) => {
 	// return;
@@ -34,7 +34,43 @@ addEventHandler('OnDrawnHUD', (event) => {
 	const date = new Date();
 	const formattedDate = date.toLocaleDateString('pl-PL') + ' | ' + date.toLocaleTimeString('pl-PL').slice(0, 5);
 
-	myFont3.render(`🎯Bank: $${bankMoney} | Kills: ${kills} | Deaths: ${deaths} | Ratio: ${killDeathRatio(kills, deaths).toFixed(2)} | Session Time: ${toHoursAndMinutes(sessionTime)}`, [0, gta.height - 27], gta.width, 0.01, 0.0, 16, COLOUR_ORANGE, true, true, false, false);
-	myFont3.render(formattedDate, [0, gta.height - 27], gta.width, 0.99, 0.0, 16, COLOUR_SILVER, true, true, false, false);
-	myFont3.render(`Ping: ${ping} | FPS: ${iFPS}`, [0, 5], gta.width, 0.99, 0.0, 14, COLOUR_ORANGE, true, true, false, true);
+	if (myFont3) {
+		myFont3.render(
+			`🎯Bank: $${bankMoney} | Kills: ${kills} | Deaths: ${deaths} | Ratio: ${killDeathRatio(kills, deaths).toFixed(2)} | Session Time: ${toHoursAndMinutes(sessionTime)}`,
+			[0, gta.height - 27],
+			gta.width,
+			0.01,
+			0.0,
+			16,
+			COLOUR_ORANGE,
+			true,
+			true,
+			false,
+			false);
+
+		myFont3.render(formattedDate,
+			[0, gta.height - 27],
+			gta.width,
+			0.99,
+			0.0,
+			16,
+			COLOUR_SILVER,
+			true,
+			true,
+			false,
+			false);
+
+		myFont3.render(
+			`Ping: ${ping} | FPS: ${iFPS}`,
+			[0, 5],
+			gta.width,
+			0.99,
+			0.0,
+			14,
+			COLOUR_ORANGE,
+			true,
+			true,
+			false,
+			true);
+	}
 });
