@@ -97,14 +97,8 @@ addNetworkHandler('removePlayerBodyPart', (pedId, bodyPart) => {
 *   Network: Set player heading
 */
 
-addNetworkHandler('setPlayerHeading', (client, heading) => {
-	const ped = getElementFromId(client);
-
-	/*
-        Error: can't define property "heading": Object is not extensible
-        File: /resources/essa/client/player.js Line: 77 Column: 14
-    */
-	if (ped) ped.heading = Number(heading);
+addNetworkHandler('setPlayerHeading', (heading) => {
+	localPlayer.heading = Number(heading);
 });
 
 addNetworkHandler('setInitialData', (spawnSelection, weaponSelection, spawns) => {
