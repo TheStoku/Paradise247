@@ -167,6 +167,7 @@
   },
 
   "command" : {
+    "commandDoesntExist": "Command '{1}' does not exist.",
     "syntaxError" : "⛔You have provided an incorrect syntax for '{1}' command. Usage: {2}",
     "levelError" : "⛔Sorry, but your level is too low to use this command :(",
     "helpMessage1" : "{1} - Usage: /{2} {3}",

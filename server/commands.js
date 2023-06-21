@@ -744,11 +744,11 @@ function checkCommandFlags(client, command) {
 	}
 
 	if (errorMessage) {
-		Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', errorMessage);
+		// Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', errorMessage);
 
-		return false;
+		return errorMessage;
 	} else {
-		return true;
+		return false;
 	}
 }
 /*
@@ -771,12 +771,14 @@ function checkCommandCash(client, command) {
 	}
 }
 */
+
 addEventHandler('OnPlayerCommand', (event, client, command, params) => {
 	const i = commands.findIndex( (commands) => commands.name == command.toLowerCase() );
+	let isCommandForbidden = false;
 
 	if (typeof commands[i] != 'undefined') {
-		const isCommandAllowed = checkCommandFlags(client, command);
 		const locale = Player.get(client).getLocale();
+		isCommandForbidden = checkCommandFlags(client, command);
 
 		// Check if arguments are correct.
 		if (params.length < commands[i].arguments.length) {
@@ -792,9 +794,11 @@ addEventHandler('OnPlayerCommand', (event, client, command, params) => {
 		}
 
 		// Check command flags
-		if (isCommandAllowed) {
+		if (!isCommandForbidden) {
 			commands[i].function(client, params);
-		}
+		} /* else {
+			Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', isCommandForbidden);
+		}*/
 
 		// TODO: Check if player has enough money.
 		/* if (Player.get(client).db.money < commands[i].cost) {
@@ -802,8 +806,21 @@ addEventHandler('OnPlayerCommand', (event, client, command, params) => {
 			return false;
 		}*/
 	} else {
-		if (checkCommandFlags(client, 'goto') && teleport(client, command)) return;
-		else if (checkCommandFlags(client, 'dojo') && enterDojo(client, command)) return;
+		isCommandForbidden = checkCommandFlags(client, 'goto');
+
+		if (!isCommandForbidden && teleport(client, command)) {
+			return true;
+		} else {
+			isCommandForbidden = checkCommandFlags(client, 'dojo');
+
+			if (!isCommandForbidden && enterDojo(client, command)) {
+				return true;
+			}
+		}
+	}
+
+	if (isCommandForbidden) {
+		Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', isCommandForbidden);
 	}
 });
 
