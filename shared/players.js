@@ -233,7 +233,7 @@ class Player {
 			// Add timeout, to let dashboard be fully loaded.
 			setTimeout(() => {
 				toggleDashboard(this.client);
-			}, 5000);
+			}, 3000);
 		}
 	}
 

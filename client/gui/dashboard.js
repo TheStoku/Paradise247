@@ -115,12 +115,10 @@ function newLineConcat(string1, string2) {
 }
 
 bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
-	setTimeout(() => {
-		dashboard = new Dashboard();
+	dashboard = new Dashboard();
 
-		bindKey(SDLK_F1, KEYSTATE_DOWN, function(e) {
-			dashboard.toggle();
-		});
-	}, 3000);
+	bindKey(SDLK_F1, KEYSTATE_DOWN, function(e) {
+		dashboard.toggle();
+	});
 });
 
