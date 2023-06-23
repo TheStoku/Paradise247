@@ -50,6 +50,10 @@ addNetworkHandler('popup', (title, message, buttonText, parentWindow, callback) 
 	new Popup(title, message, buttonText, parentWindow, callback);
 });
 
+addNetworkHandler('loginWindow', (isLoggedIn) => {
+	new LoginWindow(isLoggedIn);
+});
+
 // Source: https://bobbyhadz.com/blog/javascript-convert-minutes-to-hours-and-minutes
 function toHoursAndMinutes(totalMinutes) {
 	const minutes = totalMinutes % 60;

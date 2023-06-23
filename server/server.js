@@ -402,7 +402,11 @@ addNetworkHandler('onVehicleExplode', function(client, vehicleId) {
 	}
 });
 
-// GUI Popup implementation.
+// GUI implementation.
 function popup(client, title, message, buttonText = null, parentWindow = null, callback = null) {
 	triggerNetworkEvent('popup', client, title, message, buttonText, parentWindow, callback);
+}
+
+function loginWindow(client, isLoggedIn) {
+	triggerNetworkEvent('loginWindow', client, isLoggedIn);
 }

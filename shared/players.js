@@ -158,6 +158,7 @@ class Player {
 		if (checkPasswordQuery(this.client.name, password)) {
 			this.completeLogin();
 		} else {
+			loginWindow(this.client, 0);
 			Locale.sendMessage(this.client, false, COLOUR_RED, 'account.incorrectPassword');
 			log(`User ${this.client.name} has used an incorrect password.`, Log.WARNING);
 		}
