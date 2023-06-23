@@ -56,16 +56,16 @@ addEventHandler('onPedSpawn', (event, ped) => {
 								} else if (isLoggedIn == 0) {
 									new LoginWindow(isLoggedIn);
 								}
-							} else {
+							} /* else {
 								// TODO: Fix this.
-								try {
+								/try {
 									dashboard.toggle();
 								} catch (error) {
 									for (let index = 0; index <= 7; index++) {
 										message('We have encountered an error. Please /reconnect', COLOUR_RED);
 									}
 								}
-							}
+							}*/
 
 							preInit = false;
 						}, 3000);

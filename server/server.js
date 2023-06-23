@@ -410,3 +410,7 @@ function popup(client, title, message, buttonText = null, parentWindow = null, c
 function loginWindow(client, isLoggedIn) {
 	triggerNetworkEvent('loginWindow', client, isLoggedIn);
 }
+
+function toggleDashboard(client) {
+	triggerNetworkEvent('toggleDashboard', client);
+}

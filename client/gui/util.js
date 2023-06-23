@@ -54,6 +54,12 @@ addNetworkHandler('loginWindow', (isLoggedIn) => {
 	new LoginWindow(isLoggedIn);
 });
 
+addNetworkHandler('toggleDashboard', () => {
+	if (dashboard) {
+		dashboard.toggle();
+	}
+});
+
 // Source: https://bobbyhadz.com/blog/javascript-convert-minutes-to-hours-and-minutes
 function toHoursAndMinutes(totalMinutes) {
 	const minutes = totalMinutes % 60;

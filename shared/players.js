@@ -201,6 +201,7 @@ class Player {
 					Array(200).fill(0)];
 			}
 
+			this.client.setData('isLoggedIn', 1, true);
 			this.updateClientData();
 
 			let countryName = null;
@@ -224,11 +225,13 @@ class Player {
 			Locale.sendMessage(this.client, false, COLOUR_WHITE, 'account.loginSuccess', lastLogin);
 
 			triggerNetworkEvent('setInitialData', this.client, this.db.team, this.db.weaponSelect, this.db.spawns);
+			// triggerNetworkEvent('toggleDashboard', this.client);
 
 			// Print active quest.
 			Quest.print(this.client, null);
+
+			toggleDashboard(this.client);
 		}
-		this.client.setData('isLoggedIn', 1);
 	}
 
 	setSpawnType(type) {
