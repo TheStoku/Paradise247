@@ -160,7 +160,7 @@ class Player {
 		if (checkPasswordQuery(this.client.name, password)) {
 			this.completeLogin();
 		} else {
-			if (this.session.failedLogin <= MAX_LOGIN_FAILS) {
+			if (this.session.failedLogin < MAX_LOGIN_FAILS - 1) {
 				this.session.failedLogin++;
 				loginWindow(this.client, 0);
 				Locale.sendMessage(this.client, false, COLOUR_RED, 'account.incorrectPassword');
