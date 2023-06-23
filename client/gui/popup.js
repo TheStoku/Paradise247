@@ -39,6 +39,7 @@ class Popup {
 
 		if (typeof this.parentWindow != 'undefined' && this.parentWindow != null) {
 			this.parentWindow.setShown(true);
+			gui.showCursor(true, false);
 		}
 
 		if (typeof this.callback != 'undefined' && this.callback != null) {

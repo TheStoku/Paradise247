@@ -61,6 +61,7 @@ class LoginWindow {
 	checkPassword(password) {
 		// Check if password is defined and it's length is okay.
 		if (typeof password == 'undefined' || password.length < 4) {
+			gui.showCursor(true, false);
 			const title = Locale.getString('client.gui.error');
 			const message = Locale.getString('client.gui.passwordTooShort');
 			const closeButton = Locale.getString('client.gui.closeButton');
