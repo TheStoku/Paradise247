@@ -77,11 +77,11 @@ class Quest {
 		const target = Quests[player.db.quests].target;
 		const type = Quests[player.db.quests].type;
 
-		if (type == null) Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, null, null, null, null, repeats));
+		if (type == null) Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, repeats));
 		else {
 			switch (type) {
 			case 'vehicle':
-				Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, null, null, null, null, getVehicleNameFromModelId(target)));
+				Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, getVehicleNameFromModelId(target)));
 				break;
 			}
 		}
