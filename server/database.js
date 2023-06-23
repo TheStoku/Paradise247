@@ -34,13 +34,18 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 });
 
 function establishDatabaseConnection() {
-	db = module.mysql.connect(
-		server.getCVar('DATABASE_IP'),
-		server.getCVar('DATABASE_USERNAME'),
-		server.getCVar('DATABASE_PASSWORD'),
-		server.getCVar('DATABASE_NAME'),
-		Number(server.getCVar('DATABASE_PORT')),
-	);
+	try {
+		db = module.mysql.connect(
+			server.getCVar('DATABASE_IP'),
+			server.getCVar('DATABASE_USERNAME'),
+			server.getCVar('DATABASE_PASSWORD'),
+			server.getCVar('DATABASE_NAME'),
+			Number(server.getCVar('DATABASE_PORT')),
+		);
+	} catch (e) {
+		console.log(e);
+		server.shutdown();
+	}
 }
 
 function closeDatabaseConnection() {
