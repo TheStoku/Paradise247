@@ -1,6 +1,7 @@
 'use strict';
 
 const MAX_PLAYERS = 50; // isServer ? server.maxClients : 1;
+const MAX_LOGIN_FAILS = 5;
 const Players = Array.apply(null, Array(MAX_PLAYERS)).map(function() {});
 
 class Player {
@@ -10,6 +11,7 @@ class Player {
 		this.db.locale = 0;
 		this.backpack = new BackPack();
 		this.session = {
+			failedLogin: 0,
 			time: 0,
 			blip: null,
 			kills: 0,
@@ -158,9 +160,15 @@ class Player {
 		if (checkPasswordQuery(this.client.name, password)) {
 			this.completeLogin();
 		} else {
-			loginWindow(this.client, 0);
-			Locale.sendMessage(this.client, false, COLOUR_RED, 'account.incorrectPassword');
-			log(`User ${this.client.name} has used an incorrect password.`, Log.WARNING);
+			if (this.session.failedLogin <= MAX_LOGIN_FAILS) {
+				this.session.failedLogin++;
+				loginWindow(this.client, 0);
+				Locale.sendMessage(this.client, false, COLOUR_RED, 'account.incorrectPassword');
+				log(`User ${this.client.name} has used an incorrect password.`, Log.WARNING);
+			} else {
+				kick(null, `${this.client.name} Password`);
+				log(`User ${this.client.name} has used an incorrect password for ${MAX_LOGIN_FAILS} times. Kicking player.`, Log.WARNING);
+			}
 		}
 	}
 
