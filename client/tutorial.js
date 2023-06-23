@@ -74,7 +74,7 @@ const tutorials = [
 let tutorialId = 0;
 let tutorialTimeout = null;
 let storedPos = null;
-// let storedChat = typeof chatWindowEnabled != undefined ? chatWindowEnabled : false;
+let storedChat = typeof chatWindowEnabled != undefined ? chatWindowEnabled : false;
 let storedHud = true;
 let storedWeather = null;
 let snd = null;
