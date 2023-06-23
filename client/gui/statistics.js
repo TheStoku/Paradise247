@@ -3,7 +3,7 @@
 let tick = sdl.ticks;
 let iFPS = 0;
 let fps = 0;
-const enabledStats = true;
+let enabledStats = true;
 const myFont3 = lucasFont.createDefaultFont(14.0, 'Tahoma', 'Bold');
 
 addEventHandler('OnDrawnHUD', (event) => {
