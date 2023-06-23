@@ -549,8 +549,10 @@ function kick(client, param) {
 			target.disconnect();
 		}, 5000, target);
 
-		Locale.sendMessage(null, false, COLOUR_YELLOW, 'admin.kick', client.name, target.name);
-		log(`Admin ${client.name} has kicked ${target.name}.`, Log.INFORMATION);
+		if (client) {
+			Locale.sendMessage(null, false, COLOUR_YELLOW, 'admin.kick', client.name, target.name);
+			log(`Admin ${client.name} has kicked ${target.name}.`, Log.INFORMATION);
+		}
 	}
 }
 
