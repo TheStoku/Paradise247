@@ -230,7 +230,10 @@ class Player {
 			// Print active quest.
 			Quest.print(this.client, null);
 
-			toggleDashboard(this.client);
+			// Add timeout, to let dashboard be fully loaded.
+			setTimeout(() => {
+				toggleDashboard(this.client);
+			}, 5000);
 		}
 	}
 
