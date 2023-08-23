@@ -212,7 +212,7 @@ bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 
 	const fontStream = openFile('files/pricedown.ttf');
 
-	if (fontStream != null) {
+	if (fontStream != null) {
 		pricedown = lucasFont.createFont(fontStream, 28.0);
 		fontStream.close();
 	}

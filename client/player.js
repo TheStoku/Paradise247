@@ -177,7 +177,7 @@ const HS_ENABLED = true;
 addEventHandler('onPedInflictDamage', (event, ped, responsibleEntity, weapon, loss, pedPiece) => {
 	if (ped == localPlayer) {
 		if (responsibleEntity && responsibleEntity.type == ELEMENT_PLAYER) {
-			gta.SHAKE_CAM(100);
+			natives.SHAKE_CAM(100);
 		}
 
 		if (pedPiece == PEDPIECETYPES_HEAD && HS_WEAPONS[weapon] && responsibleEntity.type == ELEMENT_PLAYER && HS_ENABLED) {

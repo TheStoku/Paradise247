@@ -1,9 +1,9 @@
 'use strict';
 
 addNetworkHandler('setTaxiLight', (client, enabled) => {
-	const vehicle = gta.STORE_CAR_PLAYER_IS_IN(client);
+	const vehicle = natives.STORE_CAR_PLAYER_IS_IN(client);
 
-	gta.SET_TAXI_LIGHTS(vehicle, enabled ? 1 : 0);
+	natives.SET_TAXI_LIGHTS(vehicle, enabled ? 1 : 0);
 });
 
 addNetworkHandler('respawnVehicle', (vehicleId, x, y, z, heading) => {

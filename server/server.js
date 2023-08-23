@@ -113,6 +113,8 @@ addEventHandler('OnPlayerJoined', (event, client) => {
 
 	// Check if account is registered.
 	Player.get(client).checkAccount();
+
+	decho(2, 'Has joined the game! (ID: ' + client.index + ')', client);
 });
 
 addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
@@ -128,6 +130,8 @@ addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
 	}
 
 	Players[client.index] = null;
+
+	decho(2, 'Has left the game! (ID: ' + client.index + ')', client);
 });
 
 addNetworkHandler('onPlayerSpawn', function(client, spawn, weapon) {
@@ -198,7 +202,6 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 				Player.get(pedClient).increaseDeaths();
 				Player.get(pedClient).setMoney(earningBase.death, false);
 
-
 				// Increment attacker's health by 10 after kill as a bonus
 				if (attacker.health < 90) triggerNetworkEvent('setPlayerHealth', attackerClient, 10, true);
 				else triggerNetworkEvent('setPlayerHealth', attackerClient, 100);
@@ -250,6 +253,7 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 				const pedColour = Spawn.getTeam(pedClient.getData('team')).color;
 
 				message(`🔫${attackerColour}${attacker.name} ${COL_DEFAULT}killed ${pedColour}${ped.name} ${COL_DEFAULT} with ${getWeaponName(weapon)} ${COL_ORANGE}[ ${pedComponents[1][pedPiece]} | ${distance} m | ${attacker.health} HP ]`);
+				decho(3, '***' + attacker.name + '*** killed ***' + ped.name + '*** (' + getWeaponName(weapon) + ').');
 			}
 			break;
 		case WEAPON_COLLISION:
@@ -330,6 +334,7 @@ addEventHandler('onPlayerChat', (event, client, text) => {
 	}
 
 	message(`${COL_DEFAULT}[${time.getHours()}:${time.getMinutes()}] ${spawn.color}${client.name}: ${COL_DEFAULT}${text}`);
+	decho(1, text, client);
 });
 
 addEventHandler('OnPedEnteredVehicleEx', (event, ped, vehicle, seat) => {

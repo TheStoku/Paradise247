@@ -89,8 +89,8 @@ function playTutorialLoop() {
 	localPlayer.position = tutorials[tutorialId].camera;
 	gta.setCameraLookAt(tutorials[tutorialId].camera, tutorials[tutorialId].lookAt, tutorials[tutorialId].jumpCut);
 
-	if (snd) gta.REMOVE_SOUND(snd);
-	snd = gta.ADD_CONTINUOUS_SOUND(tutorials[tutorialId].camera, 32);
+	if (snd) natives.REMOVE_SOUND(snd);
+	snd = natives.ADD_CONTINUOUS_SOUND(tutorials[tutorialId].camera, 32);
 
 	tutorialTimeout = setTimeout(function() {
 		if (tutorialId < tutorials.length) {
