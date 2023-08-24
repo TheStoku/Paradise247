@@ -131,6 +131,10 @@
   "SpawnscreenEnabled": "Spawnscreen has been enabled.",
   "SpawnscreenDisabled": "Spawnscreen has been disabled.",
 
+  "afkOn": "Player {1} is now AFK!",
+  "afkOff": "Player {1} is back from AFK!",
+  "afkMessage": "You are now in AFK mode. Use '/back' to join the game.",
+
   "lockedTeam": "The team is locked. Unlock this team by leveling up.",
   "flightTime": "~g~You flew for {1} seconds.",
   "statFlightTime": "Your flight time is {1}",

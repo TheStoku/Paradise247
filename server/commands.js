@@ -48,6 +48,15 @@ const commands = [
 	// { name: "spawntype", level: 0, cost: 0, flags: ALLOW_ALL, arguments: "", function: function(client,params) { Player.get(client).setSpawnType(params);} },
 
 	// Misc commands
+	{name: 'brb', level: 0, cost: 10, flags: ALLOW_ON_FOOT, arguments: '', function: function(client, params) {
+		afk(client, true);
+	}},
+	{name: 'afk', level: 0, cost: 10, flags: ALLOW_ON_FOOT, arguments: '', function: function(client, params) {
+		afk(client, true);
+	}},
+	{name: 'back', level: 0, cost: 10, flags: ALLOW_ON_FOOT, arguments: '', function: function(client, params) {
+		afk(client, false);
+	}},
 	{name: 'cd', level: 0, cost: 10, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
 		countdown(client);
 	}},
@@ -287,6 +296,24 @@ addCommandHandler('listCommands', (command, params, client) => {
 		console.log(`- ${commands[i].name} - ${desc}\n`);
 	}
 });
+
+function afk(client, toggle) {
+	const afk = client.getData("isAfk");
+
+	if (toggle && !afk) {
+		triggerNetworkEvent('setPlayerControls', client, false);
+		client.player.dimension = client.index + 1000;
+		client.setData("isAfk", true, true);
+		Locale.sendMessage(null, false, COLOUR_YELLOW, "afkOn", client.name);
+		Locale.sendMessage(client, false, COLOUR_YELLOW, "afkMessage");
+		
+	} else if (!toggle && afk) {
+		triggerNetworkEvent('setPlayerControls', client, true);
+		client.player.dimension = 0;
+		client.setData("isAfk", false, true);
+		Locale.sendMessage(null, false, COLOUR_YELLOW, "afkOff", client.name);
+	}
+}
 /*
 function carInfo(client, param) {
 	const vehicle = client.player.vehicle;
