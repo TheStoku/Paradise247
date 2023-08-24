@@ -393,6 +393,8 @@ class Player {
 			const newLevel = XP.parseByXP(this.db.xp).level;
 
 			if (oldLevel != newLevel) {
+				Locale.sendMessage(this.client, false, COLOUR_WHITE, 'levelUp', newLevel);
+				decho(4, this.client.name + ' has leveled up to ' + newLevel + '!');
 				Achievement.check('level', newLevel, this.client);
 			}
 		}

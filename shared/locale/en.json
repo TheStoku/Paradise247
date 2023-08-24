@@ -140,6 +140,7 @@
   "topMessage1": "Top {1}:",
   "topMessage2": "{1}",
   "gainedXpMessage": "📈XP Gained by {1}, XP: {2}/{3}, Level: {4}/60",
+  "levelUp": "📈Level up! ({1}/60)",
 
 
   "EnteredVehicle" : "🚙[{1}] You have entered {2} [{3}]. You can buy this vehicle for ${4}.",
