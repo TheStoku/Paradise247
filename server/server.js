@@ -3,6 +3,7 @@
 const VEHICLE_RESPAWN_TIME = 10000;
 const MAP_CLEANUP_TIME = 1000 * 60 * 5;
 const ABANDONNED_VEHICLE_RESPAWN_TIME = 5000 * 60 * 5;
+const SCRIPT_VERSION = '1.0.0 (24.08.23)';
 
 const decho = findResourceByName('decho').getExport('decho');
 
@@ -52,7 +53,7 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 
 	console.log(`\x1b[6m${server.name}`);
 
-	decho(4, 'Server has been started.');
+	decho(4, 'Server has been started. Script version: ' + SCRIPT_VERSION);
 });
 
 // TODO: fix arguments
@@ -76,12 +77,14 @@ function printMessage(client, type, ...args) {
 	case 'spawn':
 		teamId = client.getData('team');
 		Locale.sendMessage(null, false, COLOUR_WHITE, 'PlayerSpawned', `${Spawn.getTeam(teamId).color}${client.name} [#FFFFFF]`, `${Spawn.getTeam(teamId).color}${Spawn.get(args[0]).name} / ${Spawn.getTeam(teamId).name} / ${getZoneFromPosition(Spawn.get(args[0]).position)}`);
+		decho(3, client.name + ' spawned as ' + Spawn.get(args[0]).name + '.');
 
 		break;
 	case 'dojo':
 		teamId = client.getData('team');
 		Locale.sendMessage(client, true, COLOUR_WHITE, 'PlayerEnterDojo', client.name, args[0], args[1]);
 		Locale.sendMessage(client, false, COLOUR_WHITE, 'PlayerEnterDojoMessage', args[0]);
+		decho(3, client.name + ' has entered dojo ' + args[0] + '.');
 
 		break;
 	case 'kill':
@@ -262,16 +265,19 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 			const pedColour = Spawn.getTeam(pedClient.getData('team')).color;
 
 			message(`🔫${attackerColour}${attacker.name} ${COL_DEFAULT}killed ${pedColour}${ped.name} ${COL_DEFAULT} by collision ${COL_ORANGE}[ ${attacker.health} HP ]`);
+			decho(3, '***' + attacker.name + '*** killed ***' + ped.name + '*** by collision.');
 			break;
 		case WEAPON_EXPLOSION:
 			if (attacker && attacker.name == ped.name) {
 				message(`💣${Spawn.getTeam(pedClient.getData('team')).color}${ped.name} [#FFFFFF]was working with explosives. Died.`);
+				decho(3, '***' + ped.name + '*** was working with explosives. Died.');
 			} /* else {
 					message(`🔫${attackerColour}${attacker.name} ${COL_DEFAULT}killed ${pedColour}${ped.name} ${COL_DEFAULT} by explosion ${COL_ORANGE}[ ${attacker.health} HP ]`);
 				}*/
 			break;
 		case WEAPON_DROWN:
 			message(`🏊${Spawn.getTeam(pedClient.getData('team')).color}${ped.name} [#FFFFFF]has drowned his troubles.`);
+			decho(3, '***' + ped.name + '*** has drowned his troubles.');
 			break;
 		case WEAPON_FALL:
 			break;
@@ -279,6 +285,7 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 			Player.get(pedClient).increaseSuicides();
 
 			message(`🔪${COL_DEFAULT}"Suicide is the answer." ${Spawn.getTeam(pedClient.getData('team')).color}~${ped.name}`);
+			decho(3, '\"Suicide is the answer.\" ~***' + ped.name);
 			break;
 		default:
 		}

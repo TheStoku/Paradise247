@@ -48,6 +48,7 @@ class Quest {
 
 				if (reward && reward > 0) {
 					Locale.sendMessage(client, false, COLOUR_WHITE, 'quest.rewardMessage', reward);
+					decho(3, client.name + ' has completed a quest!');
 
 					if (quest.itemReward != null) {
 						player.backpack.addItem(client, quest.itemReward, Item.getDesc(quest.itemReward));

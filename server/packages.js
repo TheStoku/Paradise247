@@ -24,6 +24,7 @@ class Package {
 		Player.get(client).db.hiddenPackages = collectedCount;
 		// Player.get(client).setMoney(earningBase.hiddenPackage, true);
 		Locale.sendMessage(client, false, COLOUR_ORANGE, 'collectedPackage', this.id.toString(), collectedCount);
+		decho(3, client.name + ' has colledted a hidden package!');
 
 		earn(client, earningBase.hiddenPackage, xpBase.hiddenPackage);
 

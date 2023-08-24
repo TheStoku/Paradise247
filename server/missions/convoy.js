@@ -65,6 +65,7 @@ class Convoy {
 			const reward = earn(client, earningBase.convoy, xpBase.convoy);
 
 			Locale.sendMessage(client, false, COLOUR_WHITE, 'mission.convoy.end', reward.toString());
+			decho(3, client.name + ' has completed a convoy!');
 			triggerNetworkEvent('bigMessage', client, player.getLocale().getString('mission.passed', reward), 5000, 5);
 
 			player.db.convoys++;
