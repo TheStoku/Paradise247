@@ -529,7 +529,7 @@ function setPlayerControls(client, params) {
 		triggerNetworkEvent('setPlayerControls', element.client, params);
 	});
 
-	params ? Locale.sendMessage(null, false, COLOUR_YELLOW, 'AdminUnFrozenAllPlayers', client.name) : Locale.sendMessage(null, false, COLOUR_YELLOW, 'AdminFrozenAllPlayers', client.name);
+	Locale.sendMessage(null, false, COLOUR_YELLOW, params ? 'AdminUnFrozenAllPlayers' : 'AdminFrozenAllPlayers', client.name);
 }
 
 function setBlip(client, params) {
