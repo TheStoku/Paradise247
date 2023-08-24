@@ -521,7 +521,7 @@ function resetVehicles(client, params) {
 function setPassword(client, params) {
 	server.setPassword(params);
 
-	Locale.sendMessage(null, false, COLOUR_YELLOW, 'AdminChangedServerPassword', client.name);
+	Locale.sendMessage(null, false, COLOUR_YELLOW, params ? 'AdminChangedServerPassword' : 'AdminChangedServerPasswordOff', client.name);
 }
 
 function setPlayerControls(client, params) {

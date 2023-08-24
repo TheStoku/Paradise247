@@ -120,6 +120,7 @@
   "AdminHealedAllPlayers" : "All players has been healed by {1}.",
   "AdminHealedAllPlayersInRadius" : "All players has been healed by {1} in his radius.",
   "AdminChangedServerPassword": "Admin {1} has changed server password.",
+  "AdminChangedServerPasswordOff": "Admin {1} has turned off server password.",
   "AdminBringedAllPlayers" : "All players has been teleported by {1}.",
   "AdminBringedAllPlayersInRadius" : "All players has been teleported by {1} in his radius.",
   "AdminBringedAllVehicles" : "All vehicles has been teleported by {1}.",
