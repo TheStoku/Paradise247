@@ -191,10 +191,10 @@ const commands = [
 		healAll(client, params);
 	}},
 	{name: 'freezeall', level: 1, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
-		setPlayerControls(client, false);
+		setPlayerControls(null, false);
 	}},
 	{name: 'unfreezeall', level: 1, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
-		setPlayerControls(client, true);
+		setPlayerControls(null, true);
 	}},
 	{name: 'bringall', level: 1, cost: 0, flags: ALLOW_ON_FOOT, arguments: '', function: function(client, params) {
 		bringAll(client, params);
@@ -301,14 +301,14 @@ function afk(client, toggle) {
 	const afk = client.getData("isAfk");
 
 	if (toggle && !afk) {
-		triggerNetworkEvent('setPlayerControls', client, false);
+		setPlayerControls(client, false);
 		client.player.dimension = client.index + 1000;
 		client.setData("isAfk", true, true);
 		Locale.sendMessage(null, false, COLOUR_YELLOW, "afkOn", client.name);
 		Locale.sendMessage(client, false, COLOUR_YELLOW, "afkMessage");
 		
 	} else if (!toggle && afk) {
-		triggerNetworkEvent('setPlayerControls', client, true);
+		setPlayerControls(client, true);
 		client.player.dimension = 0;
 		client.setData("isAfk", false, true);
 		Locale.sendMessage(null, false, COLOUR_YELLOW, "afkOff", client.name);
@@ -525,11 +525,15 @@ function setPassword(client, params) {
 }
 
 function setPlayerControls(client, params) {
-	getClients().forEach((element) => {
-		triggerNetworkEvent('setPlayerControls', element.client, params);
-	});
+	if (!client) {
+		getClients().forEach((element) => {
+			triggerNetworkEvent('setPlayerControls', element.client, params);
+		});
 
-	Locale.sendMessage(null, false, COLOUR_YELLOW, params ? 'AdminUnFrozenAllPlayers' : 'AdminFrozenAllPlayers', client.name);
+		Locale.sendMessage(null, false, COLOUR_YELLOW, params ? 'AdminUnFrozenAllPlayers' : 'AdminFrozenAllPlayers', client.name);
+	} else {
+		triggerNetworkEvent('setPlayerControls', client, params);
+	}
 }
 
 function setBlip(client, params) {
