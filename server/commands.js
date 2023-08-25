@@ -411,7 +411,7 @@ function filterRadius(client, type, radius) {
 	return output;
 }
 
-function countdown(client, params) {
+function countdown(client, params, isRaceCountdown = false) {
 	// let players = filterRadius(client, "clients", 20.0);
 	const frozen = params;
 	let time = 5;
@@ -427,6 +427,7 @@ function countdown(client, params) {
 			if (frozen) setPlayerControls(client, true);
 			message = '~g~GO!';
 			clearInterval(interval);
+			if (isRaceCountdown) Race.start(client);
 		}
 
 		triggerNetworkEvent('bigMessage', null, message.toString(), 1000, 4);

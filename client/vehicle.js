@@ -19,6 +19,16 @@ addNetworkHandler('respawnVehicle', (vehicleId, x, y, z, heading) => {
 	}
 });
 
+addNetworkHandler('prepareVehicleForRace', (vehicleId, x, y, z, heading) => {
+	const vehicle = getElementFromId(vehicleId);
+
+	if (vehicle != null) {
+		vehicle.fix();
+		vehicle.position = new Vec3(x, y, z);
+		vehicle.setRotation(new Vec3(0.0, 0.0, heading));
+	}
+});
+
 addNetworkHandler('explodeVehicle', (vehicleId) => {
 	const vehicle = getElementFromId(vehicleId);
 
