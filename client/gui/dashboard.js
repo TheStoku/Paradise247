@@ -7,7 +7,7 @@ class Dashboard {
 		this.isShown = false;
 		// TODO: move this feed into database, it shouldn't be hardcoded here.
 		// this.feed = "04.05: Mileage, online time, dodo flight time and more!\n19.04: Added convoy mission.\n22.02: Added GUI dashboard!\n21.02: Implemented locale for client side scripts.";
-		this.feed = '01.06 Server open for public test!';
+		this.feed = '28.08 Added race mode and hotfixes.\n01.06 Server open for public test!';
 
 		this.w = 500;
 		this.h = 400;
@@ -121,4 +121,3 @@ bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 		dashboard.toggle();
 	});
 });
-

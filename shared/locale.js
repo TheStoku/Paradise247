@@ -59,7 +59,13 @@ class Locale {
 	}
 
 	static getString(...args) {
-		return locale[0].getString(...args);
+		try {
+			return locale[0].getString(...args);
+		} catch (error) {
+			for (let index = 0; index <= 7; index++) {
+				message('We have encountered an error. Please /reconnect', COLOUR_RED);
+			}
+		}
 	}
 
 	/**
