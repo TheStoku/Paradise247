@@ -27,7 +27,7 @@ class Achievement {
 				const completion = this.getGroupCompletion(name, value);
 
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'achievement.unlockedMessage', player.getLocale().getString(`achievement.${name}`), completion[0], completion[1]);
-				decho(3, client.name + ' has unlocked a ' + locale.getString(`achievement.${name}`) + ' achievement!');
+				decho(3, client.name + ' has unlocked a ' + locale[0].getString(`achievement.${name}`) + ' achievement!');
 
 				const reward = achievement.reward * value;
 				if (reward > 0 ) {
