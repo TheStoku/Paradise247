@@ -70,7 +70,7 @@ function printMessage(client, type, ...args) {
 	case 'join':
 		Locale.sendMessage(client, true, COLOUR_WHITE, 'PlayerConnected', client.name, args[0], args[1]);
 		Locale.sendMessage(client, false, COLOUR_WHITE, 'PlayerWelcomeMessage', client.name);
-
+		decho(2, `Has joined the game from ${args[0]} ${args[1]}!`, client);
 		break;
 	case 'quit':
 		Locale.sendMessage(client, true, COLOUR_WHITE, 'PlayerQuit', client.name);
@@ -119,7 +119,6 @@ addEventHandler('OnPlayerJoined', (event, client) => {
 	// Check if account is registered.
 	Player.get(client).checkAccount();
 
-	decho(2, 'Has joined the game! (ID: ' + client.index + ')', client);
 	triggerNetworkEvent('playFrontEndSound', null, 160, 1.0);
 });
 
