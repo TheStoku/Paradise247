@@ -184,7 +184,7 @@ class Race {
           setPlayerControls(client, false);
 
           Locale.sendMessage(null, false, COLOUR_WHITE, 'race.join', client.name, race.participants.length, Races[race.id].grid.length);
-          decho(3, `${client.name} has joined the race! [${race.participants.length}/${Races[race.id].grid.length}]`);
+          decho(3, `${client.name} has joined the race!`);
         } else {
           Locale.sendMessage(client, false, COLOUR_RED, 'race.vehicleError', Races[race.id].vehicle, getVehicleNameFromModelId(race.vehicle));
         }

@@ -7,6 +7,8 @@ const SCRIPT_VERSION = '1.0.1 (29.08.23)';
 
 const decho = findResourceByName('decho').getExport('decho');
 
+server.setRule('Script Version', SCRIPT_VERSION);
+
 const serverRule = {
 	'totalEarning': {title: 'Total Earnings', units: '$'},
 	'completedQuests': {title: 'Completed Quests', units: ''},
