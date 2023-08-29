@@ -11,7 +11,9 @@ const earningBase = {
 	jack: 10,
 	convoy: 200,
 	quest: 250,
+	race: 400,
 	convoyAchievement: 100,
+	raceAchievement: 100,
 	questAchievement: 100,
 	mileageAchievement: 100,
 	onlineAchievement: 100,
@@ -20,6 +22,7 @@ const earningBase = {
 };
 
 const xpBase = {
+	race: 50,
 	kill: 50,
 	infoPickupAchievement: 50,
 	chatAchievement: 10,

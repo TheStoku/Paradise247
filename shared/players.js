@@ -10,6 +10,7 @@ class Player {
 		this.db = {};
 		this.db.locale = 0;
 		this.backpack = new BackPack();
+		this.trackCreator = new TrackCreator(client);
 		this.session = {
 			failedLogin: 0,
 			time: 0,
@@ -21,6 +22,8 @@ class Player {
 			vehicle: null,
 			suicides: 0,
 			headshots: 0,
+			races: 0,
+			wonRaces: 0,
 			lastMessage: '',
 			lastVehicle: null,
 			questRepeats: 0,
@@ -233,7 +236,7 @@ class Player {
 			// Add timeout, to let dashboard be fully loaded.
 			setTimeout(() => {
 				toggleDashboard(this.client);
-			}, 3000);
+			}, 4500);
 		}
 	}
 
@@ -252,37 +255,37 @@ class Player {
 
 	updateClientData() {
 		// General
-		this.client.setData('adminLevel', this.db.adminLevel);
-		this.client.setData('warnings', this.db.warnings);
-		this.client.setData('joins', this.db.joins);
-		this.client.setData('kills', this.db.kills);
-		this.client.setData('deaths', this.db.deaths);
-		this.client.setData('suicides', this.db.suicides);
-		this.client.setData('money', this.db.cash);
-		this.client.setData('bank', this.db.bank);
-		this.client.setData('dojo', null);
-		this.client.setData('mileage', this.db.mileage);
-		this.client.setData('onlineTime', this.db.onlineTime);
-		this.client.setData('sessionTime', this.session.time);
+		this.client.setData('adminLevel', this.db.adminLevel, true);
+		this.client.setData('warnings', this.db.warnings, true);
+		this.client.setData('joins', this.db.joins, true);
+		this.client.setData('kills', this.db.kills, true);
+		this.client.setData('deaths', this.db.deaths, true);
+		this.client.setData('suicides', this.db.suicides, true);
+		this.client.setData('money', this.db.cash, true);
+		this.client.setData('bank', this.db.bank, true);
+		this.client.setData('dojo', null, true);
+		this.client.setData('onlineTime', this.db.onlineTime, true);
+		this.client.setData('sessionTime', this.session.time, true);
 		this.client.setData('xp', this.db.xp, true);
 
 		// Achievements
-		this.client.setData('infoPickups', this.db.infoPickups);
-		this.client.setData('topSpree', this.db.topSpree);
-		this.client.setData('jackedVehicles', this.db.jackedVehicles);
-		this.client.setData('sentMessages', this.db.sentMessages);
-		this.client.setData('hiddenPackages', Package.count(this.client));
-		this.client.setData('convoys', this.db.convoys);
-		this.client.setData('quests', this.db.quests);
-		this.client.setData('mileage', this.db.mileage);
-		this.client.setData('onlineTime', this.db.onlineTime);
-		this.client.setData('level', XP.parseByXP(this.db.xp).level);
-		this.client.setData('headshots', this.db.headshots);
+		this.client.setData('infoPickups', this.db.infoPickups, true);
+		this.client.setData('topSpree', this.db.topSpree, true);
+		this.client.setData('jackedVehicles', this.db.jackedVehicles, true);
+		this.client.setData('sentMessages', this.db.sentMessages, true);
+		this.client.setData('hiddenPackages', Package.count(this.client), true);
+		this.client.setData('convoys', this.db.convoys, true);
+		this.client.setData('quests', this.db.quests, true);
+		this.client.setData('mileage', this.db.mileage, true);
+		this.client.setData('races', this.db.races, true);
+		this.client.setData('wonRaces', this.db.wonRaces, true);
+		this.client.setData('level', XP.parseByXP(this.db.xp).level, true);
+		this.client.setData('headshots', this.db.headshots, true);
 
 		// Stored spawnscreen data
 		this.client.setData('team', this.db.team, true);
 		this.client.setData('weaponSelect', this.db.weaponSelect, true);
-		this.client.setData('spawnType', this.db.spawnType);
+		this.client.setData('spawnType', this.db.spawnType, true);
 	}
 
 	useItem(item) {
@@ -372,6 +375,27 @@ class Player {
 		// Update player mileage
 		this.db.mileage = newMileage;
 		this.client.setData('mileage', newMileage);
+	}
+
+	increaseRaces(position) {
+		this.db.races++;
+		this.session.races++;
+		this.client.setData('races', this.db.races);
+
+		if (position > 1) {
+			earn(this.client, earningBase.race / position, xpBase.race / position);
+		}
+
+		Achievement.check('races', this.db.races, this.client);
+	}
+
+	increaseWonRaces() {
+		this.db.wonRaces++;
+		this.session.wonRaces++;
+		this.client.setData('wonRaces', this.db.wonRaces);
+
+		earn(this.client, earningBase.race, xpBase.race);
+		Achievement.check('wonRaces', this.db.wonRaces, this.client);
 	}
 
 	updateOnlineTime() {

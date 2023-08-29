@@ -34,7 +34,7 @@ class Sphere {
 
 		if (typeof this.blip != 'undefined') destroyElement(this.blip);
 		destroyElement(this.instance);
-		log(Spheres.toString(), Log.DEBUG);
+		//log(Spheres.toString(), Log.DEBUG);
 
 		delete this;
 	}

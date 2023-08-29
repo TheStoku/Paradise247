@@ -48,7 +48,8 @@
     "mileage" : "Globe Trotter",
     "onlineTime": "Gamer",
     "level" : "Roleplayer",
-    "headshots" : "Headshoter"
+    "headshots" : "Headshoter",
+    "races" : "Racer"
   },
 
   "quest" : {
@@ -165,6 +166,24 @@
 
   "collectedPackage": "You have collected package #{1}. Collected packages: {2}.",
 
+  "race": {
+    "prepare": "🏎️ Preparing race '{1}' ({2}).",
+    "raceNotStarted": "There's no race running. Use /race command to start one!",
+    "gridSize": "Racing grid size is {1}.",
+    "waiting": "{1} is waiting for racers! Use /join to take a drive.",
+    "start": "Race is started with {1} drivers!",
+    "join": "[{2}/{3}] {1} has joined the race! Use /join to join this race.",
+    "vehicleError": "You must be driver of {2}. Spawn it by /v {1}.",
+    "full": "Cannot join this race. The grid is full!",
+    "checkpoint": "✅ Checkpoint {1}/{2}. Time: {5}s. Lap: {3}/{4}.",
+    "finish": "🏁 {1} has finished with time {2}s and took a place {3} of {4}!",
+    "finishMessage": "🛑 Race finished! Table:",
+    "winners": "🏁 {1}. {2} ({3}).",
+    "dnf": "🏳️ {1} - DNF",
+    "notEnoughParticipants": "Race ended. Not enough participants.",
+    "left" : "{1} has left the Race."
+  },
+
   "admin": {
     "kick": "Admin {1} has kicked {2}.",
     "ban": "Admin {1} has banned {2}.",
@@ -189,8 +208,12 @@
       "dojoFalse" : "can't be in Dojo",
       "bankTrue" : "must be in Bank",
       "bankFalse" : "can't be in Bank",
+      "missionTrue" : "must be in Mission",
+      "missionFalse" : "can't be in Mission",
       "vehicleTrue" : "must be in vehicle",
-      "vehicleFalse" : "can't be in vehicle"
+      "vehicleFalse" : "can't be in vehicle",
+      "raceTrue" : "must be in race",
+      "raceFalse" : "can't be in race"
     },
 
     "description" : {

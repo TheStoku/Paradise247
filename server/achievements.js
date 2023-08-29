@@ -179,4 +179,10 @@ function initAchievements() {
 	new Achievement('headshots', 100, earningBase.headshots);
 	new Achievement('headshots', 200, earningBase.headshots, 'water');
 	new Achievement('headshots', 500, earningBase.headshots, 'vest');
+
+	new Achievement('races', 1, earningBase.raceAchievement);
+	new Achievement('races', 10, earningBase.raceAchievement);
+	new Achievement('races', 25, earningBase.raceAchievement, 'water');
+	new Achievement('races', 50, earningBase.raceAchievement, 'vest');
+	new Achievement('races', 500, earningBase.raceAchievement, 'vest');
 }

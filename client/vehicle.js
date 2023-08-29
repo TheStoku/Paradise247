@@ -105,3 +105,9 @@ addNetworkHandler('setVehicleLights', (vehicleId, status) => {
 
 	vehicle.lights = status;
 });
+
+addEventHandler("onEntityProcess", function (event, entity) {
+	if (entity == localPlayer && localPlayer.isExitingVehicle && localClient.getData('isRacer')) {
+		localPlayer.clearObjective();
+	}
+});

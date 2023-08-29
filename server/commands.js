@@ -7,15 +7,17 @@ const ALLOW_NONE = 3;
 const ALLOW_ON_FOOT = 4;
 const ALLOW_DOJO = 5;
 const ALLOW_BANK = 6;
+const ALLOW_VEHICLE_IN_RACE = 7;
 
 const commandFlags = [
-	{alive: null, inDojo: null, inMission: null, inVehicle: null, inBank: null}, // Allow all
-	{alive: null, inDojo: false, inMission: false, inVehicle: false, inBank: null}, // Allow for dead
-	{alive: true, inDojo: false, inMission: false, inVehicle: true, inBank: null}, // Cannot be dead, must be in vehicle, not in mission
-	{alive: true, inDojo: null, inMission: null, inVehicle: null, inBank: null}, // Cannot be dead
-	{alive: true, inDojo: false, inMission: false, inVehicle: false, inBank: null}, // Allow on foot, spawned, no dojo
-	{alive: null, inDojo: true, inMission: null, inVehicle: null, inBank: null}, // Allow on foot, spawned, no dojo
-	{alive: true, inDojo: false, inMission: null, inVehicle: false, inBank: true}, //
+	{alive: null, inDojo: null, inMission: null, inVehicle: null, inBank: null, inRace: null}, // Allow all
+	{alive: null, inDojo: false, inMission: false, inVehicle: false, inBank: null, inRace: null}, // Allow for dead
+	{alive: true, inDojo: false, inMission: false, inVehicle: true, inBank: null, inRace: false}, // Cannot be dead, must be in vehicle, not in mission
+	{alive: true, inDojo: null, inMission: null, inVehicle: null, inBank: null, inRace: null}, // Cannot be dead
+	{alive: true, inDojo: false, inMission: false, inVehicle: false, inBank: null, inRace: false}, // Allow on foot, spawned, no dojo
+	{alive: null, inDojo: true, inMission: null, inVehicle: null, inBank: null, inRace: false}, // Allow on foot, spawned in dojo
+	{alive: true, inDojo: false, inMission: null, inVehicle: false, inBank: true, inRace: false}, // Allow in bank
+	{alive: true, inDojo: false, inMission: null, inVehicle: true, inBank: false, inRace: true}, // Allow in race and vehicle
 ];
 
 const commands = [
@@ -226,6 +228,44 @@ const commands = [
 	{name: 'withdraw', level: 0, cost: 0, flags: ALLOW_BANK, arguments: 'i', function: function(client, params) {
 		Bank.withdraw(client, params);
 	}},
+
+	// Race
+	{name: 'race', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
+		Race.prepare(Number(params), client);
+		//Race.join(client);
+	}},
+	{name: 'join', level: 0, cost: 0, flags: ALLOW_VEHICLE, arguments: '', function: function(client, params) {
+		Race.join(client);
+	}},
+	{name: 'leave', level: 0, cost: 0, flags: ALLOW_VEHICLE_IN_RACE, arguments: '', function: function(client, params) {
+		Race.onRaceCorrupted(client);
+	}},
+
+	// Track Creator
+	{name: 'tcname', level: 0, cost: 0, flags: ALLOW_ALL, arguments: 's', function: function(client, params) {
+		Player.get(client).trackCreator.setName(params);
+	}},
+	{name: 'tcveh', level: 0, cost: 0, flags: ALLOW_ALL, arguments: 'i', function: function(client, params) {
+		Player.get(client).trackCreator.setVehicle(params);
+	}},
+	{name: 'tclaps', level: 0, cost: 0, flags: ALLOW_ALL, arguments: 'i', function: function(client, params) {
+		Player.get(client).trackCreator.setLaps(params);
+	}},
+	{name: 'tcaddgrid', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
+		Player.get(client).trackCreator.addGrid();
+	}},
+	{name: 'tcremgrid', level: 0, cost: 0, flags: ALLOW_ALL, arguments: 'i', function: function(client, params) {
+		Player.get(client).trackCreator.removeGrid(params);
+	}},
+	{name: 'tcaddcp', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
+		Player.get(client).trackCreator.addCheckpoint();
+	}},
+	{name: 'tcremcp', level: 0, cost: 0, flags: ALLOW_ALL, arguments: 'i', function: function(client, params) {
+		Player.get(client).trackCreator.removeCheckpoint(params);
+	}},
+	{name: 'tcsave', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
+		Player.get(client).trackCreator.save();
+	}},
 ];
 
 function commandHelp(client, param) {
@@ -411,11 +451,12 @@ function filterRadius(client, type, radius) {
 	return output;
 }
 
-function countdown(client, params, isRaceCountdown = false) {
+function countdown(client, params, isRaceCountdown = false, playSound = true) {
 	// let players = filterRadius(client, "clients", 20.0);
 	const frozen = params;
 	let time = 5;
 	let message = '';
+	let soundId = 147;
 
 	if (frozen) setPlayerControls(client, false);
 
@@ -425,12 +466,15 @@ function countdown(client, params, isRaceCountdown = false) {
 			time--;
 		} else {
 			if (frozen) setPlayerControls(client, true);
+			soundId = 148;
 			message = '~g~GO!';
 			clearInterval(interval);
 			if (isRaceCountdown) Race.start(client);
 		}
 
 		triggerNetworkEvent('bigMessage', null, message.toString(), 1000, 4);
+		
+		if (playSound) triggerNetworkEvent('playFrontEndSound', null, soundId, 1.0);
 
 		return time;
 	}, 1000);
@@ -693,6 +737,7 @@ function printStats(client, params) {
 	const dodo = playerDb.dodoFlightTime;
 	const xp = playerDb.xp;
 	const exp = XP.parseByXP(xp);
+	const races = playerDb.races;
 
 	/*
 		level: level,
@@ -708,7 +753,7 @@ function printStats(client, params) {
 	messageClient(`💳${COL_ORANGE}Money: ${COL_DEFAULT}\$${money} | 🏦${COL_ORANGE}Bank: ${COL_DEFAULT}\$${bank}`, client);
 	// messageClient(`🏦${COL_ORANGE}Online time: ${COL_DEFAULT}\$${bank}`, client);
 	messageClient(`${COL_ORANGE}Mileage: ${COL_DEFAULT}${mileage}km | ${COL_ORANGE}Flight Time: ${COL_DEFAULT}${dodo}`, client);
-	messageClient(`${COL_ORANGE}Online Time: ${COL_DEFAULT}${online}min | ${COL_ORANGE}Convoys: ${COL_DEFAULT}${convoys}`, client);
+	messageClient(`${COL_ORANGE}Online Time: ${COL_DEFAULT}${online}min | ${COL_ORANGE}Convoys: ${COL_DEFAULT}${convoys} | ${COL_ORANGE}Races: ${COL_DEFAULT}${races}`, client);
 	messageClient(`${COL_ORANGE}XP: ${COL_DEFAULT}${xp}/${exp.forNext} | ${COL_ORANGE}Level: ${COL_DEFAULT}${exp.level}/60`, client);
 }
 
@@ -758,6 +803,8 @@ function checkCommandFlags(client, command) {
 		const player = client.player;
 		const dojoId = client.getData('dojo');
 		const inBank = client.getData('inBank');
+		const inMission = client.getData('inMission');
+		const inRace = client.getData('isRacer');
 		const locale = Player.get(client).getLocale();
 
 		// Alive flag
@@ -769,17 +816,19 @@ function checkCommandFlags(client, command) {
 		// Bank flag
 		else if (flags.inBank != null && flags.inBank && !inBank) errorMessage = locale.getString('command.flag.bankTrue');
 		else if (flags.inBank != null && !flags.inBank && inBank) errorMessage = locale.getString('command.flag.bankFalse');
-		// TODO: Implement missions
-		// else if (flags.inMission) errorMessage = "must be in mission";
-		// else if (!flags.inMission) errorMessage = "canno't be in mission";
-		// inVehicle flag
+		// Mission flag
+		else if (flags.inMission != null && flags.inMission && !inMission) errorMessage = locale.getString('command.flag.missionTrue');
+		else if (flags.inMission != null && !flags.inMission && inMission) errorMessage = locale.getString('command.flag.missionFalse');
+		// In vehicle flag
 		else if (flags.inVehicle != null && flags.inVehicle && !player.vehicle) errorMessage = locale.getString('command.flag.vehicleTrue');
 		else if (flags.inVehicle != null && !flags.inVehicle && player.vehicle) errorMessage = locale.getString('command.flag.vehicleFalse');
+		// In race flag
+		else if (flags.inRace != null && flags.inRace && !inRace) errorMessage = locale.getString('command.flag.raceTrue');
+		else if (flags.inRace != null && !flags.inRace && inRace) errorMessage = locale.getString('command.flag.raceFalse');
+		
 	}
 
 	if (errorMessage) {
-		// Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', errorMessage);
-
 		return errorMessage;
 	} else {
 		return false;

@@ -3,7 +3,7 @@
 const VEHICLE_RESPAWN_TIME = 10000;
 const MAP_CLEANUP_TIME = 1000 * 60 * 5;
 const ABANDONNED_VEHICLE_RESPAWN_TIME = 5000 * 60 * 5;
-const SCRIPT_VERSION = '1.0.0 (24.08.23)';
+const SCRIPT_VERSION = '1.0.1 (29.08.23)';
 
 const decho = findResourceByName('decho').getExport('decho');
 
@@ -118,6 +118,7 @@ addEventHandler('OnPlayerJoined', (event, client) => {
 	Player.get(client).checkAccount();
 
 	decho(2, 'Has joined the game! (ID: ' + client.index + ')', client);
+	triggerNetworkEvent('playFrontEndSound', null, 160, 1.0);
 });
 
 addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
@@ -135,6 +136,7 @@ addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
 	Players[client.index] = null;
 
 	decho(2, 'Has left the game! (ID: ' + client.index + ')', client);
+	triggerNetworkEvent('playFrontEndSound', null, 156, 1.0);
 });
 
 addNetworkHandler('onPlayerSpawn', function(client, spawn, weapon) {

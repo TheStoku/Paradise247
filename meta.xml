@@ -127,7 +127,13 @@
 	<script language="javascript" type="server" src="server/missions/convoy.js" />
 	<script language="javascript" type="server" src="server/infopickup.js" />
 	<script language="javascript" type="server" src="server/weather.js" />
-	
+
+	<!-- Race -->
+	<script language="javascript" type="server" src="server/missions/race/main.js" />
+	<script language="javascript" type="server" src="server/missions/race/creator.js" />
+	<script language="javascript" type="server" src="server/missions/race/tracks/1.js" />
+	<script language="javascript" type="server" src="server/missions/race/tracks/2.js" />
+	<script language="javascript" type="server" src="server/missions/race/tracks/PortlandHighway.js" />
 	
 	<!-- Client files -->
 	<script language="javascript" type="client" src="server/xpsystem.js" />

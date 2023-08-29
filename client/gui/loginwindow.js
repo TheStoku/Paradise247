@@ -33,9 +33,12 @@ class LoginWindow {
 		this.input = this.window.password(this.w/4 + 10, this.margin.y, (this.w - this.w/4) - 25, 25, '', textInputStyle);
 		this.button = this.window.button(0, this.h - 30, this.w, 25, this.buttonCaption, defaultAcceptButtonStyle, this.action.bind(this));
 
-		gui.showCursor(true, false);
-		setChatWindowEnabled(false);
-		setHUDEnabled(false);
+		// Hotfix?
+		if (Locale.getString('client.gui.registerWingowTitle') != "undefined" || Locale.getString('client.gui.loginWindowTitle') != "undefined") {
+			setChatWindowEnabled(false);
+			setHUDEnabled(false);
+			gui.showCursor(true, false);
+		}
 	}
 
 	login() {
