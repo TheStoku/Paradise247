@@ -167,7 +167,7 @@
   "collectedPackage": "You have collected package #{1}. Collected packages: {2}.",
 
   "race": {
-    "prepare": "🏎️ Preparing race '{1}' ({2}).",
+    "prepare": "🏎️ Preparing race '{1}' ({2}). Vehicle: {3} (/v {4}).",
     "raceNotStarted": "There's no race running. Use /race command to start one!",
     "gridSize": "Racing grid size is {1}.",
     "waiting": "{1} is waiting for racers! Use /join to take a drive.",

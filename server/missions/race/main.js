@@ -96,7 +96,7 @@ class Race {
 
       race.timer = setInterval(Race.printInfo, 1000);
       
-      Locale.sendMessage(null, false, COLOUR_WHITE, 'race.prepare', Races[race.id].name, Race.getType());
+      Locale.sendMessage(null, false, COLOUR_WHITE, 'race.prepare', Races[race.id].name, Race.getType(), getVehicleNameFromModelId(Races[race.id].vehicle), Races[race.id].vehicle);
       Locale.sendMessage(null, false, COLOUR_WHITE, 'race.gridSize', Races[race.id].grid.length);
       Locale.sendMessage(null, false, COLOUR_WHITE, 'race.waiting', Races[race.id].name);
 
