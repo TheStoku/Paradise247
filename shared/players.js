@@ -451,7 +451,7 @@ class Player {
 			gta.fadeCamera(this.client, false, 1.0, 0);
 
 			setTimeout(function(client) {
-				this.client.player.position = position;
+				client.player.position = position;
 				triggerNetworkEvent('setPlayerHeading', client, heading);
 				gta.fadeCamera(client, true, 1.0, 0);
 			}, 900, this.client);
