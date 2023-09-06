@@ -65,7 +65,7 @@
       "findVehicle" : "find {1} vehicle on the map.",
       "hiddenPackages" : "find {1} hidden package/s on the map.",
       "mileage" : "hit {1} mileage with any vehicle.",
-      "kill" : "kill any players {1} time/s in a single session."
+      "kill" : "kill any player {1} time/s in a single session."
     }
   },
 
