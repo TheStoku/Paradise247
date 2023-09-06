@@ -100,4 +100,6 @@ function initQuests() {
 	new Quest('infoPickups', 3, earningBase.quest);
 	new Quest('findVehicle', 1, earningBase.quest, 133, 'vehicle');
 	new Quest('findVehicle', 1, earningBase.quest, 148, 'vehicle');
+	new Quest('kill', 5, earningBase.quest);
+	new Quest('convoy', 5, earningBase.quest);
 }

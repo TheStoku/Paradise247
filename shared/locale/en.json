@@ -63,7 +63,9 @@
       "jack" : "jack {1} vehicle/s.",
       "infoPickups" : "find {1} info pickup/s.",
       "findVehicle" : "find {1} vehicle on the map.",
-      "hiddenPackages" : "find {1} hidden package/s on the map."
+      "hiddenPackages" : "find {1} hidden package/s on the map.",
+      "mileage" : "hit {1} mileage with any vehicle.",
+      "kill" : "kill any players {1} time/s in a single session."
     }
   },
 

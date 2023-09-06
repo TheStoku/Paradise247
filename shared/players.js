@@ -307,6 +307,8 @@ class Player {
 		// Check for kills achievement
 		Achievement.check('kills', this.db.kills, this.client);
 
+		Quest.check(this.client, 'kill');
+
 		// Killing Spree bonus
 		if (this.session.spree % 5 == 0) {
 			const reward = earningBase.spree * this.session.spree;
