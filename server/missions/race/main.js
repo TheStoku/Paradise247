@@ -310,7 +310,7 @@ addNetworkHandler('OnPickupCollected_C', function(client, pickupId) {
 addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) {
   const client = getClientFromPlayerElement(ped);
 
-  if (client.getData('isRacer')) {
+  if (client && client.getData('isRacer')) {
     Race.onRaceCorrupted(client);
   }
 });
