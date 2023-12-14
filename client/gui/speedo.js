@@ -1,6 +1,6 @@
 'use strict';
 
-const speedoFont = lucasFont.createDefaultFont(16.0, 'Tahoma', 'Bold');
+const speedoFont = lucasFont.createDefaultFont(16.0, 'Arial', 'Bold');
 
 const speedo = {
 	metric: true,
