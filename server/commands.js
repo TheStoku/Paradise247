@@ -177,6 +177,9 @@ const commands = [
 	{name: 'setweather', level: 1, cost: 0, flags: ALLOW_ALL, arguments: 'i', function: function(client, params) {
 		weather.set(client, params);
 	}},
+	{name: 'setwinter', level: 1, cost: 0, flags: ALLOW_ALL, arguments: 'i', function: function(client, params) {
+		weather.setWinter(client, params);
+	}},
 	{name: 'settime', level: 1, cost: 0, flags: ALLOW_ALL, arguments: 'ii', function: function(client, params) {
 		setTime(client, params);
 	}},

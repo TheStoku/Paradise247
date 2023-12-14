@@ -2,6 +2,7 @@
 
 const WEATHER_TIME = 9; // Set every X min + 1.
 const MAX_WEATHER = 3;
+let isWinter = server.getCVar("WINTER_MODE");
 
 class Weather {
 	constructor() {
@@ -39,6 +40,14 @@ class Weather {
 		}, this.weatherTime);
 	}
 
+	setWinter(client, enabled) {
+		isWinter = enabled;
+
+		triggerNetworkEvent('setWinter', null, isWinter == 1 ? true : false);
+		// TODO: Locale
+		message(`Winter mode has been turned ${isWinter == 1 ? "on" : "off"} by admin ${client.name}.`);
+	}
+
 	// TODO: implementation.
 	setNext(id) {
 		this.nextWeather = id;
@@ -49,13 +58,17 @@ class Weather {
 	announce(admin = null) {
 		if (admin != null) {
 			Locale.sendMessage(null, false, COLOUR_WHITE, 'weather.changeByAdmin', getWeatherName(this.previousWeather), getWeatherName(gta.weather), admin.name);
-			log(`Weather::set() - From: ${getWeatherName(this.previousWeather)} to ${getWeatherName(gta.weather)}. Upcoming: ${getWeatherName(this.nextWeather)}, delay: ${this.weatherTime/60/1000}`, Log.DEBUG);
+			log(`Weather::set() - From: ${getWeatherName(this.previousWeather)} to ${getWeatherName(gta.weather)}. Upcoming: ${getWeatherName(this.nextWeather)}, delay: ${this.weatherTime/60/1000}, winter: ${isWinter}`, Log.DEBUG);
 		} else {
 			Locale.sendMessage(null, false, COLOUR_WHITE, 'weather.changeByScript', getWeatherName(this.previousWeather), getWeatherName(gta.weather));
-			log(`Weather::changeWeather() - From: ${getWeatherName(this.previousWeather)} to ${getWeatherName(gta.weather)}. Upcoming: ${getWeatherName(this.nextWeather)}, delay: ${this.weatherTime/60/1000}`, Log.DEBUG);
+			log(`Weather::changeWeather() - From: ${getWeatherName(this.previousWeather)} to ${getWeatherName(gta.weather)}. Upcoming: ${getWeatherName(this.nextWeather)}, delay: ${this.weatherTime/60/1000}, winter: ${isWinter}`, Log.DEBUG);
 		}
 		Locale.sendMessage(null, false, COLOUR_WHITE, 'weather.upcoming', getWeatherName(this.nextWeather), this.weatherTime/60/1000);
 	}
 }
+
+addEventHandler('OnPlayerJoined', (event, client) => {
+	triggerNetworkEvent('setWinter', client, isWinter == 1 ? true : false);
+});
 
 const weather = new Weather();

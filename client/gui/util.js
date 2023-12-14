@@ -60,6 +60,18 @@ addNetworkHandler('toggleDashboard', () => {
 	}
 });
 
+addNetworkHandler('setWinter', (enabled) => {
+	snow.enabled = enabled;
+	snow.bumpiness = enabled;
+	forceSnowing(enabled);
+
+	if (enabled == true) { 
+		snow.addFlakes();
+	} else {
+		snow.clearFlakes();
+	}
+});
+
 // Source: https://bobbyhadz.com/blog/javascript-convert-minutes-to-hours-and-minutes
 function toHoursAndMinutes(totalMinutes) {
 	const minutes = totalMinutes % 60;
