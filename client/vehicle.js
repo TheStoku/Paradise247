@@ -25,6 +25,7 @@ addNetworkHandler('prepareVehicleForRace', (vehicleId, x, y, z, heading) => {
 	if (vehicle != null) {
 		vehicle.fix();
 		vehicle.position = new Vec3(x, y, z);
+		vehicle.turnVelocity = new Vec3(0.0, 0.0, 0.0);
 		vehicle.setRotation(new Vec3(0.0, 0.0, heading));
 	}
 });
