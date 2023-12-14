@@ -443,7 +443,7 @@ function saveServerData() {
 	let q = '';
 
 	if (dateNow == dateDatabase) {
-		console.log('Store global data. UPDATE');
+		//console.log('Store global data. UPDATE');
 		q = 'UPDATE `' + getServerDataDBFromGame[server.game] + '` SET ' + buildUpdateQuery(serverData) + ' WHERE id=\'' + serverData.id + '\'';
 	} else {
 		console.log('Store global data. INSERT');
