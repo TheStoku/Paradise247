@@ -101,7 +101,8 @@ class Dashboard {
 
 		gui.showCursor(this.isShown, !this.isShown);
 		setChatWindowEnabled(!this.isShown);
-		setHUDEnabled(!this.isShown);
+		setHudState(!this.isShown);
+		
 
 		this.mainWindow.setShown(this.isShown);
 		this.dashboardWindow.setShown(this.isShown);

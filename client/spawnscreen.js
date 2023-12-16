@@ -53,7 +53,7 @@ class SpawnScreen {
 		if (typeof Spawn.get(this.skinSelection) != 'undefined') {
 			if (fade) gta.fadeCamera(true, 1.0, 1);
 
-			setHUDEnabled(true);
+			setHudState(true);
 
 			this.numberOfWeapons = this.weapons.length - 1; // Update number of weapons
 			localPlayer.position = Spawn.get(this.skinSelection).position;

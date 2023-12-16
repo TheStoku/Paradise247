@@ -100,7 +100,7 @@ function playTutorialLoop() {
 			tutorialId = 0;
 			clearTimeout(tutorialTimeout);
 			setChatWindowEnabled(storedChat);
-			setHUDEnabled(storedHud);
+			setHudState(storedHud);
 			enabledStats = true;
 			localPlayer.position = storedPos;
 			gta.forceWeather(storedWeather);

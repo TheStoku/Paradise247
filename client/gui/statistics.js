@@ -9,6 +9,7 @@ const myFont3 = lucasFont.createDefaultFont(14.0, 'Arial', 'Bold');
 addEventHandler('OnDrawnHUD', (event) => {
 	// return;
 	if (!enabledStats) return;
+	if (isPhotoModeEnabled) return;
 	if (typeof localPlayer == 'undefined' || typeof localClient == 'undefined') return;
 	if (!focus) return;
 	if (spawnScreen && spawnScreen.isEnabled && dashboard && dashboard.isShown) return;

@@ -1,5 +1,7 @@
 'use strict';
 
+let isHudEnabled = true;
+
 // bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
 addEventHandler('OnResourceReady', (event, resource) => {
 	setTimeout(() => {
@@ -9,6 +11,8 @@ addEventHandler('OnResourceReady', (event, resource) => {
 	if (gta.game == GAME_GTA_III) {
 		gta.setIslands(ISLAND_SHORESIDEVALE);
 	}
+
+	bindKey(SDLK_h, KEYSTATE_UP, togglePhotoMode);
 });
 
 let preInit = true;
@@ -39,7 +43,7 @@ addEventHandler('onPedSpawn', (event, ped) => {
 							if (isLoggedIn < 1 ) {
 								gui.showCursor(true, false);
 								setChatWindowEnabled(true);
-								setHUDEnabled(false);
+								setHudState(false);
 
 								if (isLoggedIn == -1) {
 									const title = Locale.getString('client.gui.information');
@@ -137,3 +141,29 @@ addNetworkHandler('playFrontEndSound', (i, time) => {
 	//156 disconnect
 	//160 connect
 });
+
+let chatWindowState = chatWindowEnabled;
+let hudState = isHudEnabled;
+let isPhotoModeEnabled = false;
+
+function togglePhotoMode() {
+	if (!isPhotoModeEnabled) {
+		chatWindowState = chatWindowEnabled;
+		hudState = isHudEnabled;
+		setChatWindowEnabled(false);
+		setHudState(false);
+		isPhotoModeEnabled = true;
+	} else {
+		setChatWindowEnabled(chatWindowState);
+		setHudState(hudState);
+		isPhotoModeEnabled = false;
+	}
+}
+
+// There is no function for getting hud state, so here's an override.
+// Don't use official "setHudEnabled" func from now.
+
+function setHudState(state) {
+	isHudEnabled = state;
+	setHUDEnabled(state);
+}

@@ -67,6 +67,7 @@ addEventHandler('OnDrawnHUD', (event) => {
 	const vehicle = localPlayer.vehicle;
 	if (!vehicle) return;
 	if (!focus) return;
+	if (isPhotoModeEnabled) return;
 	if (!isConnected) return;
 	if (spawnScreen && spawnScreen.isEnabled && dashboard && dashboard.isShown) return;
 	if (localClient.getData('isLoggedIn') == -1) return;
