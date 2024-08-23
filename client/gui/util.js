@@ -83,3 +83,31 @@ function toHoursAndMinutes(totalMinutes) {
 function padTo2Digits(num) {
 	return num.toString().padStart(2, '0');
 }
+
+function loadStadiumCol() {
+    let col = openFile(`files/Clnm_stadium.col`, false);
+	if(col != null) {
+		game.loadCOL(col, 0);
+		col.close();
+	}
+}
+
+// Thanks, Jack!
+let onLevel2 = false;
+
+function CheckForLevelChange()
+{
+  if (natives.IS_COLLISION_IN_MEMORY(2) && !onLevel2)
+  {
+    onLevel2 = true;
+    setImmediate(loadStadiumCol()); // load COL files for level 2!
+  }
+  else if (onLevel2)
+  {
+    onLevel2 = false;
+  }
+}
+
+addEventHandler('OnProcess', (event,deltaTime) => {
+    //CheckForLevelChange();
+});
