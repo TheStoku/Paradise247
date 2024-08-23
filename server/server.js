@@ -54,7 +54,6 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 	log(`* Loaded ${Quests.length} quests.`, Log.INFORMATION);
 
 	console.log(`\x1b[6m${server.name}`);
-
 	decho(4, 'Server has been started. Script version: ' + SCRIPT_VERSION);
 });
 

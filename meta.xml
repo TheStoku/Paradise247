@@ -135,6 +135,11 @@
 	<script language="javascript" type="server" src="server/missions/race/tracks/2.js" />
 	<script language="javascript" type="server" src="server/missions/race/tracks/PortlandHighway.js" />
 	<script language="javascript" type="server" src="server/missions/race/tracks/FastPortlandSprint.js" />
+
+	<!-- Minigames -->
+	<script language="javascript" type="server" src="server/missions/minigames.js" />
+	<script language="javascript" type="server" src="server/missions/minigames/ctf.js" />
+	<script language="javascript" type="server" src="server/missions/minigames/ad.js" />
 	
 	<!-- Client files -->
 	<script language="javascript" type="client" src="server/xpsystem.js" />

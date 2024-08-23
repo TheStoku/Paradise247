@@ -36,7 +36,7 @@ class LoginWindow {
 		// Hotfix?
 		if (Locale.getString('client.gui.registerWingowTitle') != "undefined" || Locale.getString('client.gui.loginWindowTitle') != "undefined") {
 			setChatWindowEnabled(false);
-			setHUDEnabled(false);
+			setHudState(false);
 			gui.showCursor(true, false);
 		}
 	}

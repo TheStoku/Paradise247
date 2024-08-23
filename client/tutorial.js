@@ -82,7 +82,7 @@ let snd = null;
 function playTutorialLoop() {
 	enabledStats = false;
 	setChatWindowEnabled(false);
-	setHUDEnabled(false);
+	setHudState(false);
 	gta.forceWeather(WEATHER_SUNNY);
 
 	smallMessage(tutorials[tutorialId].message, tutorials[tutorialId].time, 1);
