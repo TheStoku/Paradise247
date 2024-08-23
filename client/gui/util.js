@@ -100,7 +100,7 @@ function CheckForLevelChange()
   if (natives.IS_COLLISION_IN_MEMORY(2) && !onLevel2)
   {
     onLevel2 = true;
-    setImmediate(loadStadiumCol()); // load COL files for level 2!
+    setImmediate(loadStadiumCol); // load COL files for level 2!
   }
   else if (onLevel2)
   {
@@ -109,5 +109,5 @@ function CheckForLevelChange()
 }
 
 addEventHandler('OnProcess', (event,deltaTime) => {
-    //CheckForLevelChange();
+    CheckForLevelChange();
 });
