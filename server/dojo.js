@@ -75,11 +75,23 @@ function initDojos() {
 			{position: new Vec3(-1242.51, 87.80, 68.68), heading: -1.56},
 		];
 
+		const SPAWN_DOJO_SI_STADIUM = [
+			{position: new Vec3(-22.57, -138.38, 19.11), heading: 0.0},
+			{position: new Vec3(-19.20, -40.08, 19.11), heading: -3.11},
+			{position: new Vec3(66.65, -102.39, 41.17), heading: 1.46},
+			{position: new Vec3(25.05, -90.06, 19.11), heading: 1.53},
+			{position: new Vec3(-62.86, -76.15, 19.11), heading: -1.60},
+			
+		];
+
 		dojos = [
 			{name: 'ak', weapon: 5, dimension: DOJO_DIMENSION++, spawn: SPAWN_DOJO_RAILWAYS},
 			{name: 'm16', weapon: 6, dimension: DOJO_DIMENSION++, spawn: SPAWN_DOJO_RAILWAYS},
 			{name: 'sniper', weapon: 7, dimension: DOJO_DIMENSION++, spawn: SPAWN_DOJO_RAILWAYS},
 			{name: 'shotgun', weapon: 4, dimension: DOJO_DIMENSION++, spawn: SPAWN_DOJO_SSV_STORAGE},
+			//{name: 'rocket', weapon: 8, dimension: DOJO_DIMENSION++, spawn: SPAWN_DOJO_SI_STADIUM},
+			//{name: 'flame', weapon: 9, dimension: DOJO_DIMENSION++, spawn: SPAWN_DOJO_SI_STADIUM},
+
 		];
 	}
 }

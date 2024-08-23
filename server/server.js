@@ -3,11 +3,11 @@
 const VEHICLE_RESPAWN_TIME = 10000;
 const MAP_CLEANUP_TIME = 1000 * 60 * 5;
 const ABANDONNED_VEHICLE_RESPAWN_TIME = 5000 * 60 * 5;
-const SCRIPT_VERSION = '1.0.3 (14.12.23)';
+const SCRIPT_VERSION = '1.0.4 (23.09.23)';
 
 const decho = findResourceByName('decho').getExport('decho');
 
-server.setRule('Script Version', SCRIPT_VERSION);
+server.setRule('Script ', SCRIPT_VERSION);
 
 const serverRule = {
 	'totalEarning': {title: 'Total Earnings', units: '$'},
