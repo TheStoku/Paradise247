@@ -3,6 +3,22 @@
 let focus = true;
 
 bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
+	
+	// Stadium models
+	let txd = openFile(`files/comstadium.txd`, false);
+	if(txd != null) {
+		game.loadTXD(`comstadium.txd`, txd);
+		txd.close();
+	}	
+	
+    
+	let dff = openFile(`files/Clnm_stadium.dff`, false);
+	if(dff != null) {
+		game.loadDFF(1952, dff);
+		dff.close();
+	}
+	
+	
 	// Temporary disabled due to GTAC crash caused by createBuilding.
 	/* bindKey(SDLK_F2, KEYSTATE_DOWN, function(e) {
         spawnRamp();
@@ -85,7 +101,7 @@ function padTo2Digits(num) {
 }
 
 function loadStadiumCol() {
-    let col = openFile(`files/Clnm_stadium.col`, false);
+    let col = openFile(`files/stadium/Clnm_stadium.col`, false);
 	if(col != null) {
 		game.loadCOL(col, 0);
 		col.close();
