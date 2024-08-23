@@ -951,5 +951,5 @@ function rgbToHex(r, g, b) {
 
 function infoCommand(client, params) {
 	messageClient(`${COL_ORANGE}${server.name}`, client);
-	messageClient(`${COL_ORANGE}www: ${COL_DEFAULT}paradise.gta3.pl [WIP]`, client);
+	messageClient(`${COL_ORANGE}www: ${COL_DEFAULT}paradise.lck.ovh [WIP]`, client);
 }
