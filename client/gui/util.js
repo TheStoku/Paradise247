@@ -5,18 +5,18 @@ let focus = true;
 bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 	
 	// Stadium models
-	let txd = openFile(`files/comstadium.txd`, false);
+	/*let txd = openFile(`files/stadium/comstadium.txd`, false);
 	if(txd != null) {
 		game.loadTXD(`comstadium.txd`, txd);
 		txd.close();
 	}	
 	
     
-	let dff = openFile(`files/Clnm_stadium.dff`, false);
+	let dff = openFile(`files/stadium/Clnm_stadium.dff`, false);
 	if(dff != null) {
 		game.loadDFF(1952, dff);
 		dff.close();
-	}
+	}*/
 	
 	
 	// Temporary disabled due to GTAC crash caused by createBuilding.
@@ -109,6 +109,8 @@ function loadStadiumCol() {
 }
 
 // Thanks, Jack!
+// Disabled for crashing when changing island
+/*
 let onLevel2 = false;
 
 function CheckForLevelChange()
@@ -126,4 +128,4 @@ function CheckForLevelChange()
 
 addEventHandler('OnProcess', (event,deltaTime) => {
     CheckForLevelChange();
-});
+});*/

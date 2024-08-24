@@ -81,6 +81,9 @@
 	<script language="javascript" type="client" src="mexui/Core/Init.js" />
 
 	<!-- Additional files/mods -->
+	<!-- <file src="files/stadium/Clnm_stadium.col" type="client" />
+    <file src="files/stadium/Clnm_stadium.dff" type="client" />
+    <file src="files/stadium/comstadium.txd" type="client" /> -->
 	<!--<file type="client" src="files/hud.txd" />-->
 	<!--<file type="client" src="files/Clnm_stadium.dff" />
 	<file type="client" src="files/Clnm_stadium.col" />
