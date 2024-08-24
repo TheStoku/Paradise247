@@ -1,6 +1,6 @@
 'use strict';
 
-const WEATHER_TIME = 2;//9; // Set every X min + 1.
+const WEATHER_TIME = 9; // Set every X min + 1.
 const MAX_WEATHER = 3;
 let isWinter = server.getCVar("WINTER_MODE");
 
