@@ -99,7 +99,7 @@ function toHoursAndMinutes(totalMinutes) {
 function padTo2Digits(num) {
 	return num.toString().padStart(2, '0');
 }
-
+/*
 function loadStadiumCol() {
     let col = openFile(`files/stadium/Clnm_stadium.col`, false);
 	if(col != null) {
@@ -107,7 +107,7 @@ function loadStadiumCol() {
 		col.close();
 	}
 }
-
+*/
 // Thanks, Jack!
 // Disabled for crashing when changing island
 /*
