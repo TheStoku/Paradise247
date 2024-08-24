@@ -16,6 +16,7 @@ class Weather {
 
 	set(admin, id, time) {
 		this.weatherTime = time ? Number(time) : 1000 * 60 * (getRandomInt(WEATHER_TIME) + 1); // +1 to hotfix 0 multiplier in case of random int 0.
+		this.startTick = sdl.ticks;
 		// Store previous weather.
 		this.previousWeather = gta.weather;
 
@@ -37,7 +38,6 @@ class Weather {
 		if (this.timer) clearTimeout(this.timer);
 
 		this.timer = setTimeout(() => {
-			this.startTick = sdl.ticks;
 			this.set();
 		}, this.weatherTime);
 	}
