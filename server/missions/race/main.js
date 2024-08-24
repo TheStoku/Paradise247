@@ -304,7 +304,7 @@ class Race {
 addNetworkHandler('OnPickupCollected_C', function(client, pickupId) {
   const pickup = getElementFromId(pickupId);
 
-  if (pickup.getData('checkpoint') == true) Race.onCheckointEnter(client, pickup);
+  if (pickup.getData('checkpoint') == true) Race.onCheckpointEnter(client, pickup);
 });
 
 addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) {
