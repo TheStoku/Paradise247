@@ -1,6 +1,6 @@
 'use strict';
 
-const WEATHER_TIME = 9; // Set every X min + 1.
+const WEATHER_TIME = 2;//9; // Set every X min + 1.
 const MAX_WEATHER = 3;
 let isWinter = server.getCVar("WINTER_MODE");
 
@@ -35,7 +35,7 @@ class Weather {
 		// Send locale messages
 		this.announce(admin);
 
-		if (this.timer) clearTimeout(this.timer);
+		if (admin && this.timer) clearTimeout(this.timer);
 
 		this.timer = setTimeout(() => {
 			this.set();
