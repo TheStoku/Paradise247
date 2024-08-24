@@ -74,6 +74,9 @@ const commands = [
 	{name: 'loc', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
 		locPlayer(client, params);
 	}},
+	{name: 'forecast', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
+		weather.forecast();
+	}},
 
 	// Help commands
 	{name: 'help', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {

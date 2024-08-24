@@ -9,6 +9,7 @@ class Weather {
 		this.weatherTime = 0;
 		this.nextWeather = getRandomInt(MAX_WEATHER);
 		this.previousWeather = 0;
+		this.startTick = 0;
 
 		this.set();
 	}
@@ -36,6 +37,7 @@ class Weather {
 		if (this.timer) clearTimeout(this.timer);
 
 		this.timer = setTimeout(() => {
+			this.startTick = sdl.ticks;
 			this.set();
 		}, this.weatherTime);
 	}
@@ -64,6 +66,10 @@ class Weather {
 			log(`Weather::changeWeather() - From: ${getWeatherName(this.previousWeather)} to ${getWeatherName(gta.weather)}. Upcoming: ${getWeatherName(this.nextWeather)}, delay: ${this.weatherTime/60/1000}, winter: ${isWinter}`, Log.DEBUG);
 		}
 		Locale.sendMessage(null, false, COLOUR_WHITE, 'weather.upcoming', getWeatherName(this.nextWeather), this.weatherTime/60/1000);
+	}
+
+	forecast() {
+		Locale.sendMessage(null, false, COLOUR_WHITE, 'weather.upcoming', getWeatherName(this.nextWeather), Math.round(this.weatherTime/60/1000 - (sdl.ticks - this.startTick) /60/1000));
 	}
 }
 
