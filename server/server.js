@@ -342,7 +342,7 @@ addEventHandler('onPlayerChat', (event, client, text) => {
 		player.session.lastMessage = text;
 	}
 
-	message(`${COL_DEFAULT}[${time.getHours()}:${time.getMinutes()}] ${spawn.color}${client.name}: ${COL_DEFAULT}${text}`);
+	message(`${COL_DEFAULT}[${padTo2Digits(time.getHours())}:${padTo2Digits(time.getMinutes()}] ${spawn.color}${client.name}: ${COL_DEFAULT}${text}`);
 	decho(1, text, client);
 });
 
