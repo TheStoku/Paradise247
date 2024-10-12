@@ -94,11 +94,11 @@ function printMessage(client, type, ...args) {
 		const weapon = args[2];
 		const pedPiece = args[3];
 		const distance = parseFloat(attacker.player.position.distance(client.player.position)).toFixed(2);
-
+		const attackerHealth = parseFloat(attacker.health).toFixed(2);
 		const attackerColour = Spawn.get(attackerClient.getData('team')).team.color;
 		const pedColour = Spawn.get(pedClient.getData('team')).team.color;
 
-		message(`🔫 ${attackerColour}${attacker.name} ${COL_DEFAULT}killed ${pedColour}${ped.name} ${COL_DEFAULT} with ${getWeaponName(weapon)} [ ${pedComponents[1][pedPiece]} | ${distance} m | ${attacker.health} HP ]`);
+		message(`🔫 ${attackerColour}${attacker.name} ${COL_DEFAULT}killed ${pedColour}${ped.name} ${COL_DEFAULT} with ${getWeaponName(weapon)} [ ${pedComponents[1][pedPiece]} | ${distance} m | ${attackerHealth} HP ]`);
 		break;
 	}
 
