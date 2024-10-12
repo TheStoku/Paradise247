@@ -54,7 +54,7 @@ addEventHandler('onPedSpawn', (event, ped) => {
 										new Prompt(title, rulesMessage, null, null, null, function() {
 											new LoginWindow(isLoggedIn);
 										}, function() {
-											triggerNetworkEvent('gui.disconnect');
+											triggerNetworkEvent('gui.disconnect', 'Rules not accepted');
 										});
 									});
 								} else if (isLoggedIn == 0) {

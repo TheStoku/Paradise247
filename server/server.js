@@ -312,7 +312,12 @@ addNetworkHandler('gui.registerButtonEvent', function(client, password) {
 	Player.get(client).register(password);
 });
 
-addNetworkHandler('gui.disconnect', function(client) {
+addNetworkHandler('gui.disconnect', function(client, reason) {
+	if (reason) {
+		console.log(`${client.name} disconnected. (${reason})`);
+		decho(2, `Kicking player (ID: ${client.index} | reason: ${reason})`, client);
+	}
+
 	client.disconnect();
 });
 
