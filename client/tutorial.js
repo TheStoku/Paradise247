@@ -70,11 +70,13 @@ const tutorials = [
 		jumpCut: true,
 	},
 ];
+// IV is missing 'chatWindowEnabled', here is hotfix.
+if (typeof(chatWindowEnabled) === 'undefined') { var chatWindowEnabled = true; }
 
 let tutorialId = 0;
 let tutorialTimeout = null;
 let storedPos = null;
-let storedChat = typeof chatWindowEnabled != undefined ? chatWindowEnabled : false;
+let storedChat = typeof chatWindowEnabled  != undefined ? chatWindowEnabled : false;
 let storedHud = true;
 let storedWeather = null;
 let snd = null;
@@ -113,6 +115,7 @@ function playTutorialLoop() {
 }
 
 function playTutorial() {
+	if (gta.game !=1) return 1;		// skip tutorial for unimplemented games
 	// storedChat = chatWindowEnabled;
 	storedHud = true;
 	storedPos = localPlayer.position;
