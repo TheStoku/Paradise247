@@ -135,7 +135,7 @@ addCommandHandler('snd2', (command, params, client) => {
 });
 
 addNetworkHandler('playFrontEndSound', (i, time) => {
-	gta.playFrontEndSound(Number(i), Number(time));
+	if (gta.game <=4) gta.playFrontEndSound(Number(i), Number(time));
 	//147 count
 	//148 cd finish
 	//156 disconnect
