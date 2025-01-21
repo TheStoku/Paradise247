@@ -23,7 +23,7 @@ addEventHandler('onPedSpawn', (event, ped) => {
 		const spawnType = localClient.getData('spawnType');
 		const isLoggedIn = localClient.getData('isLoggedIn');
 
-		gta.fadeCamera(false, 0.0, COLOUR_BLACK);
+		if (gta.game <= 4) gta.fadeCamera(false, 0.0, COLOUR_BLACK);
 
 		setTimeout(function() {
 			if (spawnType != null) {
@@ -34,7 +34,7 @@ addEventHandler('onPedSpawn', (event, ped) => {
 					} else {
 						setTimeout(() => {
 							gta.setPlayerControl(false);
-							gta.fadeCamera(true, 3.0, 1);
+							if (gta.game <= 4) gta.fadeCamera(true, 3.0, 1);
 							localPlayer.invincible = true;
 
 							const camera = Spawn.get(spawnScreen.skinSelection).camera;
