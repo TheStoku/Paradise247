@@ -115,7 +115,7 @@ function playTutorialLoop() {
 }
 
 function playTutorial() {
-	if (gta.game !=1) return 1;		// skip tutorial for unimplemented games
+	if (gta.game != 1) return 1;		// skip tutorial for unimplemented games
 	// storedChat = chatWindowEnabled;
 	storedHud = true;
 	storedPos = localPlayer.position;
