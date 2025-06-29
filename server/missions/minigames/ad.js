@@ -14,6 +14,7 @@ addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
 
 addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) {
 	if (ped.isType(ELEMENT_PLAYER)) {
+        const cameraTimeout = 5000;
         setTimeout(function() {
             spawnPlayer(pedClient, ped.position);
             pedClient.player.dimension = pedClient.index + 1000;
