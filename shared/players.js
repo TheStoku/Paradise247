@@ -166,6 +166,7 @@ class Player {
 			if (this.session.failedLogin < MAX_LOGIN_FAILS - 1) {
 				this.session.failedLogin++;
 				loginWindow(this.client, 0);
+				popup(this.client, 'Error', 'Incorrect password');
 				Locale.sendMessage(this.client, false, COLOUR_RED, 'account.incorrectPassword');
 				log(`User ${this.client.name} has used an incorrect password.`, Log.WARNING);
 			} else {
