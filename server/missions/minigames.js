@@ -105,6 +105,8 @@ class MiniGame {
         }
     }
 }
+/*
+//Debug commands, shouldn't be public atm :)
 
 addCommandHandler('mgs', (command, params, client) => {
     message("Preparing minigame...");
@@ -125,3 +127,4 @@ addCommandHandler('mgr', (command, params, client) => {
     message("Resetting minigame...");
 	MiniGame.reset(params);
 });
+*/
