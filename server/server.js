@@ -3,7 +3,7 @@
 const VEHICLE_RESPAWN_TIME = 10000;
 const MAP_CLEANUP_TIME = 1000 * 60 * 5;
 const ABANDONNED_VEHICLE_RESPAWN_TIME = 5000 * 60 * 5;
-const SCRIPT_VERSION = '1.0.5 (12.10.24)';
+const SCRIPT_VERSION = '1.0.6 (9.07.2025)';
 
 const decho = findResourceByName('decho').getExport('decho');
 
