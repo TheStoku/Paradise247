@@ -30,7 +30,7 @@
   },
 
   "achievement" : {
-    "unlockedMessage" : "You have unlocked a {1} achivement! [{2}/{3}]",
+    "unlockedMessage" : "You have unlocked a {1} achievement! [{2}/{3}]",
     "progressMessage1" : "Your achievements progress:",
     "progressMessage2" : "{1} achievement: {2}/{3} [{4}]",
     "rewardMessage" : "Earned achievement reward: ${1}",
