@@ -11,7 +11,7 @@ addEventHandler('onMinigamePrepare', (event, id) => {
 addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
 
 });
-
+/*
 addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) {
 	if (ped.isType(ELEMENT_PLAYER)) {
         const cameraTimeout = 5000;
@@ -22,4 +22,4 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 
         spawnPlayer(pedClient, dojo.spawn[random].position, dojo.spawn[random].heading);
 	}
-});
+});*/
