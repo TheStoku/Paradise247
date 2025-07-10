@@ -134,6 +134,10 @@ addCommandHandler('snd2', (command, params, client) => {
 	natives.PLAY_MISSION_PASSED_TUNE(Number(params));
 });
 
+addCommandHandler('bm', (command, params, client) => {
+	natives.displayText(new Vec2(400, 300), params);
+});
+
 addNetworkHandler('playFrontEndSound', (i, time) => {
 	if (gta.game <=4) gta.playFrontEndSound(Number(i), Number(time));
 	//147 count
