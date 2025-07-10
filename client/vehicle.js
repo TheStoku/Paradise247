@@ -107,6 +107,13 @@ addNetworkHandler('setVehicleLights', (vehicleId, status) => {
 	vehicle.lights = status;
 });
 
+addNetworkHandler('warpIntoVehicle', (vehicleId, seatId) => {
+	const vehicle = natives.getVehicleFromNetworkId(vehicleId);//getElementFromId(Number(vehicleId));
+	message(`v: ${vehicle}, vid: ${vehicleId}`)
+
+	localPlayer.warpIntoVehicle(vehicle, seatId);
+});
+
 addEventHandler("onEntityProcess", function (event, entity) {
 	if (entity == localPlayer && localPlayer.isExitingVehicle && localClient.getData('isRacer')) {
 		localPlayer.clearObjective();

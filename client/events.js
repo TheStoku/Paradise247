@@ -75,3 +75,18 @@ function finishFlight() {
 addEventHandler('OnPickupCollected', (event, pickup, ped) => {
 	triggerNetworkEvent('OnPickupCollected_C', pickup.id);
 });
+
+addEventHandler("OnAddIVNetworkEvent", function(event, type, name, data, data2) {
+	message(`event: ${event}, type: ${type}, name ${name}`);
+	//triggerNetworkEvent("OnAddIVNetworkEvent", type, name, data, data2);
+});
+
+addEventHandler("onPedDead", function(event, ped) {
+	message(`onPedDead event: ${event}, ped: ${ped}`);
+	//triggerNetworkEvent("OnAddIVNetworkEvent", type, name, data, data2);
+});
+
+addEventHandler("onPedWasted", function(event, ped, attacker, weapon, piece) {
+	message(`onPedDead event: ${event}, ped: ${ped}`);
+	//triggerNetworkEvent("OnAddIVNetworkEvent", type, name, data, data2);
+});

@@ -98,7 +98,8 @@ class Vehicle {
 		player.vehicle = vehicle;
 
 		vehicle.heading = client.player.heading;
-		client.player.warpIntoVehicle(vehicle, 0);
+		//client.player.warpIntoVehicle(vehicle, 0);
+		triggerNetworkEvent('warpIntoVehicle', client, vehicle.id, -1);
 	}
 }
 
