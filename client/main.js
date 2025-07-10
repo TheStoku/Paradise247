@@ -1,6 +1,7 @@
 'use strict';
 
 let isHudEnabled = true;
+let isScriptReady = false;
 
 // bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
 addEventHandler('OnResourceReady', (event, resource) => {
@@ -13,9 +14,60 @@ addEventHandler('OnResourceReady', (event, resource) => {
 	}
 
 	bindKey(SDLK_h, KEYSTATE_UP, togglePhotoMode);
+	
+	isScriptReady=true;
 });
 
 let preInit = true;
+
+function initSpawn(isLoggedIn) {
+	if (isScriptReady && typeof isSpawnScreenReady !== 'undefined' && isSpawnScreenReady === true) {
+		setTimeout(() => {
+			gta.setPlayerControl(false);
+			if (gta.game <= 4) gta.fadeCamera(true, 3.0, 1);
+			localPlayer.invincible = true;
+
+			const camera = Spawn.get(spawnScreen.skinSelection).camera;
+			gta.setCameraLookAt(new Vec3(camera.x + 200.0, camera.y + 200.0, camera.z + 200.0), localPlayer.position, false);
+
+			if (isLoggedIn < 1 ) {
+				gui.showCursor(true, false);
+				setChatWindowEnabled(true);
+				setHudState(false);
+
+				if (isLoggedIn == -1) {
+					const title = Locale.getString('client.gui.information');
+					const popupMessage = Locale.getString('client.gui.notRegistered', localClient.name);
+					const rulesMessage = Locale.getString('client.gui.rulesMessage');
+
+					new Popup(title, popupMessage, null, null, function() {
+						new Prompt(title, rulesMessage, null, null, null, function() {
+							new LoginWindow(isLoggedIn);
+						}, function() {
+							triggerNetworkEvent('gui.disconnect', 'Rules not accepted');
+						});
+					});
+				} else if (isLoggedIn == 0) {
+					new LoginWindow(isLoggedIn);
+				}
+			} /* else {
+				// TODO: Fix this.
+				/try {
+					dashboard.toggle();
+				} catch (error) {
+					for (let index = 0; index <= 7; index++) {
+						message('We have encountered an error. Please /reconnect', COLOUR_RED);
+					}
+				}
+			}*/
+
+			spawnScreen.enter();
+			preInit = false;
+		}, 3000);
+	} else {
+		setTimeout(initSpawn, 1000, isLoggedIn);
+	}
+}
 
 // TODO: Cleanup, refactor, implementations.
 addEventHandler('onPedSpawn', (event, ped) => {
@@ -32,47 +84,7 @@ addEventHandler('onPedSpawn', (event, ped) => {
 					if (!preInit) {
 						spawnScreen.enter();
 					} else {
-						setTimeout(() => {
-							gta.setPlayerControl(false);
-							if (gta.game <= 4) gta.fadeCamera(true, 3.0, 1);
-							localPlayer.invincible = true;
-
-							const camera = Spawn.get(spawnScreen.skinSelection).camera;
-							gta.setCameraLookAt(new Vec3(camera.x + 200.0, camera.y + 200.0, camera.z + 200.0), localPlayer.position, false);
-
-							if (isLoggedIn < 1 ) {
-								gui.showCursor(true, false);
-								setChatWindowEnabled(true);
-								setHudState(false);
-
-								if (isLoggedIn == -1) {
-									const title = Locale.getString('client.gui.information');
-									const popupMessage = Locale.getString('client.gui.notRegistered', localClient.name);
-									const rulesMessage = Locale.getString('client.gui.rulesMessage');
-
-									new Popup(title, popupMessage, null, null, function() {
-										new Prompt(title, rulesMessage, null, null, null, function() {
-											new LoginWindow(isLoggedIn);
-										}, function() {
-											triggerNetworkEvent('gui.disconnect', 'Rules not accepted');
-										});
-									});
-								} else if (isLoggedIn == 0) {
-									new LoginWindow(isLoggedIn);
-								}
-							} /* else {
-								// TODO: Fix this.
-								/try {
-									dashboard.toggle();
-								} catch (error) {
-									for (let index = 0; index <= 7; index++) {
-										message('We have encountered an error. Please /reconnect', COLOUR_RED);
-									}
-								}
-							}*/
-
-							preInit = false;
-						}, 3000);
+						initSpawn(isLoggedIn);
 					}
 					// if (showWelcomeMessage) guiWelcomeInit();
 					break;

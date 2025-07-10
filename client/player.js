@@ -106,7 +106,7 @@ addNetworkHandler('setInitialData', (spawnSelection, weaponSelection, spawns) =>
 	spawnScreen.weaponSelection = weaponSelection;
 	spawnScreen.spawns = spawns;
 
-	spawnScreen.enter();
+	//spawnScreen.enter();
 });
 
 addNetworkHandler('bigMessage', (text, time, style) => {

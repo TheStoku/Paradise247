@@ -3,8 +3,7 @@
 const localeFiles = ['en', 'pl'];
 const locale = [];
 
-bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
-	// console.log(TAG + `Loading locale files.`);
+function loadLocales() {
 	log(`Loading locale files.`, Log.INFORMATION);
 
 	for (const i of localeFiles) {
@@ -14,7 +13,18 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 			new Locale(JSON.parse(file));
 		}
 	}
-});
+}
+
+// Check if it's server or client side script
+if (typeof httpGet !== 'undefined') {
+	bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
+		loadLocales();
+	});
+} else {
+	bindEventHandler("OnResourceReady", thisResource, function(event, resource) {
+		loadLocales();
+	});
+}
 
 class Locale {
 	constructor(text) {

@@ -1,6 +1,7 @@
 'use strict';
 
 let pricedown = null;
+let isSpawnScreenReady = false;
 const myFont = lucasFont.createDefaultFont(14.0, 'Roboto', 'Light');
 
 class SpawnScreen {
@@ -222,6 +223,8 @@ bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 	bindKey(SDLK_F4, KEYSTATE_DOWN, function(e) {
 		spawnScreen.toggle(true);
 	});
+
+	isSpawnScreenReady = true;
 
 	console.log('Inited Spawnscreen.js', COLOUR_LIME);
 });
