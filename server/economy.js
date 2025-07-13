@@ -4,6 +4,7 @@
 const earningBase = {
 	kill: 100,
 	death: 10,
+	pedKill: 1,
 	infoPickupAchievement: 100,
 	chatAchievement: 100,
 	hiddenPackage: 200,
@@ -24,6 +25,7 @@ const earningBase = {
 const xpBase = {
 	race: 50,
 	kill: 50,
+	pedKill: 1,
 	infoPickupAchievement: 50,
 	chatAchievement: 10,
 	hiddenPackage: 150,

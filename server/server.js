@@ -291,6 +291,16 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 			break;
 		default:
 		}
+	} else if (ped.isType(ELEMENT_PED)) {
+		if (attacker) {
+				let attackerClient = getClientFromPlayerElement(attacker);
+				if (!Player.get(attackerClient)) return;
+
+				Player.get(attackerClient).increasePedKills();
+				earn(attackerClient, earningBase.pedKill, xpBase.pedKill);
+
+				//console.log(`${attackerClient.name} killed ped ${ped.model}/${ped.modelIndex}/${ped.skin}/ID: ${ped.id}`);
+		}
 	}
 });
 
