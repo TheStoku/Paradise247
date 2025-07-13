@@ -103,4 +103,5 @@ function initQuests() {
 	new Quest('kill', 5, earningBase.quest);
 	new Quest('convoy', 5, earningBase.quest);
 	new Quest('dojo', 1, earningBase.quest, 'shotgun');
+	new Quest('chat', 2, earningBase.quest);
 }

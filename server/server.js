@@ -352,6 +352,7 @@ addEventHandler('onPlayerChat', (event, client, text) => {
 
 			client.setData('sentMessages', player.db.sentMessages);
 			Achievement.check('sentMessages', player.db.sentMessages, client);
+			Quest.check(client, 'chat');
 		}
 
 		player.session.lastMessage = text;
