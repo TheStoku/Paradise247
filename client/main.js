@@ -7,7 +7,7 @@ let isScriptReady = false;
 addEventHandler('OnResourceReady', (event, resource) => {
 	setTimeout(() => {
 		initAchievements();
-	}, 3000);
+	}, 1500);
 
 	if (gta.game == GAME_GTA_III) {
 		gta.setIslands(ISLAND_SHORESIDEVALE);
@@ -64,9 +64,9 @@ function initSpawn(isLoggedIn) {
 
 			spawnScreen.enter();
 			preInit = false;
-		}, 3000);
+		}, 1500);
 	} else {
-		setTimeout(initSpawn, 1000, isLoggedIn);
+		setTimeout(initSpawn, 500, isLoggedIn);
 	}
 }
 
