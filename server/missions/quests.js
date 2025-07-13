@@ -104,4 +104,8 @@ function initQuests() {
 	new Quest('convoy', 5, earningBase.quest);
 	new Quest('dojo', 1, earningBase.quest, 'shotgun');
 	new Quest('chat', 2, earningBase.quest);
+	new Quest('bankEnter', 1, earningBase.quest);
+	new Quest('bankDeposit', 1, earningBase.quest, 100);
+	new Quest('bankWithdraw', 1, earningBase.quest, 10);
+	new Quest('bankExit', 1, earningBase.quest);
 }

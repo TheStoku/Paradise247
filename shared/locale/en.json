@@ -67,7 +67,11 @@
       "mileage" : "hit {1} mileage with any vehicle.",
       "kill" : "kill any player {1} time/s in a single session.",
       "dojo" : "join /{2} dojo {1} time/s.",
-      "chat" : "send {1} chat message/s."
+      "chat" : "send {1} chat message/s.",
+      "bankEnter" : "enter bank {1} time/s.",
+      "bankExit" : "exit bank {1} time/s.",
+      "bankDeposit" : "deposit ${2} in bank.",
+      "bankWithdraw" : "withdraw ${2} from bank."
     }
   },
 

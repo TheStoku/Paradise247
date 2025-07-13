@@ -15,9 +15,13 @@ class Bank {
 			client.setData('inBank', true);
 			Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.welcome');
 			Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.commands');
+			
+			Quest.check(client, 'bankEnter');
 		} else {
 			client.setData('inBank', false);
 			Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.bye');
+
+			Quest.check(client, 'bankExit');
 		}
 	}
 
@@ -43,6 +47,8 @@ class Bank {
 				// Print result.
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.transferMessage', amnount.toString(), locale.getString('bank.bank'));
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.transferSuccess', player.getBankMoney().toString(), player.getMoney().toString());
+
+				Quest.check(client, 'bankDeposit', amnount.toString());
 			} else {
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.transferError');
 			}
@@ -71,6 +77,8 @@ class Bank {
 				// Print result.
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.transferMessage', amnount.toString(), locale.getString('bank.wallet'));
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.transferSuccess', player.getBankMoney().toString(), player.getMoney().toString());
+
+				Quest.check(client, 'bankWithdraw', amnount.toString());
 			} else {
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'bank.transferError');
 			}
