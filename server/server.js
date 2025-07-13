@@ -129,7 +129,7 @@ addEventHandler('onPlayerQuit', (event, client, disconnectType) => {
 
 	const player = Player.get(client);
 
-	if (typeof player != 'undefined') {
+	if (player && typeof player != 'undefined') {
 		player.destructor();
 	}
 
