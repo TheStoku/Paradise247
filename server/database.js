@@ -174,11 +174,11 @@ function loadPlayerDataQuery(client) {
 
 		items.forEach((element) => {
 			if (element != '' && element.length > 1) {
-				console.log(element);
-				// console.log(element);
 				player.backpack.addItem(client, element, Item.getDesc(element));
 			}
 		});
+
+		log(`${client.name} backpack items: ${player.backpack.getItemsForStore()}`, Log.INFORMATION);
 
 		result.free();
 	}
@@ -189,7 +189,6 @@ function loadPlayerDataQuery(client) {
 }
 
 function savePlayerData(client) {
-	console.log('Store');
 	establishDatabaseConnection();
 
 	const player = Player.get(client);
@@ -225,6 +224,7 @@ function savePlayerData(client) {
 	/* if (storedPos) {
         player.db.storedPosition = new Vec3(JSON.parse(player.db.storedPosition));
     }*/
+   	log(`Saved account data - ${client.name}`, Log.INFORMATION);
 }
 
 function registerAccountQuery(name, password, ip) {
@@ -355,7 +355,7 @@ function saveAllData(client, params) {
 
 	saveAllVehicles();
 
-	console.log('Stored all data');
+	log(`Saved all data.`, Log.INFORMATION);
 }
 
 function loadTeleportsDataQuery() {
