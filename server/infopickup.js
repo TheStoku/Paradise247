@@ -12,7 +12,7 @@ class InfoPickup {
 		this.pickup = gta.createPickup(1361, position, PICKUP_ON_STREET);
 		this.pickup.setData('isInfoPickup', true, false);
 
-		console.log(`infopickupid: ${this.pickup}`);
+		//console.log(`infopickupid: ${this.pickup}`);
 
 		InfoPickups.push(this);
 	}
