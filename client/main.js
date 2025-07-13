@@ -11,6 +11,7 @@ addEventHandler('OnResourceReady', (event, resource) => {
 
 	if (gta.game == GAME_GTA_III) {
 		gta.setIslands(ISLAND_SHORESIDEVALE);
+		natives.SET_MOTION_BLUR(4);
 	}
 
 	bindKey(SDLK_h, KEYSTATE_UP, togglePhotoMode);
@@ -148,6 +149,10 @@ addCommandHandler('snd2', (command, params, client) => {
 
 addCommandHandler('bm', (command, params, client) => {
 	natives.displayText(new Vec2(400, 300), params);
+});
+
+addCommandHandler('blur', (command, params, client) => {
+	natives.SET_MOTION_BLUR(Number(params));
 });
 
 addNetworkHandler('playFrontEndSound', (i, time) => {
