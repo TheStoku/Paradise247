@@ -82,11 +82,11 @@ addEventHandler("OnAddIVNetworkEvent", function(event, type, name, data, data2) 
 });
 
 addEventHandler("onPedDead", function(event, ped) {
-	message(`onPedDead event: ${event}, ped: ${ped}`);
+	//message(`onPedDead event: ${event}, ped: ${ped}`);
 	//triggerNetworkEvent("OnAddIVNetworkEvent", type, name, data, data2);
 });
 
 addEventHandler("onPedWasted", function(event, ped, attacker, weapon, piece) {
-	message(`onPedDead event: ${event}, ped: ${ped}`);
+	//message(`onPedDead event: ${event}, ped: ${ped}`);
 	//triggerNetworkEvent("OnAddIVNetworkEvent", type, name, data, data2);
 });
