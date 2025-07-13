@@ -78,7 +78,7 @@ class Quest {
 		const target = Quests[player.db.quests].target;
 		const type = Quests[player.db.quests].type;
 
-		if (type == null) Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, repeats));
+		if (type == null) Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, repeats, target));
 		else {
 			switch (type) {
 			case 'vehicle':
@@ -102,4 +102,5 @@ function initQuests() {
 	new Quest('findVehicle', 1, earningBase.quest, 148, 'vehicle');
 	new Quest('kill', 5, earningBase.quest);
 	new Quest('convoy', 5, earningBase.quest);
+	new Quest('dojo', 1, earningBase.quest, 'shotgun');
 }

@@ -40,6 +40,8 @@ function enterDojo(client, params) {
 
 			client.player.giveWeapon(dojo.weapon, 9999, true);
 
+			Quest.check(client, 'dojo', params.toString());
+
 			return true;
 		} else {
 			return false;
