@@ -3,20 +3,20 @@
 // Simple anticheat.
 // TODO: Add locales.
 
-function suspectedTrainerUsage() {
+function suspectedTrainerUsage(reason) {
     message('Suspected trainer usage. Leaving session...');
-    triggerNetworkEvent('gui.disconnect', 'Suspected trainer usage');
+    triggerNetworkEvent('gui.disconnect', `Suspected trainer usage - ${reason}`);
 }
 
 function healthCheck() {
     if (localPlayer.health > 251) {
-        suspectedTrainerUsage();
+        suspectedTrainerUsage(`health hack`);
     }
 }
 
 function armourCheck() {
     if (localPlayer.armour > 251) {
-        suspectedTrainerUsage();
+        suspectedTrainerUsage(`armour hack`);
     }
 }
 
@@ -29,7 +29,7 @@ function weaponCheck() {
             localPlayer.weapon == WEAPON_ROCKETLAUNCHER ||
             localPlayer.weapon == WEAPON_MOLOTOV ||
             localPlayer.weapon == WEAPON_GRENADE) {
-                suspectedTrainerUsage();
+                suspectedTrainerUsage(`weapon hack`);
         }
     }
 }
