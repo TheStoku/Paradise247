@@ -293,6 +293,7 @@ addEventHandler('OnPedWasted', function(event, ped, attacker, weapon, pedPiece) 
 		default:
 		}
 	} else if (ped.isType(ELEMENT_PED)) {
+		return 0; // disable for now
 		if (attacker) {
 				let attackerClient = getClientFromPlayerElement(attacker);
 				if (!Player.get(attackerClient)) return;
