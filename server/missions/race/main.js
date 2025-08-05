@@ -62,6 +62,8 @@ class Race {
   }
 
   static prepare(id, client = null) {
+    // TODO: Add info about incorrect race id
+    if (id >= Races.length) return;
     // Check if race isnt started
     if (race.id == -1) {
       // Set race id and do a cleanup.
