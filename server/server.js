@@ -4,11 +4,11 @@ const serverStartTime = sdl.ticks;
 const VEHICLE_RESPAWN_TIME = 10000;
 const MAP_CLEANUP_TIME = 1000 * 60 * 5;
 const ABANDONNED_VEHICLE_RESPAWN_TIME = 5000 * 60 * 5;
-const SCRIPT_VERSION = '1.0.8 (13.07.2025)';
+const SCRIPT_VERSION = '1.1.0 (25.03.26)';
 
 const decho = findResourceByName('decho').getExport('decho');
 
-server.setRule('MOTD', `6 new quests and bugfixes!`);
+server.setRule('MOTD', `Bugfixes and minor changes`);
 server.setRule('Script ', SCRIPT_VERSION);
 server.setRule('Uptime ', msToTime(sdl.ticks-serverStartTime));
 
