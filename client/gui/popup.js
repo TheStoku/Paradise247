@@ -37,6 +37,7 @@ class Popup {
 	}
 
 	close() {
+		unbindKey(SDLK_RETURN, KEYSTATE_DOWN);
 		gui.showCursor(false, true);
 
 		if (typeof this.parentWindow != 'undefined' && this.parentWindow != null) {
