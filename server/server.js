@@ -62,7 +62,7 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 	
 	decho(4, 'Server has been started. Script version: ' + SCRIPT_VERSION);
 
-	setTimeout(function() {
+	setInterval(function() {
 			updateUptime();
 	}, 1000*60);
 });
