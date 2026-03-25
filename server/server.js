@@ -72,6 +72,7 @@ function printMessage(client, type, ...args) {
 	case 'join':
 		Locale.sendMessage(client, true, COLOUR_WHITE, 'PlayerConnected', client.name, args[0], args[1]);
 		Locale.sendMessage(client, false, COLOUR_WHITE, 'PlayerWelcomeMessage', client.name);
+		Locale.sendMessage(client, false, COLOUR_WHITE, 'PlayerWelcomeMessage2', client.name);
 		decho(2, `Has joined the game from ${args[0]} ${args[1]}!`, client);
 		break;
 	case 'quit':

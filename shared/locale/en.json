@@ -7,12 +7,12 @@
   "serverWelcomeMessage" : "Welcome {1} to the {2} Server!",
   
   "account" : {
-    "loginSuccess" : "You have been logged in successfully! Last login: {1}",
-    "alreadyLoggedIn" : "You are already logged in.",
+    "loginSuccess" : "[#00ff00]You have been logged in successfully! [#ffffff]Last login - [#f0842c][ [#ffffff]{1} [#f0842c]]",
+    "alreadyLoggedIn" : "[#ff0000]You are already logged in.",
     "registerSuccess" : "Account '{1}' has been registered successfully!",
     "notRegistered" : "Account for username '{1}' is not registered. Please register it with '/register [password]' first.",
     "pleaseLogin" : "Username '{1}' is already registered. Use '/login [password]' before spawn or change your name.",
-    "incorrectPassword" : "You have provided an incorrect password. Please try again.",
+    "incorrectPassword" : "[#ff0000]You have provided an incorrect password. Please try again.",
     "settings" : {
       "savepos": "Your position has been stored.",
       "gotopos": "Teleporting to stored position.",
@@ -53,11 +53,11 @@
   },
 
   "quest" : {
-    "unlockedMessage" : "🎯You have completed a quest #{1}!",
-    "taskMessage" : "🎯Your current quest is to {1}",
-    "rewardMessage" : "🎯Earned quest reward: ${1}",
-    "noMoreQuests" : "🎯No more quests for now. Please check later!",
-    "completion" : "🎯Current quest completion: {1}",
+    "unlockedMessage" : "🎯 You have completed a quest [#f0842c]#{1}!",
+    "taskMessage" : "🎯 Your current quest is to [#f0842c]{1}",
+    "rewardMessage" : "🎯 Earned quest reward: [#f0842c]${1}",
+    "noMoreQuests" : "🎯 No more quests for now. Please check later!",
+    "completion" : "🎯 Current quest completion: [#f0842c]{1}",
     "list" : {
       "convoy" : "complete {1} convoy/s.",
       "jack" : "jack {1} vehicle/s.",
@@ -103,16 +103,17 @@
   },
 
   "inventory" : {
-    "backpackIsFull": "💼Your backpack is full! ({1}/{2})",
-    "noItems": "💼You have no items in your backpack!",
-    "status": "💼Your inventory size is {1}/{2}. You carry:",
-    "youCarry": "💼You carry:",
-    "useItem": "💼Item has been used. ({1}/{2}).",
-    "newItem": "💼New item '{1}' in your invenotry! Check your items with /backpack command."
+    "backpackIsFull": "💼 Your backpack is full! ({1}/{2})",
+    "noItems": "💼 You have no items in your backpack!",
+    "status": "💼 Your inventory size is {1}/{2}. You carry:",
+    "youCarry": "💼 You carry:",
+    "useItem": "💼 Item has been used. ({1}/{2}).",
+    "newItem": "💼 New item '{1}' in your invenotry! Check your items with /backpack command."
   },
 
   "PlayerConnected" : "{1} has connected from {2} ({3}).",
-  "PlayerWelcomeMessage" : "Hello {1}! How are you doing today?",
+  "PlayerWelcomeMessage" : "Hello [#f0842c]{1}![#FFFFFF] How are you doing today?",
+  "PlayerWelcomeMessage2" : "You can check for available commands with [#f0842c][ [#ffffff]/cmds [#f0842c]][#FFFFFF] command.",
   "PlayerQuit" : "{1} has left the game.",
   "PlayerSpawned" : "{1} spawned as {2}.",
   "PlayerEnterDojoMessage" : "You have entered '{1}' dojo. Use '/dojoexit' to exit dojo.",
