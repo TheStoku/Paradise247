@@ -89,7 +89,7 @@ const commands = [
 		commandHelp(client, params);
 	}},
 	{name: 'cmds', level: 0, cost: 0, flags: ALLOW_ALL, arguments: '', function: function(client, params) {
-		makeList(client, 'commands', commands);
+		makeGUIList(client, 'commands', commands);
 	}},
 
 	// Dojo commands
@@ -333,6 +333,45 @@ function makeList(client, name, array, bNumbered) {
 	list.forEach((element, index) => {
 		messageClient(`👉${COL_DEFAULT}${list[index]}`, client);
 	});
+}
+
+function makeGUIList(client, name, array, bNumbered) {
+	const list = [];
+	let line = 0;
+	let buffer = "";
+	// let list = "";
+	let changeColour = false;
+
+	// if (name != "achievements")
+	//messageClient(`🔍${COL_ORANGE}Available ${name}:`, client);
+
+	for (let i = 0; i < array.length; i++) {
+		if (array[i].level && Player.get(client).db.adminLevel < array[i].level) {
+			continue;
+		} else {
+			// Add separator and linebreak
+			if (i % 10 == 0) line++;
+
+			// If array is undefined, make it empty.
+			if (typeof(list[line]) == 'undefined') list[line] = '';
+
+			// Add separator
+			if (i < array.length && i > 0 && list[line].length > 0) list[line] += `, `;
+
+			// If list should be numbered, add the number.
+			if (bNumbered) list[line] += `[${i}]`;
+
+			list[line] += array[i].name;
+
+			if (array[i].level > 0) list[line] += `*`;
+		}
+	}
+
+	list.forEach((element, index) => {
+		buffer += `${list[index]} \n`;
+	});
+
+	popup(client, `Available ${name}:`, buffer);
 }
 
 // List all commands (for readme.md pruposes).
