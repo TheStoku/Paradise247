@@ -1,5 +1,6 @@
 'use strict';
 
+const serverStartTime = sdl.ticks;
 const VEHICLE_RESPAWN_TIME = 10000;
 const MAP_CLEANUP_TIME = 1000 * 60 * 5;
 const ABANDONNED_VEHICLE_RESPAWN_TIME = 5000 * 60 * 5;
@@ -9,6 +10,8 @@ const decho = findResourceByName('decho').getExport('decho');
 
 server.setRule('MOTD', `6 new quests and bugfixes!`);
 server.setRule('Script ', SCRIPT_VERSION);
+server.setRule('Uptime ', msToTime(sdl.ticks-serverStartTime));
+
 
 const serverRule = {
 	'totalEarning': {title: 'Total Earnings', units: '$'},
@@ -58,7 +61,15 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 	log(`Running on port ${server.port}.`, Log.INFORMATION);
 	
 	decho(4, 'Server has been started. Script version: ' + SCRIPT_VERSION);
+
+	setTimeout(function() {
+			updateUptime();
+	}, 1000*60);
 });
+
+function updateUptime() {
+	server.setRule('Uptime ', msToTime(sdl.ticks-serverStartTime));
+}
 
 // TODO: fix arguments
 function printMessage(client, type, ...args) {
