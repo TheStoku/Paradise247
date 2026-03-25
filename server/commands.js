@@ -783,6 +783,9 @@ function printStats(client, params) {
 	const xp = playerDb.xp;
 	const exp = XP.parseByXP(xp);
 	const races = playerDb.races;
+	const quests = playerDb.quests;
+	const jackedVehicles = playerDb.jackedVehicles;
+	const hiddenPackages = playerDb.hiddenPackages;
 
 	/*
 		level: level,
@@ -794,12 +797,14 @@ function printStats(client, params) {
 		forLast: forLast
 	*/
 
-	messageClient(`🎯${COL_ORANGE}${client.name} statistics - ${COL_DEFAULT}Kills: ${kills} | Deaths: ${deaths} | Ratio: ${killDeathRatio(kills, deaths).toFixed(2)} | Headshots: ${headshots} | Joins: ${joins}`, client);
-	messageClient(`💳${COL_ORANGE}Money: ${COL_DEFAULT}\$${money} | 🏦${COL_ORANGE}Bank: ${COL_DEFAULT}\$${bank}`, client);
+	messageClient(`🎯 ${COL_ORANGE}${client.name} statistics: ${COL_DEFAULT}Kills: ${kills} | Deaths: ${deaths} | Ratio: ${killDeathRatio(kills, deaths).toFixed(2)} | Headshots: ${headshots} | Joins: ${joins}`, client);
+	messageClient(`💳 ${COL_ORANGE}Money: ${COL_DEFAULT}\$${money} | 🏦${COL_ORANGE}Bank: ${COL_DEFAULT}\$${bank}`, client);
 	// messageClient(`🏦${COL_ORANGE}Online time: ${COL_DEFAULT}\$${bank}`, client);
-	messageClient(`${COL_ORANGE}Mileage: ${COL_DEFAULT}${mileage}km | ${COL_ORANGE}Flight Time: ${COL_DEFAULT}${dodo}`, client);
-	messageClient(`${COL_ORANGE}Online Time: ${COL_DEFAULT}${online}min | ${COL_ORANGE}Convoys: ${COL_DEFAULT}${convoys} | ${COL_ORANGE}Races: ${COL_DEFAULT}${races}`, client);
-	messageClient(`${COL_ORANGE}XP: ${COL_DEFAULT}${xp}/${exp.forNext} | ${COL_ORANGE}Level: ${COL_DEFAULT}${exp.level}/60`, client);
+	messageClient(`🚗 ${COL_ORANGE}Mileage: ${COL_DEFAULT}${mileage}km | ${COL_ORANGE}Flight Time: ${COL_DEFAULT}${dodo}s | ${COL_ORANGE}Jacked vehicles: ${COL_DEFAULT}${jackedVehicles}`, client);
+	messageClient(`⏱️ ${COL_ORANGE}Online Time: ${COL_DEFAULT}${online}min | ${COL_ORANGE}Convoys: ${COL_DEFAULT}${convoys} | ${COL_ORANGE}Races: ${COL_DEFAULT}${races}`, client);
+	messageClient(`📈 ${COL_ORANGE}XP: ${COL_DEFAULT}${xp}/${exp.forNext} | ${COL_ORANGE}Level: ${COL_DEFAULT}${exp.level}/60 | ${COL_ORANGE}Quests: ${COL_DEFAULT}${quests}`, client);
+	messageClient(`📦 ${COL_ORANGE}Hidden Packages:  ${COL_DEFAULT}${hiddenPackages}`, client);
+
 }
 
 function printRawStats(client, params) {
