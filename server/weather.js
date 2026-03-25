@@ -2,6 +2,7 @@
 
 const WEATHER_TIME = 9; // Set every X min + 1.
 const MAX_WEATHER = 3;
+const date = new Date()
 let isWinter = server.getCVar("WINTER_MODE");
 
 class Weather {
@@ -32,6 +33,9 @@ class Weather {
 		// Store the weather for next run.
 		this.nextWeather = nextRandom;
 
+		// Check if we have winter or not and toggle winter mode.
+		this.setWinter(null, this.checkWinterTime());
+
 		// Send locale messages
 		this.announce(admin);
 
@@ -42,12 +46,16 @@ class Weather {
 		}, this.weatherTime);
 	}
 
+	checkWinterTime() {
+		if (date.getMonth() >= 2 && date.getMonth() <= 9) return 0;
+	}
+
 	setWinter(client, enabled) {
 		isWinter = enabled;
 
 		triggerNetworkEvent('setWinter', null, isWinter == 1 ? true : false);
 		// TODO: Locale
-		message(`Winter mode has been turned ${isWinter == 1 ? "on" : "off"} by admin ${client.name}.`);
+		if (client != null ) message(`Winter mode has been turned ${isWinter == 1 ? "on" : "off"} by admin ${client.name}.`);
 	}
 
 	// TODO: implementation.
