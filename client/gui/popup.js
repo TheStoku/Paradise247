@@ -28,7 +28,7 @@ class Popup {
 		this.window.titleBarIconShown = false;
 		this.window.setShown(true);
 
-		this.message = this.window.text(0, 15, this.w, 0, message, defaultTextStyle);
+		this.message = this.window.text(0, this.h/2 - 15, this.w, 0, message, defaultTextStyle);
 		this.button = this.window.button(0, this.h - 30, this.w, 25, buttonText, defaultAcceptButtonStyle, this.close.bind(this));
 
 		gui.showCursor(true, true);
