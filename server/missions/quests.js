@@ -26,6 +26,8 @@ class Quest {
 
 		const quest = Quests[player.db.quests];
 
+		if (typeof quest == 'undefined') return;
+
 		if (quest.task == task) {
 			player.session.questRepeats++;
 
