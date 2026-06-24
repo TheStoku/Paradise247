@@ -126,7 +126,7 @@ addEventHandler('onPedWasted', function(event, ped, attackerPed, weapon, pedPiec
 });
 
 function playSound(i) {
-	natives.PLAY_MISSION_AUDIO(int)
+	//natives.PLAY_MISSION_AUDIO(int)
 	//natives.PLAY_MISSION_PASSED_TUNE(int)
 	gta.playFrontEndSound(Number(i), 1.0);
 	//94 cp
