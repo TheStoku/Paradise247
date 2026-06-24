@@ -67,7 +67,7 @@ class SpawnScreen {
 
 			setSkin(skin);
 
-			if (gta.game <= GAME_GTA_UG) {
+			if (gta.game <= GAME_GTA_SA) {
 				gta.playFrontEndSound(82, 1.0);
 			} else {
 				localPlayer.changeBodyPart(0, 0, 0);
@@ -171,7 +171,7 @@ class SpawnScreen {
 }
 
 function setSkin(skinId) {
-	if (gta.game <= GAME_GTA_UG) {
+	if (gta.game <= GAME_GTA_SA) {
 		localPlayer.skin = skinId;
 	} else {
 		if (natives.isModelInCdimage(skinId)) {
