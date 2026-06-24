@@ -31,6 +31,8 @@ function loadTopScores() {
 		loadTopScoresQuery(element);
 		// console.log(element);
 	});
+
+	setInterval(broadcastRandomTop, 5 * 60 * 1000);
 }
 
 
@@ -79,4 +81,11 @@ function generateTop(client, index) {
 		const message = `${idx + 1}. ${element.name}: ${element[key]}${unit}`;
 		Locale.sendMessage(client, false, COLOUR_YELLOW, 'topMessage2', message);
 	});
+}
+
+function broadcastRandomTop() {
+	const index = Math.floor(Math.random() * TOP_COMMAND_DEFINES.length);
+	const randomKey = TOP_COMMAND_DEFINES[index];
+
+	printTop(null, randomKey);
 }
