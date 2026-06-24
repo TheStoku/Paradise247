@@ -206,8 +206,9 @@ class Race {
           race.participants.splice(racerId, 1);
       }
     }
-    client.player.vehicle.dimension = 0;
-    client.player.dimension = 0;
+    
+    if (client.player.vehicle) client.player.vehicle.dimension = 0;
+    if (client.player) client.player.dimension = 0;
     client.removeData('isRacer');
     client.removeData('inMission');
     setPlayerControls(client, true);
