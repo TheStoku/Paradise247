@@ -1,7 +1,7 @@
 'use strict';
 
 const WEATHER_TIME = 9; // Set every X min + 1.
-const MAX_WEATHER = 3;
+const MAX_WEATHER = 4;
 const date = new Date()
 let isWinter = server.getCVar("WINTER_MODE");
 
@@ -25,10 +25,10 @@ class Weather {
 		id ? gta.forceWeather(Number(id)) : gta.weather = this.nextWeather;
 
 		// Set to other weather, not the same as current one.
-		let nextRandom = (MAX_WEATHER);
-		while (gta.weather == nextRandom) {
+		let nextRandom;
+		do {
 			nextRandom = getRandomInt(MAX_WEATHER);
-		}
+		} while (gta.weather == nextRandom);
 
 		// Store the weather for next run.
 		this.nextWeather = nextRandom;
