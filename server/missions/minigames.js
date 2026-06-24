@@ -59,7 +59,7 @@ class MiniGame {
         if (id > 0 && id < MiniGames.length && currentMinigame == -1) {
             MiniGame.reset(id);
             currentMinigame = id;
-            MiniGame.get(id).game.isRunning = true,
+            MiniGame.get(id).game.isRunning = true;
             triggerEvent('onMinigamePrepare', null, id);
         }
     }
