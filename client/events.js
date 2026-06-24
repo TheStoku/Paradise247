@@ -17,7 +17,7 @@ addEventHandler('OnEntityProcess', function(event, entity) {
 	if (localPlayer != null && isConnected) {
 		if (entity == localPlayer) {
 			// Dodo flight time.
-			if (entity.vehicle && gta.game == 1 && entity.vehicle.model == MODELVEHICLE_CAR_DODO && localPlayer.seat == 0) {
+			if (entity.vehicle && gta.game == GAME_GTA_III && entity.vehicle.model == MODELVEHICLE_CAR_DODO && localPlayer.seat == 0) {
 				const vehHandle = natives.STORE_CAR_PLAYER_IS_IN(natives.GET_PLAYER_ID());
 
 				if (natives.IS_CAR_IN_AIR(vehHandle) && !natives.IS_CAR_IN_WATER(vehHandle) && dodoFlightStart == -1) {
