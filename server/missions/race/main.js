@@ -119,7 +119,7 @@ class Race {
       triggerNetworkEvent('smallMessage', null, `${race.counter}s to the race finish.`, 1000, 2);
 
       if (race.counter === 0) {
-        race.participants.forEach(element => {
+        [...race.participants].forEach(element => {
           Race.onRaceCorrupted(element.client);
         });
       }
@@ -136,7 +136,7 @@ class Race {
     if (race.participants.length >= RACE_MIN_PARTICIPANTS) {
       Race.countdown();
     } else {
-      race.participants.forEach(element => {
+      [...race.participants].forEach(element => {
         Race.onRaceCorrupted(element.client);
       });
 
@@ -201,7 +201,10 @@ class Race {
   static removePlayer(client) {
     if (!race.isRunning) {
       const racerId = race.participants.findIndex((element, index) => element.client === client);
-      race.participants.splice(racerId, 1);
+      
+      if (racerId !== -1) {
+          race.participants.splice(racerId, 1);
+      }
     }
     client.player.vehicle.dimension = 0;
     client.player.dimension = 0;
@@ -217,7 +220,9 @@ class Race {
     const checkpoint = race.checkpoints.findIndex((element) => element.sphere.instance == sphere.instance);
     const racer = Race.getRacer(client);
 
-    if (typeof(checkpoint) != 'undefined') {
+    if (!racer) return;
+
+    if (checkpoint != -1) {
       racer.time.push(sdl.ticks);
 
       if (checkpoint == racer.currentCp) {
