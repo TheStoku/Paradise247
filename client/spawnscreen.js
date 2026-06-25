@@ -234,7 +234,7 @@ addEventHandler('OnDrawnHUD', (event) => {
 
 	let connected = (typeof isConnected !== 'undefined') ? isConnected : true;
 
-	if (spawnScreen && spawnScreen.isEnabled && dashHidden && connected) {
+	if (spawnScreen && spawnScreen.isEnabled && connected) {
 		const spawn = Spawn.get(spawnScreen.skinSelection);
 		if(!spawn) return;
 		// let teamColor = spawn.team.color; // GTAC font doesn't render colourcodes.
