@@ -106,7 +106,10 @@ addNetworkHandler('setInitialData', (spawnSelection, weaponSelection, spawns) =>
 	spawnScreen.weaponSelection = weaponSelection;
 	spawnScreen.spawns = spawns;
 
-	//spawnScreen.enter();
+	// This also means the login is completed, so we can use a spawnscreen
+	gui.showCursor(false, true);
+	setChatWindowEnabled(true);
+	spawnScreen.enter();
 });
 
 addNetworkHandler('bigMessage', (text, time, style) => {
