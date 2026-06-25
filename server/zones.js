@@ -44,19 +44,21 @@ const III_ZONES = [
 ];
 
 function getZoneFromPosition(position) {
-	position = new Vec2(position.x, position.y);
+	const pos2D = new Vec2(position.x, position.y);
 
 	for (let index = 0; index < III_ZONES.length; index++) {
-		const element = III_ZONES[index];
-		return inPoly(position, element.pos1, element.pos2, new Vec2(element.pos1.x, element.pos2.y), new Vec2(element.pos2.x, element.pos1.y)) ? element.name : 'Unknown';
+		const zone = III_ZONES[index]; // Zmiana nazwy na 'zone', dla czytelności
+		
+		if (inPoly(pos2D, zone.pos1, zone.pos2, new Vec2(zone.pos1.x, zone.pos2.y), new Vec2(zone.pos2.x, zone.pos1.y))) {
+			return zone.name;
+		}
 	}
+
+	return 'Unknown';
 }
 
 function getZoneFromElement(element) {
-	const position = new Vec2(element.position.x, element.position.y);
-
-	for (let index = 0; index < III_ZONES.length; index++) {
-		const element = III_ZONES[index];
-		return inPoly(position, element.pos1, element.pos2, new Vec2(element.pos1.x, element.pos2.y), new Vec2(element.pos2.x, element.pos1.y)) ? element.name : 'Unknown';
-	}
+	if (!element || !element.position) return 'Unknown';
+	
+	return getZoneFromPosition(element.position);
 }
