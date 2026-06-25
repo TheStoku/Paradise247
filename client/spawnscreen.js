@@ -219,7 +219,7 @@ bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 	}
 
 	initSpawns();
-
+	
 	bindKey(SDLK_F4, KEYSTATE_DOWN, function(e) {
 		spawnScreen.toggle(true);
 	});
@@ -230,10 +230,14 @@ bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 });
 
 addEventHandler('OnDrawnHUD', (event) => {
-	// return;
-	if (!focus) return;
-	if (spawnScreen && spawnScreen.isEnabled && dashboard && !dashboard.isShown && isConnected) {
+	if (typeof focus !== 'undefined' && !focus) return;
+
+	let dashHidden = (typeof dashboard !== 'undefined') ? !dashboard.isShown : true;
+	let connected = (typeof isConnected !== 'undefined') ? isConnected : true;
+
+	if (spawnScreen && spawnScreen.isEnabled && dashHidden && connected) {
 		const spawn = Spawn.get(spawnScreen.skinSelection);
+		if(!spawn) return;
 		// let teamColor = spawn.team.color; // GTAC font doesn't render colourcodes.
 		const teamName = spawn.team.name;
 		const teamLevel = spawn.team.level;
