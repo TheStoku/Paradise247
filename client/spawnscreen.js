@@ -232,7 +232,6 @@ bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
 addEventHandler('OnDrawnHUD', (event) => {
 	if (typeof focus !== 'undefined' && !focus) return;
 
-	let dashHidden = (typeof dashboard !== 'undefined') ? !dashboard.isShown : true;
 	let connected = (typeof isConnected !== 'undefined') ? isConnected : true;
 
 	if (spawnScreen && spawnScreen.isEnabled && dashHidden && connected) {
