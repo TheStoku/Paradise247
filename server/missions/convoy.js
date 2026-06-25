@@ -5,61 +5,65 @@
 */
 
 const Convoys = [];
+const ActiveConvoySpheres = new Map();
 
 class Convoy {
 	constructor(id, destination, name) {
 		this.destination = destination;
-		this.sphere = null;
-		this.vehicle = null;
 		this.name = name;
-
 		this.id = id;
+		
 		Convoys.push(this);
-		// log("new Convoy(): " + this.id.toString(), Log.DEBUG);
-	}
-
-	destructor() {
-		if (this.sphere) this.sphere.destructor();
-		this.sphere = null;
 	}
 
 	static get(id) {
-		const index = Convoys.findIndex( (convoy) => convoy.id == id );
-
-		return index > -1 ? Convoys[index] : null;
+		return Convoys.find((convoy) => convoy.id === id) || null;
 	}
 
 	static start(client, id, vehicle) {
 		const instance = Convoy.get(id);
+		if (!instance || !vehicle) return;
 
-		if (instance.sphere === null) {
-			instance.sphere = new Sphere(instance.destination, 5.0, Convoy.end, 0, 4, COLOUR_GREEN, true, true);
+		if (ActiveConvoySpheres.has(vehicle.id)) {
+			const oldSphere = ActiveConvoySpheres.get(vehicle.id);
+			if (oldSphere) oldSphere.destructor();
 		}
 
-		if (instance.sphere.blip !== null) {
-			instance.sphere.blip.netFlags.distanceStreaming = false;
+		const sphere = new Sphere(instance.destination, 5.0, Convoy.end, 0, 4, COLOUR_GREEN, true, true);
+		
+		if (sphere.blip !== null) {
+			sphere.blip.netFlags.distanceStreaming = false;
 		}
+
+		ActiveConvoySpheres.set(vehicle.id, sphere);
 
 		Locale.sendMessage(client, false, COLOUR_WHITE, 'mission.convoy.start');
-
-		log(`Convoy.start(): Sphere ID: ${instance.sphere.id}`, Log.DEBUG);
+		log(`Convoy.start(): Sphere ID: ${sphere.id} assigned to vehicle ID: ${vehicle.id}`, Log.DEBUG);
 	}
 
-	static corrupt(id) {
-		const instance = Convoy.get(id);
-
-		instance.destructor();
+	static corrupt(vehicle) {
+		if (!vehicle) return;
+		
+		if (ActiveConvoySpheres.has(vehicle.id)) {
+			const sphere = ActiveConvoySpheres.get(vehicle.id);
+			if (sphere) sphere.destructor();
+			ActiveConvoySpheres.delete(vehicle.id);
+		}
 	}
 
 	static end(event, ped, sphere, entered) {
 		const player = Player.get(ped);
+		// Zabezpieczenie przed błędem jeśli w marker weszło np. NPC lub zbugowany gracz
+		if (!player || !ped.vehicle) return;
+
 		const client = player.client;
 		const vehicle = ped.vehicle;
 		const id = Number(vehicle.getData('convoy'));
 		const instance = Convoy.get(id);
 
-		if (instance && instance.id == id) {
-			instance.destructor();
+		if (instance) {
+			Convoy.corrupt(vehicle);
+			
 			vehicle.setData('convoy', 0, true);
 
 			const reward = earn(client, earningBase.convoy, xpBase.convoy);
@@ -81,22 +85,23 @@ class Convoy {
 }
 
 addEventHandler('OnPedEnteredVehicleEx', (event, ped, vehicle, seat) => {
-	if (ped.type == ELEMENT_PLAYER) {
-		if (vehicle.getData('default') == true) {
-			if (vehicle.getData('convoy')) {
+	if (ped.type === ELEMENT_PLAYER && vehicle) {
+		if (vehicle.getData('default') === true) {
+			const convoyId = vehicle.getData('convoy');
+			
+			if (convoyId) {
 				const client = getClientFromPlayerElement(ped);
-
-				Convoy.start(client, Number(vehicle.getData('convoy')), vehicle);
+				if (client) Convoy.start(client, Number(convoyId), vehicle);
 			}
 		}
 	}
 });
 
 addEventHandler('OnPedExitedVehicleEx', (event, ped, vehicle, seat) => {
-	if (ped.type == ELEMENT_PLAYER && vehicle) {
-		if (vehicle.getData('default') == true) {
+	if (ped.type === ELEMENT_PLAYER && vehicle) {
+		if (vehicle.getData('default') === true) {
 			if (vehicle.getData('convoy')) {
-				Convoy.corrupt(Number(vehicle.getData('convoy')));
+				Convoy.corrupt(vehicle); 
 			}
 		}
 	}
@@ -117,10 +122,7 @@ addNetworkHandler('onVehicleExplode', function(client, vehicleId) {
 });
 
 function initConvoyMission() {
-	if (server.game == GAME_GTA_III) {
-		// For testing.
-		// new Convoy(1, new Vec3(1040.15, -697.44, 14.97)); // Portland bank
-		// new Convoy(2, new Vec3(153.66, -977.30, 26.17)); // Portland bank
+	if (server.game === GAME_GTA_III) {
 		new Convoy(1, new Vec3(153.66, -977.30, 26.17), 'Staunton Bank');
 		new Convoy(2, new Vec3(1040.15, -697.44, 14.97), 'Portland Bank');
 	}
