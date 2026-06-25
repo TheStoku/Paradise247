@@ -229,15 +229,9 @@ class Player {
 			Locale.sendMessage(this.client, false, COLOUR_WHITE, 'account.loginSuccess', lastLogin);
 
 			triggerNetworkEvent('setInitialData', this.client, this.db.team, this.db.weaponSelect, this.db.spawns);
-			// triggerNetworkEvent('toggleDashboard', this.client);
 
 			// Print active quest.
 			Quest.print(this.client, null);
-
-			// Add timeout, to let dashboard be fully loaded.
-			setTimeout(() => {
-				toggleDashboard(this.client);
-			}, 4500);
 		}
 	}
 
