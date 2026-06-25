@@ -48,7 +48,7 @@ addEventHandler('onVehicleExplode', (event, vehicle) => {
 		if (localPlayer.vehicle == vehicle) {
 			// message(localPlayer.vehicle.toString());
 			// message(vehicle.toString());
-			localPlayer.removeFromVehicle;
+			localPlayer.removeFromVehicle();
 		}
 		triggerNetworkEvent('onVehicleExplode', vehicle.id);
 	}
@@ -66,21 +66,31 @@ function toggleDoor(vehicle, door) {
 function callService(vehicle, type) {
 	if (!vehicle) return;
 
+	let finalType = 'none';
+
 	switch (type) {
-	case 'fix':
-		if (vehicle.health < 1000.0) type = 'fix';
-		else type = 'none';
-		break;
-	case 'flip':
-		if (vehicle.flipped) type = 'flip';
-		else type = 'none';
-		break;
-	case 'flip&fix':
-		type = 'flip&fix';
-		break;
+		case 'fix':
+			if (vehicle.health < 1000.0) finalType = 'fix';
+			break;
+		case 'flip':
+			if (vehicle.flipped) finalType = 'flip';
+			break;
+		case 'flip&fix':
+			if (vehicle.health < 1000.0 && vehicle.flipped) {
+				finalType = 'flip&fix';
+			} else if (vehicle.health < 1000.0) {
+				finalType = 'fix';
+			} else if (vehicle.flipped) {
+				finalType = 'flip';
+			}
+			break;
 	}
-	if (type != 'none') triggerNetworkEvent('callService', vehicle.id, type);
-	else message(`Everything is fine, no service needed.`);
+
+	if (finalType !== 'none') {
+		triggerNetworkEvent('callService', vehicle.id, finalType);
+	} else {
+		message(`Everything is fine, no service needed.`);
+	}
 }
 
 bindEventHandler('OnResourceReady', thisResource, function(event, resource) {
