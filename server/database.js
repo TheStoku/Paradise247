@@ -1,124 +1,158 @@
 'use strict';
 
-// Game specific table names
 const getServerDataDBFromGame = [null, 'iii_data', 'vc_data', 'sa_data', 'ug_data', 'iv_data'];
 const getTeleportsDBFromGame = [null, 'iii_teleports', 'vc_teleports', 'sa_teleports', 'ug_teleports', 'iv_teleports'];
 const getVehiclesDBFromGame = [null, 'iii_vehicles', 'vc_vehicles', 'sa_vehicles', 'ug_vehicles', 'iv_vehicles'];
-
 const STORE_DATABASE_TIME = 1000 * 60 * 5; // every 5min
-let db = null;
+
+let rawDb = null;
+let dbSaveInterval = null;
+let dbKeepAliveInterval = null;
+
+const db = {
+    query: function(queryString) {
+        try {
+            if (rawDb && rawDb.ping === false) reconnectNative();
+            return rawDb.query(queryString);
+        } catch (error) {
+            const errStr = error.toString(); 
+            if (errStr.includes('2013') || errStr.includes('2006')) {
+                console.log("[MySQL] Zrzut połączenia (2013/2006). Natychmiastowe wznawianie...");
+                reconnectNative();
+                return rawDb.query(queryString)
+            }
+            throw error;
+        }
+    },
+    escapeString: function(str) {
+        try {
+            if (rawDb && rawDb.ping === false) reconnectNative();
+            return rawDb.escapeString(str);
+        } catch (error) {
+            const errStr = error.toString();
+            if (errStr.includes('2013') || errStr.includes('2006')) {
+                reconnectNative();
+                return rawDb.escapeString(str);
+            }
+            throw error;
+        }
+    },
+    close: function() { if (rawDb) rawDb.close(); },
+    selectDatabase: function(dbName) { return rawDb.selectDatabase(dbName); },
+    changeUser: function(u, p, d) { return rawDb.changeUser(u, p, d); },
+    info: function() { return rawDb.info(); },
+    
+    get ping() { return rawDb ? rawDb.ping : false; },
+    get insertId() { return rawDb ? rawDb.insertId : 0; },
+    get affectedRows() { return rawDb ? rawDb.affectedRows : 0; },
+    get warningCount() { return rawDb ? rawDb.warningCount : 0; },
+    get errorNum() { return rawDb ? rawDb.errorNum : 0; },
+    get error() { return rawDb ? rawDb.error : ""; }
+};
 
 bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
-	// Check for CVAR settings in server.xml.
 	const cvarCheck = ['DATABASE_IP', 'DATABASE_NAME', 'DATABASE_USERNAME', 'DATABASE_PASSWORD', 'DATABASE_PORT'];
 
 	for (const i of cvarCheck) {
 		if (!server.getCVar(i.toString())) {
-			console.log(TAG + `Missing \'${i}\' CVAR. Loading database has been terminated.`);
+			console.log(TAG + `Missing '${i}' CVAR. Loading database has been terminated.`);
 			return false;
 		}
 	}
 
-	// Load data from database.
+	establishDatabaseConnection();
+
+	dbKeepAliveInterval = setInterval(() => {
+		if (db) {
+			const keepAlive = db.query("SELECT 1");
+			if (keepAlive) keepAlive.free();
+		}
+	}, 1000 * 30);
+
 	log(`DB Server data loaded \x1b[35m[${executionTime(loadServerDataQuery)}ms]`);
 	log(`DB Vehicles data loaded \x1b[35m[${executionTime(loadVehicleDataQuery)}ms]`);
 	log(`DB Teleports data loaded \x1b[35m[${executionTime(loadTeleportsDataQuery)}ms]`);
 	log(`DB Top Scores data loaded \x1b[35m[${executionTime(loadTopScores)}ms]`);
 
-	// Setup database store interval and refresh top scores from DB
-	setInterval(function() {
+	// Setup database store interval
+	dbSaveInterval = setInterval(() => {
 		saveServerData();
-		loadTopScores();
+		// loadTopScoresQuery();
 		saveAllVehicles();
 	}, STORE_DATABASE_TIME);
 });
 
+bindEventHandler('OnResourceStop', thisResource, function(event, resource) {
+	if (dbSaveInterval) clearInterval(dbSaveInterval);
+	if (dbKeepAliveInterval) clearInterval(dbKeepAliveInterval);
+
+	closeDatabaseConnection();
+});
+
+function reconnectNative() {
+    if (rawDb) {
+        try { rawDb.close(); } catch (e) {}
+    }
+    rawDb = module.mysql.connect(
+        server.getCVar('DATABASE_IP'),
+        server.getCVar('DATABASE_USERNAME'),
+        server.getCVar('DATABASE_PASSWORD'),
+        server.getCVar('DATABASE_NAME'),
+        Number(server.getCVar('DATABASE_PORT'))
+    );
+}
+
 function establishDatabaseConnection() {
-	try {
-		db = module.mysql.connect(
-			server.getCVar('DATABASE_IP'),
-			server.getCVar('DATABASE_USERNAME'),
-			server.getCVar('DATABASE_PASSWORD'),
-			server.getCVar('DATABASE_NAME'),
-			Number(server.getCVar('DATABASE_PORT')),
-		);
-	} catch (e) {
-		console.log(e);
-		server.shutdown();
-	}
+    try {
+        reconnectNative();
+        
+        if (dbKeepAliveInterval) clearInterval(dbKeepAliveInterval);
+        
+        dbKeepAliveInterval = setInterval(() => {
+            try {
+                if (rawDb) {
+                    if (rawDb.ping === false) {
+                        reconnectNative();
+                    } else {
+                        const keepAlive = rawDb.query("SELECT 1");
+                        if (keepAlive) keepAlive.free();
+                    }
+                }
+            } catch(e) {}
+        }, 1000 * 60 * 2);
+    } catch (e) {
+        console.log("Database connection failed: ", e);
+        server.shutdown();
+    }
 }
 
 function closeDatabaseConnection() {
-	if (db) db.close();
+    db.close();
 }
 
 // Build MySQL query from given data (keys/values).
 function buildQueryKeys(data) {
-	let builtQuery = '';
-	let n = 1;
-
-	for (const i in data) {
-		//if (Object.hasOwnProperty(data, i)) {
-			builtQuery += '\`' + i + '\`';
-
-			if (n < Object.keys(data).length) builtQuery += ', ';
-			n++;
-		//}
-	}
-
-	return builtQuery;
+	return Object.keys(data).map(key => `\`${key}\``).join(', ');
 }
 
 function buildQuery(data) {
-	let builtQuery = '';
-	let n = 1;
-
-	for (const i in data) {
-		//if (Object.hasOwnProperty(data, i)) {
-			builtQuery += `'${data[i]}'`;
-
-			if (n < Object.values(data).length) builtQuery += ', ';
-
-			n++;
-		//}
-	}
-
-	return builtQuery;
+	return Object.values(data).map(val => `'${db.escapeString(String(val))}'`).join(', ');
 }
 
 function buildUpdateQuery(data) {
-	let builtQuery = '';
-	let n = 1;
-
-	for (const i in data) {
-		//if (Object.hasOwnProperty(data, i)) {
-			builtQuery += `${i}='${data[i]}'`;
-
-			if (n < Object.values(data).length) builtQuery += ', ';
-
-			n++;
-		//}
-	}
-
-	return builtQuery;
+	return Object.entries(data).map(([key, val]) => `\`${key}\`='${db.escapeString(String(val))}'`).join(', ');
 }
 
 function isNameRegisteredQuery(name) {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT * FROM gaming_accounts WHERE name ="${db.escapeString(name)}" LIMIT 1`);
 	const rows = result.numRows;
 
 	result.free();
 
-	closeDatabaseConnection();
-
 	return (rows > 0) ? true : false;
 }
 
 function checkPasswordQuery(name, password) {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT password FROM gaming_accounts WHERE name ="${db.escapeString(name)}" LIMIT 1`);
 	let isMatching = false;
 
@@ -130,14 +164,10 @@ function checkPasswordQuery(name, password) {
 
 	result.free();
 
-	closeDatabaseConnection();
-
 	return isMatching;
 }
 
 function checkIPQuery(client) {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT ip FROM gaming_accounts WHERE name ="${db.escapeString(client.name)}" LIMIT 1`);
 	let isMatching = false;
 
@@ -149,14 +179,10 @@ function checkIPQuery(client) {
 
 	result.free();
 
-	closeDatabaseConnection();
-
 	return isMatching;
 }
 
 function loadPlayerDataQuery(client) {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT * FROM gaming_accounts WHERE name ="${db.escapeString(client.name)}" LIMIT 1`);
 
 	if (result) {
@@ -165,9 +191,12 @@ function loadPlayerDataQuery(client) {
 
 		Object.assign(player.db, data);
 
-		// Parse JSON string from database to object.
-		player.db.packages = JSON.parse(player.db.packages);
-		// if (player.db.storedPosition.length > 0) player.db.storedPosition = JSON.parse(player.db.storedPosition);
+		try {
+			player.db.packages = JSON.parse(player.db.packages || '[]');
+		} catch(e) {
+			player.db.packages = [];
+			console.log(`Failed to parse packages for ${client.name}. Reseting array.`);
+		}
 
 		// Parse items
 		const items = player.db.items.split(',');
@@ -179,18 +208,13 @@ function loadPlayerDataQuery(client) {
 		});
 
 		log(`${client.name} backpack items: ${player.backpack.getItemsForStore()}`, Log.INFORMATION);
-
 		result.free();
 	}
-
-	closeDatabaseConnection();
 
 	return true;
 }
 
 function savePlayerData(client) {
-	establishDatabaseConnection();
-
 	const player = Player.get(client);
 
 	if (!player || client.getData('isLoggedIn') < 1) return 0;
@@ -217,8 +241,6 @@ function savePlayerData(client) {
 
 	// console.log(`saved player data`);
 
-	closeDatabaseConnection();
-
 	// Unpack from string. Hotfix for ingame save timer.
 	player.db.packages = JSON.parse(player.db.packages);
 	/* if (storedPos) {
@@ -228,8 +250,6 @@ function savePlayerData(client) {
 }
 
 function registerAccountQuery(name, password, ip) {
-	establishDatabaseConnection();
-
 	const accountData = {
 		'name': db.escapeString(name),
 		'password': module.hashing.sha256(db.escapeString(password.toString())).toLowerCase(),
@@ -248,14 +268,10 @@ function registerAccountQuery(name, password, ip) {
 	const q = 'INSERT INTO `gaming_accounts` (' + buildQueryKeys(accountData) + ') VALUES (' + buildQuery(accountData) + ');';
 	db.query(q);
 
-	closeDatabaseConnection();
-
 	return true;
 }
 
 function loadVehicleDataQuery() {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT * FROM ${getVehiclesDBFromGame[server.game]}`);
 
 	log(`Found ${result.numRows} vehicles in database.`, Log.ALL);
@@ -269,13 +285,9 @@ function loadVehicleDataQuery() {
 
 		result.free();
 	}
-
-	closeDatabaseConnection();
 }
 
 function saveVehicleQuery(client) {
-	establishDatabaseConnection();
-
 	const vehicle = client.player.vehicle;
 
 	messageClient(`>>> Saving vehicle: ${vehicle.modelIndex}...`, client, COLOUR_GREEN);
@@ -299,14 +311,10 @@ function saveVehicleQuery(client) {
 
 		messageClient(`Save query sent successfully.`, client, COLOUR_GREEN);
 	}
-
-	closeDatabaseConnection();
 }
 
 function saveVehicleSettings(vehicle) {
 	console.log('Store vehicle settings.');
-
-	establishDatabaseConnection();
 
 	const veh = Vehicle.get(vehicle);
 
@@ -318,14 +326,10 @@ function saveVehicleSettings(vehicle) {
 	const q = 'UPDATE `' + getVehiclesDBFromGame[server.game] + '` SET ' + buildUpdateQuery(store) + ' WHERE id=\'' + veh.db.id + '\'';
 	console.log(q);
 	db.query(q);
-
-	closeDatabaseConnection();
 }
 
 function saveAllVehicles() {
 	// console.log("Store all vehicles.");
-
-	establishDatabaseConnection();
 
 	for (let i = 0; i < Vehicles.length; i++) {
 		const veh = Vehicles[i];
@@ -344,8 +348,6 @@ function saveAllVehicles() {
 			veh.instance.removeData('addToStore');
 		}
 	}
-
-	closeDatabaseConnection();
 }
 
 function saveAllData(client, params) {
@@ -359,8 +361,6 @@ function saveAllData(client, params) {
 }
 
 function loadTeleportsDataQuery() {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT * FROM ${getTeleportsDBFromGame[server.game]}`);
 
 	log(`Found ${result.numRows} teleports in database.`, Log.ALL);
@@ -374,14 +374,10 @@ function loadTeleportsDataQuery() {
 
 		result.free();
 	}
-
-	closeDatabaseConnection();
 }
 
 function saveTeleportQuery(client, name) {
 	if (!name) return 0;
-
-	establishDatabaseConnection();
 
 	const player = client.player;
 	const creatorName = db.escapeString(client.name);
@@ -401,8 +397,6 @@ function saveTeleportQuery(client, name) {
 
 	const query = db.query('INSERT INTO `' + getTeleportsDBFromGame[server.game] + '` (' + buildQueryKeys(teleportData) + ') VALUES (' + buildQuery(teleportData) + ');');
 
-	closeDatabaseConnection();
-
 	messageClient(`Save query sent successfully.`, client, COLOUR_GREEN);
 
 	teleports.push(teleportData);
@@ -411,8 +405,6 @@ function saveTeleportQuery(client, name) {
 const serverData = [];
 
 function loadServerDataQuery() {
-	establishDatabaseConnection();
-
 	const result = db.query(`SELECT * FROM ${getServerDataDBFromGame[server.game]} ORDER BY id DESC LIMIT 1`);
 
 	if (result) {
@@ -424,8 +416,6 @@ function loadServerDataQuery() {
 		result.free();
 	}
 
-	closeDatabaseConnection();
-
 	// TODO: loop
 	updateGlobalStat('totalEarning', null, true);
 	updateGlobalStat('completedQuests', null, true);
@@ -435,8 +425,6 @@ function loadServerDataQuery() {
 
 function saveServerData() {
 	// console.log("Store global data.");
-
-	establishDatabaseConnection();
 
 	const dateNow = new Date(Date.now()).toDateString();
 	const dateDatabase = new Date(serverData.timestamp*1000).toDateString();
@@ -452,13 +440,9 @@ function saveServerData() {
 		q = 'INSERT INTO `' + getServerDataDBFromGame[server.game] + '` (' + buildQueryKeys(serverData) + ') VALUES (' + buildQuery(serverData) + ');';
 	}
 	db.query(q);
-
-	closeDatabaseConnection();
 }
 
 function loadTopScoresQuery(key) {
-	establishDatabaseConnection();
-
 	key = db.escapeString(key);
 
 	const result = db.query('SELECT `id`, `name`, `' + key + '` FROM `gaming_accounts` WHERE ' + key + ' > 0 ORDER BY ' + key + ' DESC LIMIT 5');
@@ -472,8 +456,6 @@ function loadTopScoresQuery(key) {
 
 		result.free();
 	}
-
-	closeDatabaseConnection();
 
 	return true;
 }
