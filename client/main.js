@@ -19,8 +19,12 @@ bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
 let preInit = true;
 
 function initSpawn(isLoggedIn) {
-	if (isScriptReady && typeof isSpawnScreenReady !== 'undefined' && isSpawnScreenReady === true) {
-		setTimeout(() => {
+	const waitForScript = setInterval(() => {
+        if (typeof isScriptReady !== 'undefined' && isScriptReady === true) {
+            
+            clearInterval(waitForScript);
+	//if (isScriptReady && typeof isSpawnScreenReady !== 'undefined' && isSpawnScreenReady === true) {
+		//setTimeout(() => {
 			gta.setPlayerControl(false);
 			if (gta.game <= 4) gta.fadeCamera(true, 3.0, 1);
 			localPlayer.invincible = true;
@@ -61,10 +65,12 @@ function initSpawn(isLoggedIn) {
 
 			spawnScreen.enter();
 			preInit = false;
-		}, 1500);
+		//}, 1500);
 	} else {
-		setTimeout(initSpawn, 500, isLoggedIn);
+		initSpawn(isLoggedIn);
+		//setTimeout(initSpawn, 500, isLoggedIn);
 	}
+	}, 100);
 }
 
 // TODO: Cleanup, refactor, implementations.
