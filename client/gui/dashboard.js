@@ -108,7 +108,7 @@ class Dashboard {
 		this.mainWindow.setShown(this.isShown);
 		this.dashboardWindow.setShown(this.isShown);
 
-		if (this.mainWindow.isShown() == false && spawnScreen.isEnabled) spawnScreen.enter();
+		//if (this.mainWindow.isShown() == false && spawnScreen.isEnabled) spawnScreen.enter();
 	}
 }
 
