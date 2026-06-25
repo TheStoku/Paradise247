@@ -2,7 +2,7 @@
 
 const MAX_PLAYERS = 50; // isServer ? server.maxClients : 1;
 const MAX_LOGIN_FAILS = 5;
-const Players = Array.apply(null, Array(MAX_PLAYERS)).map(function() {});
+const Players = new Array(MAX_PLAYERS).fill(null);
 
 class Player {
 	constructor(client) {
@@ -82,7 +82,7 @@ class Player {
 
 		// Then delete player store interval and his object.
 		clearInterval(this.saveInterval);
-		delete this;
+		clearInterval(this.onlineTimer);
 	}
 
 	static get(client) {
@@ -425,9 +425,16 @@ class Player {
 		return this.db.cash;
 	}
 
-	setMoney(amnout, increment) {
-		if (amnout != null) {
-			increment == null ? this.db.cash = amnout : increment ? this.db.cash += amnout : amnout > this.db.cash ? this.db.cash = 0 : this.db.cash -= amnout;
+	setMoney(amount, increment) {
+		if (amount != null) {
+			if (increment == null) {
+				this.db.cash = amount;
+			} else if (increment) {
+				this.db.cash += amount;
+			} else {
+				this.db.cash = (amount > this.db.cash) ? 0 : this.db.cash - amount;
+			}
+			
 			this.client.setData('money', this.db.cash);
 		}
 	}
@@ -436,9 +443,16 @@ class Player {
 		return this.db.bank;
 	}
 
-	setBankMoney(amnout, increment) {
-		if (amnout != null) {
-			increment == null ? this.db.bank = amnout : increment ? this.db.bank += amnout : this.db.bank -= amnout;
+	setBankMoney(amount, increment) {
+		if (amount != null) {
+			if (increment == null) {
+				this.db.bank = amount;
+			} else if (increment) {
+				this.db.bank += amount;
+			} else {
+				this.db.bank -= amount;
+			}
+
 			this.client.setData('bank', this.db.bank);
 		}
 	}
@@ -447,11 +461,11 @@ class Player {
 		if (gently) {
 			gta.fadeCamera(this.client, false, 1.0, 0);
 
-			setTimeout(function(client) {
-				client.player.position = position;
-				triggerNetworkEvent('setPlayerHeading', client, heading);
-				gta.fadeCamera(client, true, 1.0, 0);
-			}, 900, this.client);
+			setTimeout(() => {
+				this.client.player.position = position;
+				triggerNetworkEvent('setPlayerHeading', this.client, heading);
+				gta.fadeCamera(this.client, true, 1.0, 0);
+			}, 900);
 		} else {
 			this.client.player.position = position;
 			triggerNetworkEvent('setPlayerHeading', this.client, heading);
