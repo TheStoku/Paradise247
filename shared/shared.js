@@ -75,15 +75,17 @@ function padTo2Digits(num) {
 }
 
 function msToTime(duration) {
-    let seconds = parseInt((duration/1000)%60)
-    let minutes = parseInt((duration/(1000*60))%60)
-    let hours = parseInt((duration/(1000*60*60))%24);
-	let days = parseInt(duration/(1000*60*60*24));
+	if (duration < 0) duration = 0;
 
-	//days = (days < 10) ? "0" + hours : hours;
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
+	let seconds = Math.floor((duration / 1000) % 60);
+	let minutes = Math.floor((duration / (1000 * 60)) % 60);
+	let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+	let days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
-	return `${days} days / ${hours} hours / ${minutes} mins`;
+	const formattedHours = hours < 10 ? '0' + hours : hours;
+	const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+	const dayString = days === 1 ? 'day' : 'days';
+
+	return `${days} ${dayString} / ${formattedHours} hours / ${formattedMinutes} mins`;
 }
