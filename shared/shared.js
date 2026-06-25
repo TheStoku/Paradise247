@@ -61,12 +61,13 @@ function replaceAll(str, match, replacement) {
 	return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
 }
 
-// Source: https://bobbyhadz.com/blog/javascript-convert-minutes-to-hours-and-minutes
 function toHoursAndMinutes(totalMinutes) {
 	const minutes = totalMinutes % 60;
 	const hours = Math.floor(totalMinutes / 60);
 
-	return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}`;
+	const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+	return `${hours}:${formattedMinutes}`;
 }
 
 function padTo2Digits(num) {
