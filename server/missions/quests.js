@@ -13,80 +13,76 @@ class Quest {
 		this.reward = reward;
 		this.target = target;
 		this.type = type;
-		this.id = Quests.push(this);
 		this.itemReward = itemReward;
+		
+		this.id = Quests.length;
+		Quests.push(this);
 	}
 
 	static check(client, task, target = null, type = null) {
 		const player = Player.get(client);
+		if (!player) return;
 
-		if (player.db.quests == Quests.length) {
+		if (player.db.quests >= Quests.length) {
 			return;
 		}
 
 		const quest = Quests[player.db.quests];
+		if (!quest) return;
 
-		if (typeof quest == 'undefined') return;
+		if (quest.task === task) {
+			if (quest.target !== null && quest.target !== target) return;
+			if (quest.type !== null && quest.type !== type) return;
 
-		if (quest.task == task) {
 			player.session.questRepeats++;
 
-			if (quest.repeats > player.session.questRepeats) {
+			if (player.session.questRepeats < quest.repeats) {
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'quest.completion', `${player.session.questRepeats}/${quest.repeats}`);
-
 				return;
-			} else {
-				if (quest.target != null && quest.target != target || quest.type != type) return;
+			} 
 
-				player.db.quests++;
-				player.session.questRepeats = 0;
+			player.db.quests++;
+			player.session.questRepeats = 0;
 
-				client.setData('quests', player.db.quests);
-				Achievement.check('quests', player.db.quests, client);
+			client.setData('quests', player.db.quests);
+			Achievement.check('quests', player.db.quests, client);
 
-				updateGlobalStat('completedQuests', 1, true, true);
+			updateGlobalStat('completedQuests', 1, true, true);
 
-				const reward = earn(client, quest.reward * quest.repeats, true);
+			const rewardAmount = quest.reward * quest.repeats;
+			const reward = earn(client, rewardAmount, true);
 
-				if (reward && reward > 0) {
-					Locale.sendMessage(client, false, COLOUR_WHITE, 'quest.rewardMessage', reward);
-					decho(3, client.name + ' has completed a quest!');
+			if (reward && reward > 0) {
+				Locale.sendMessage(client, false, COLOUR_WHITE, 'quest.rewardMessage', rewardAmount);
+				decho(3, client.name + ' has completed a quest!');
 
-					if (quest.itemReward != null) {
-						player.backpack.addItem(client, quest.itemReward, Item.getDesc(quest.itemReward));
-
-						Locale.sendMessage(client, false, COLOUR_WHITE, 'inventory.newItem', quest.itemReward);
-					}
-
-					// Print next quest.
-					this.print(client);
+				if (quest.itemReward !== null) {
+					player.backpack.addItem(client, quest.itemReward, Item.getDesc(quest.itemReward));
+					Locale.sendMessage(client, false, COLOUR_WHITE, 'inventory.newItem', quest.itemReward);
 				}
+
+				// Print next quest.
+				this.print(client);
 			}
 		}
 	}
 
 	static print(client) {
 		const player = Player.get(client);
-		const locale = player.getLocale();
+		if (!player) return;
 
-		if (player.db.quests == Quests.length) {
-			Locale.sendMessage(client, false, COLOUR_WHITE, 'quest.noMoreQuests' );
-
+		if (player.db.quests >= Quests.length) {
+			Locale.sendMessage(client, false, COLOUR_WHITE, 'quest.noMoreQuests');
 			return;
 		}
 
-		const task = Quests[player.db.quests].task;
-		const repeats = Quests[player.db.quests].repeats;
-		const target = Quests[player.db.quests].target;
-		const type = Quests[player.db.quests].type;
+		const quest = Quests[player.db.quests];
+		const locale = player.getLocale();
 
-		if (type == null) Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, repeats, target));
-		else {
-			switch (type) {
-			case 'vehicle':
-				Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${task}`, getVehicleNameFromModelId(target)));
-				break;
-			}
+		if (quest.type === 'vehicle') {
+			Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${quest.task}`, getVehicleNameFromModelId(quest.target)));
+		} else {
+			Locale.sendMessage(client, false, COLOUR_ORANGE, 'quest.taskMessage', locale.getString(`quest.list.${quest.task}`, quest.repeats, quest.target));
 		}
 	}
 }
