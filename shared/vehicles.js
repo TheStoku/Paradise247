@@ -30,6 +30,15 @@ class Vehicle {
         }, STORE_DATABASE_TIME);*/
 	}
 
+	destructor() {
+		log(`~Vehicle(ID: ${this.id})`, Log.DEBUG);
+		clearInterval(this.respawnInterval);
+
+		if (this.instance && this.instance.exists) {
+			destroyElement(this.instance);
+		}
+	}
+
 	init() {
 		// Fresh spawn
 		if (!this.instance) {
@@ -76,10 +85,22 @@ class Vehicle {
 		}
 	}
 
-	static get(vehicle) {
-		const i = vehicle.getData('index');
+	reset() {
+		if (!this.instance) {
+			log(`Invalid or missing instance for Vehicle ID: ` + this.id, Log.WARNING);
+			return;
+		}
 
-		const index = Vehicles.findIndex( (vehicle) => vehicle.id == i );
+		if (this.instance.exists && this.instance.getOccupants().length == 0) {
+			this.init();
+		}
+	}
+
+	static get(vehicle) {
+		if (!vehicle) return null;
+
+		const i = vehicle.getData('index');
+		const index = Vehicles.findIndex( (v) => v.id == i );
 
 		if (index > -1) {
 			return Vehicles[index];
@@ -107,14 +128,17 @@ addNetworkHandler('updateMileage', function(client, mileage, inc) {
 	const player = Player.get(client);
 	const vehicle = client.player.vehicle;
 
-	if (!vehicle) return;
+	if (!vehicle || !player) return;
+	
 	vehicle.setData('mileage', mileage, true);
-
-
 	player.increaseMileage(inc);
 
-	if (typeof vehicle.getData('default') == 'undefined') return;
-	Vehicle.get(vehicle).db.mileage = mileage;
+	if (vehicle.getData('default')) {
+		const vehObj = Vehicle.get(vehicle);
+		if (vehObj && vehObj.db) {
+			vehObj.db.mileage = mileage;
+		}
+	}
 });
 
 addNetworkHandler('callService', function(client, vehicleId, type) {
