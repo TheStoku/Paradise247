@@ -44,12 +44,22 @@ const III_ZONES = [
 ];
 
 function getZoneFromPosition(position) {
-	const pos2D = new Vec2(position.x, position.y);
+	if (!position || typeof position.x === 'undefined' || typeof position.y === 'undefined') {
+		return 'Unknown';
+	}
+
+	const x = position.x;
+	const y = position.y;
 
 	for (let index = 0; index < III_ZONES.length; index++) {
-		const zone = III_ZONES[index]; // Zmiana nazwy na 'zone', dla czytelności
+		const zone = III_ZONES[index];
 		
-		if (inPoly(pos2D, zone.pos1, zone.pos2, new Vec2(zone.pos1.x, zone.pos2.y), new Vec2(zone.pos2.x, zone.pos1.y))) {
+		const minX = Math.min(zone.pos1.x, zone.pos2.x);
+		const maxX = Math.max(zone.pos1.x, zone.pos2.x);
+		const minY = Math.min(zone.pos1.y, zone.pos2.y);
+		const maxY = Math.max(zone.pos1.y, zone.pos2.y);
+
+		if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
 			return zone.name;
 		}
 	}
