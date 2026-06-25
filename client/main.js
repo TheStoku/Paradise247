@@ -3,11 +3,8 @@
 let isHudEnabled = true;
 let isScriptReady = false;
 
-// bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
-addEventHandler('OnResourceReady', (event, resource) => {
-	setTimeout(() => {
-		initAchievements();
-	}, 1500);
+bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
+	initAchievements();
 
 	if (gta.game == GAME_GTA_III) {
 		gta.setIslands(ISLAND_SHORESIDEVALE);
