@@ -11,7 +11,7 @@
     "alreadyLoggedIn" : "[#ff0000]You are already logged in.",
     "registerSuccess" : "Account '{1}' has been registered successfully!",
     "notRegistered" : "Account for username '{1}' is not registered. Please register it with '/register [password]' first.",
-    "pleaseLogin" : "Username '{1}' is already registered. Use '/login [password]' before spawn or change your name.",
+    "pleaseLogin" : "Username '{1}' is already registered. Use '/login [password]' before spawning or change your name.",
     "incorrectPassword" : "[#ff0000]You have provided an incorrect password. Please try again.",
     "settings" : {
       "savepos": "Your position has been stored.",
@@ -31,11 +31,11 @@
 
   "achievement" : {
     "unlockedMessage" : "You have unlocked a {1} achievement! [{2}/{3}]",
-    "progressMessage1" : "Your achievements progress:",
+    "progressMessage1" : "Your achievement progress:",
     "progressMessage2" : "{1} achievement: {2}/{3} [{4}]",
     "rewardMessage" : "Earned achievement reward: ${1}",
 
-    "infoPickups" : "Hungry of knowledge",
+    "infoPickups" : "Hungry for knowledge",
     "sentMessages" : "Journalist",
     "topSpree" : "Spree",
     "kills" : "Killer",
@@ -44,11 +44,11 @@
     "jackedVehicles" : "Jacker",
     "hiddenPackages" : "Detective",
     "convoys" : "Conveyor",
-    "quests" : "Missionaire",
+    "quests" : "Missionary",
     "mileage" : "Globe Trotter",
     "onlineTime": "Gamer",
     "level" : "Roleplayer",
-    "headshots" : "Headshoter",
+    "headshots" : "Headshotter",
     "races" : "Racer"
   },
 
@@ -59,19 +59,19 @@
     "noMoreQuests" : "🎯 No more quests for now. Please check later!",
     "completion" : "🎯 Current quest completion: [#f0842c]{1}",
     "list" : {
-      "convoy" : "complete {1} convoy/s.",
-      "jack" : "jack {1} vehicle/s.",
-      "infoPickups" : "find {1} info pickup/s.",
+      "convoy" : "complete {1} convoy(s).",
+      "jack" : "jack {1} vehicle(s).",
+      "infoPickups" : "find {1} info pickup(s).",
       "findVehicle" : "find {1} vehicle on the map.",
-      "hiddenPackages" : "find {1} hidden package/s on the map.",
+      "hiddenPackages" : "find {1} hidden package(s) on the map.",
       "mileage" : "hit {1} mileage with any vehicle.",
-      "kill" : "kill any player {1} time/s in a single session.",
-      "dojo" : "join /{2} dojo {1} time/s.",
-      "chat" : "send {1} chat message/s.",
-      "bankEnter" : "enter bank {1} time/s.",
-      "bankExit" : "exit bank {1} time/s.",
-      "bankDeposit" : "deposit ${2} in bank.",
-      "bankWithdraw" : "withdraw ${2} from bank."
+      "kill" : "kill any player {1} time(s) in a single session.",
+      "dojo" : "join the /{2} dojo {1} time(s).",
+      "chat" : "send {1} chat message(s).",
+      "bankEnter" : "enter the bank {1} time(s).",
+      "bankExit" : "exit the bank {1} time(s).",
+      "bankDeposit" : "deposit ${2} in the bank.",
+      "bankWithdraw" : "withdraw ${2} from the bank."
     }
   },
 
@@ -79,7 +79,6 @@
     "kills" : "Kills",
     "deaths" : "Deaths",
     "gameId" : "Game ID"
-
   },
 
   "bank" : {
@@ -87,19 +86,19 @@
     "bye" : "🏦See you later!",
     "commands" : "🏦Available commands: /deposit, /withdraw",
     "transferMessage" : "🏦Transfering {1} to {2}.",
-    "transferSuccess" : "🏦Transfer success! Your have now ${1} in bank and ${2} in cash.",
-    "transferError" : "🏦You haven't enough money. Transfer aborted.",
+    "transferSuccess" : "🏦Transfer success! You now have ${1} in the bank and ${2} in cash.",
+    "transferError" : "🏦You don't have enough money. Transfer aborted.",
     "wallet" : "Wallet",
     "bank" : "bank"
   },
 
   "infoPickup" : {
-    "ammunation" : "ℹHere is the Ammunation. You will be able to buy weapons here in a future, but it's closed for now.",
-    "ctf" : "ℹHere will take a place a Capture The Flag gamemode. You will get informed, when it's ready.",
+    "ammunation" : "ℹHere is the Ammunation. You will be able to buy weapons here in the future, but it's closed for now.",
+    "ctf" : "ℹA Capture The Flag gamemode will take place here. You will be informed when it's ready.",
     "importExport" : "ℹImport/Export mission. Stay tuned.",
-    "gasStation" : "ℹHere you will be able to refuel your vehicle in a good price!",
-    "carDealer" : "ℹCar dealer will be open shortly!",
-    "bank" : "ℹYou can work with your bank account here or start a convoy mission."
+    "gasStation" : "ℹHere you will be able to refuel your vehicle at a good price!",
+    "carDealer" : "ℹThe car dealer will be open shortly!",
+    "bank" : "ℹYou can manage your bank account here or start a convoy mission."
   },
 
   "inventory" : {
@@ -108,36 +107,36 @@
     "status": "💼 Your inventory size is {1}/{2}. You carry:",
     "youCarry": "💼 You carry:",
     "useItem": "💼 Item has been used. ({1}/{2}).",
-    "newItem": "💼 New item '{1}' in your invenotry! Check your items with /backpack command."
+    "newItem": "💼 New item '{1}' in your inventory! Check your items with the /backpack command."
   },
 
   "PlayerConnected" : "{1} has connected from {2} ({3}).",
   "PlayerWelcomeMessage" : "Hello [#f0842c]{1}![#FFFFFF] How are you doing today?",
-  "PlayerWelcomeMessage2" : "You can check for available commands with [#f0842c][ [#ffffff]/cmds [#f0842c]][#FFFFFF] command.",
+  "PlayerWelcomeMessage2" : "You can check for available commands with the [#f0842c][ [#ffffff]/cmds [#f0842c]][#FFFFFF] command.",
   "PlayerQuit" : "{1} has left the game.",
   "PlayerSpawned" : "{1} spawned as {2}.",
-  "PlayerEnterDojoMessage" : "You have entered '{1}' dojo. Use '/dojoexit' to exit dojo.",
-  "PlayerEnterDojo" : "{1} has entered '{2}' dojo. Follow with /dojo {3}",
+  "PlayerEnterDojoMessage" : "You have entered the '{1}' dojo. Use '/dojoexit' to exit the dojo.",
+  "PlayerEnterDojo" : "{1} has entered the '{2}' dojo. Follow with /dojo {3}",
   "KillMessage" : "🔫{1} killed {2} with {3} [ {4} | {5} m | {6} HP ]",
   "DiedInExplosion" : "💣{1} was working with explosives. Died.",
   "Drowned" : "🏊{1} has drowned his troubles.",
   "Suicide" : "🔪\"Suicide is the answer.\" {1}~{2}",
-  "KillingSpree" : "🔫{1} is on killing spree of {2}!",
+  "KillingSpree" : "🔫{1} is on a killing spree of {2}!",
   "KillingSpreeBonus" : "Earned killing spree bonus: ${1}",
   "GainedXp" : "~g~+{1}XP",
   "YouAreMuted" : "You are muted, aborting sending message.",
   "YouAreUnmuted" : "You have been unmuted.",
-  "AdminHealedAllPlayers" : "All players has been healed by {1}.",
-  "AdminHealedAllPlayersInRadius" : "All players has been healed by {1} in his radius.",
-  "AdminChangedServerPassword": "Admin {1} has changed server password.",
-  "AdminChangedServerPasswordOff": "Admin {1} has turned off server password.",
-  "AdminBringedAllPlayers" : "All players has been teleported by {1}.",
-  "AdminBringedAllPlayersInRadius" : "All players has been teleported by {1} in his radius.",
-  "AdminBringedAllVehicles" : "All vehicles has been teleported by {1}.",
-  "AdminBringedAllVehiclesInRadius" : "All vehicles has been teleported by {1} in his radius.",
-  "AdminResetedAllVehicles": "Vehicles has been restored by admin.",
-  "AdminFrozenAllPlayers" : "All players has been frozen by {1}.",
-  "AdminUnFrozenAllPlayers" : "All players has been unfrozen by {1}.",
+  "AdminHealedAllPlayers" : "All players have been healed by {1}.",
+  "AdminHealedAllPlayersInRadius" : "All players have been healed by {1} in his radius.",
+  "AdminChangedServerPassword": "Admin {1} has changed the server password.",
+  "AdminChangedServerPasswordOff": "Admin {1} has turned off the server password.",
+  "AdminBringedAllPlayers" : "All players have been teleported by {1}.",
+  "AdminBringedAllPlayersInRadius" : "All players have been teleported by {1} in his radius.",
+  "AdminBringedAllVehicles" : "All vehicles have been teleported by {1}.",
+  "AdminBringedAllVehiclesInRadius" : "All vehicles have been teleported by {1} in his radius.",
+  "AdminResetedAllVehicles": "Vehicles have been restored by the admin.",
+  "AdminFrozenAllPlayers" : "All players have been frozen by {1}.",
+  "AdminUnFrozenAllPlayers" : "All players have been unfrozen by {1}.",
   "SpawnForbidden": "Spawn is forbidden. Please /login first.",
   "SpawnscreenEnabled": "Spawnscreen has been enabled.",
   "SpawnscreenDisabled": "Spawnscreen has been disabled.",
@@ -156,7 +155,6 @@
   "topMessage2": "{1}",
   "gainedXpMessage": "📈XP Gained by {1}, XP: {2}/{3}, Level: {4}/60",
   "levelUp": "📈Level up! ({1}/60)",
-
 
   "EnteredVehicle" : "🚙[{1}] You have entered {2} [{3}]. You can buy this vehicle for ${4}.",
   "EnteredOwnedVehicle" : "🚙[{1}] You have entered {2} [{3}]. This vehicle is owned by {4}.",
@@ -182,10 +180,10 @@
     "waiting": "{1} is waiting for racers! Use /join to take a drive.",
     "start": "Race is started with {1} drivers!",
     "join": "[{2}/{3}] {1} has joined the race! Use /join to join this race.",
-    "vehicleError": "You must be driver of {2}. Spawn it by /v {1}.",
+    "vehicleError": "You must be the driver of {2}. Spawn it by /v {1}.",
     "full": "Cannot join this race. The grid is full!",
     "checkpoint": "✅ Checkpoint {1}/{2}. Time: {5}s. Lap: {3}/{4}.",
-    "finish": "🏁 {1} has finished with time {2}s and took a place {3} of {4}!",
+    "finish": "🏁 {1} has finished with time {2}s and took place {3} of {4}!",
     "finishMessage": "🛑 Race finished! Table:",
     "winners": "🏁 {1}. {2} ({3}).",
     "dnf": "🏳️ {1} - DNF",
@@ -197,7 +195,7 @@
     "kick": "Admin {1} has kicked {2}.",
     "ban": "Admin {1} has banned {2}.",
     "mute": "Admin {1} has muted {2}.",
-    "setTime": "Admin {1} has changed time to {2}."
+    "setTime": "Admin {1} has changed the time to {2}."
   },
 
   "command" : {
@@ -207,7 +205,7 @@
     "helpMessage1" : "{1} - Usage: /{2} {3}",
     "helpMessage2" : "Flags: {1}",
     "costMessage" : "Cost: ${1}",
-    "insufficentMoney" : "You have insufficent money to use this command. It costs {1}$.",
+    "insufficentMoney" : "You have insufficient money to use this command. It costs {1}$.",
 
     "flag" : {
       "errorMessage" : "⛔You {1} to use this command.",
@@ -217,8 +215,8 @@
       "dojoFalse" : "can't be in Dojo",
       "bankTrue" : "must be in Bank",
       "bankFalse" : "can't be in Bank",
-      "missionTrue" : "must be in Mission",
-      "missionFalse" : "can't be in Mission",
+      "missionTrue" : "must be on a mission",
+      "missionFalse" : "can't be on a mission",
       "vehicleTrue" : "must be in vehicle",
       "vehicleFalse" : "can't be in vehicle",
       "raceTrue" : "must be in race",
@@ -228,7 +226,7 @@
     "description" : {
       "login" : "Login command.",
       "register" : "Register account command.",
-      "stats" : "Player statistics command. Specify player of leave parameter empty to show your stats.",
+      "stats" : "Player statistics command. Specify player or leave parameter empty to show your stats.",
       "lang" : "Language command.",
 
       "help" : "Help command.",
@@ -265,13 +263,13 @@
       "cd": "Countdown command.",
       "anim": "Play animation.",
       "use": "Use item from your backpack.",
-      "backpack": "Check your backapck items.",
+      "backpack": "Check your backpack items.",
       "loc": "Check your location or other player location.",
       "taxilight": "Toggle your taxi light.",
       "driveto": "Drive to location or player (instead of teleporting)",
       "walkto": "Walk to location or player (instead of teleporting)",
       "stop": "Stop driveto or walkto.",
-      "storeveh": "Stove spawned vehicle you are in into the database.",
+      "storeveh": "Store spawned vehicle you are in into the database.",
       "saveall": "Save all data into database. Useful before restarting the server.",
       "setweather": "Set current weather.",
       "settime": "Set current time [HH MM].",
@@ -322,15 +320,14 @@
       "newsFeed" : "News feed:\n{1}",
       "notRegistered" : "Account for username '{1}' is not registered. Please register it first.",
       "rulesMessage" : "I have read and agree to Paradise247's User Agreement, Privacy Policy and Rules, located at paradise.lck.ovh/rules. [WIP]",
-      "registerWingowTitle" : "Please register your account first",
-      "loginWindowTitle" : "Please login into account",
+      "registerWindowTitle" : "Please register your account first",
+      "loginWindowTitle" : "Please log into your account",
       "dashboardWindowTitle" : "Dashboard",
       "questWindowTitle" : "Quest",
       "dashboardText" : {
         "line1" : "Name: {1} | Game ID: {2} | Joins: {3}",
         "line2" : "Money: ${1} | Bank money: ${2}",
         "line3" : "Kills: {1} | Deaths: {2} | K/D Ratio: {3} | Suicides: {4}"
-
       },
       "letsRoll" : "Close this window [F1]",
       "error" : "Error",

@@ -8,7 +8,7 @@ class LoginWindow {
 
 		// Player is unregistered, show register window, otherwise login one.
 		if (this.type == -1) {
-			this.title = Locale.getString('client.gui.registerWingowTitle');
+			this.title = Locale.getString('client.gui.registerWindowTitle');
 			this.buttonCaption = Locale.getString('client.gui.registerButton');
 			this.action = this.register;
 		} else if (this.type == 0) {
@@ -34,7 +34,7 @@ class LoginWindow {
 		this.button = this.window.button(0, this.h - 30, this.w, 25, this.buttonCaption, defaultAcceptButtonStyle, this.action.bind(this));
 
 		// Hotfix?
-		if (Locale.getString('client.gui.registerWingowTitle') != "undefined" || Locale.getString('client.gui.loginWindowTitle') != "undefined") {
+		if (Locale.getString('client.gui.registerWindowTitle') != "undefined" || Locale.getString('client.gui.loginWindowTitle') != "undefined") {
 			setChatWindowEnabled(false);
 			setHudState(false);
 			gui.showCursor(true, false);
@@ -49,7 +49,7 @@ class LoginWindow {
 		triggerNetworkEvent('gui.loginButtonEvent', password.toString());
 
 		this.close();
-		dashboard.toggle();
+		//dashboard.toggle();
 	}
 
 	register() {
@@ -58,7 +58,7 @@ class LoginWindow {
 
 		triggerNetworkEvent('gui.registerButtonEvent', password.toString());
 		this.close();
-		dashboard.toggle();
+		//dashboard.toggle();
 	}
 
 	checkPassword(password) {
