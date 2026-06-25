@@ -409,12 +409,17 @@ function locPlayer(client, params) {
 	let player = client.player;
 	let distance = 0;
 
-	if (params) {
-		player = getClientFromParams(params[0]).player;
-
-		if (player) {
-			distance = player.position.distance(client.player.position);
+	if (params && params.length > 0) {
+		const targetClient = getClientFromParams(params[0]);
+		
+		// Zabezpieczenie przed crashem w przypadku błędu w nicku
+		if (!targetClient || !targetClient.player) {
+			messageClient(`❌ ${COL_ORANGE}Nie znaleziono gracza o podanym nicku.`, client);
+			return;
 		}
+		
+		player = targetClient.player;
+		distance = player.position.distance(client.player.position);
 	}
 
 	message(`${player.name} is in ${getZoneFromPosition(player.position)}.`, COLOUR_WHITE);
@@ -844,11 +849,9 @@ function printFlightTime(client, params) {
 
 function checkCommandFlags(client, command) {
 	let errorMessage = false;
+	const i = commands.findIndex( (cmd) => cmd.name == command.toLowerCase() );
 
-	const i = commands.findIndex( (commands) => commands.name == command.toLowerCase() );
-
-	if (typeof commands[i] != 'undefined') {
-		// if (typeof params == "undefined") params = "";
+	if (i > -1) {
 		const flags = commandFlags[commands[i].flags];
 		const player = client.player;
 		const dojoId = client.getData('dojo');
@@ -860,8 +863,8 @@ function checkCommandFlags(client, command) {
 		// Alive flag
 		if 		(flags.alive != null && flags.alive && !client.getData('isSpawned')) errorMessage = locale.getString('command.flag.aliveTrue');
 		else if (flags.alive != null && !flags.alive && client.getData('isSpawned')) errorMessage = locale.getString('command.flag.aliveFalse');
-		// Dojo flag
-		else if (flags.inDojo != null && flags.inDojo && !dojoId == null) errorMessage = locale.getString('command.flag.dojoTrue');
+		// Dojo flag - Naprawiony błąd logiczny negacji!
+		else if (flags.inDojo != null && flags.inDojo && dojoId == null) errorMessage = locale.getString('command.flag.dojoTrue');
 		else if (flags.inDojo != null && !flags.inDojo && dojoId != null) errorMessage = locale.getString('command.flag.dojoFalse');
 		// Bank flag
 		else if (flags.inBank != null && flags.inBank && !inBank) errorMessage = locale.getString('command.flag.bankTrue');
@@ -875,14 +878,9 @@ function checkCommandFlags(client, command) {
 		// In race flag
 		else if (flags.inRace != null && flags.inRace && !inRace) errorMessage = locale.getString('command.flag.raceTrue');
 		else if (flags.inRace != null && !flags.inRace && inRace) errorMessage = locale.getString('command.flag.raceFalse');
-		
 	}
 
-	if (errorMessage) {
-		return errorMessage;
-	} else {
-		return false;
-	}
+	return errorMessage;
 }
 /*
 function checkCommandCash(client, command) {
@@ -906,17 +904,16 @@ function checkCommandCash(client, command) {
 */
 
 addEventHandler('OnPlayerCommand', (event, client, command, params) => {
-	const i = commands.findIndex( (commands) => commands.name == command.toLowerCase() );
+	const i = commands.findIndex( (cmd) => cmd.name == command.toLowerCase() );
 	let isCommandForbidden = false;
 
-	if (typeof commands[i] != 'undefined') {
+	if (i > -1) {
 		const locale = Player.get(client).getLocale();
 		isCommandForbidden = checkCommandFlags(client, command);
 
 		// Check if arguments are correct.
 		if (params.length < commands[i].arguments.length) {
 			Locale.sendMessage(client, false, COLOUR_WHITE, 'command.syntaxError', command, locale.getString(`command.syntax.${command}`));
-
 			return false;
 		}
 
@@ -926,18 +923,21 @@ addEventHandler('OnPlayerCommand', (event, client, command, params) => {
 			return false;
 		}
 
+		const player = Player.get(client);
+		if (commands[i].cost > 0) {
+			if (player.getMoney() < commands[i].cost) {
+				Locale.sendMessage(client, false, COLOUR_WHITE, 'command.insufficentMoney', commands[i].cost);
+				return false;
+			}
+		}
+
 		// Check command flags
 		if (!isCommandForbidden) {
+			if (commands[i].cost > 0) {
+				player.setMoney(commands[i].cost, false); 
+			}
 			commands[i].function(client, params);
-		} /* else {
-			Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', isCommandForbidden);
-		}*/
-
-		// TODO: Check if player has enough money.
-		/* if (Player.get(client).db.money < commands[i].cost) {
-			Locale.sendMessage(client, false, COLOUR_WHITE, "command.insufficentMoney", commands[i].cost);
-			return false;
-		}*/
+		} 
 	} else {
 		isCommandForbidden = checkCommandFlags(client, 'goto');
 
@@ -956,7 +956,7 @@ addEventHandler('OnPlayerCommand', (event, client, command, params) => {
 		Locale.sendMessage(client, false, COLOUR_WHITE, 'command.flag.errorMessage', isCommandForbidden);
 	}
 });
-
+/*
 addCommandHandler('setadmin', (command, params, client) => {
 	// let targetClient = getClientFromParams(params);
 	// Change it to your nickname, register account and comment this line.
@@ -964,7 +964,7 @@ addCommandHandler('setadmin', (command, params, client) => {
 		Player.get(client).db.adminLevel = Number(params);
 		popup(client, 'Information', 'Your admin has been set to ' + params.toString());
 	}
-});
+});*/
 
 function setAnim(client, animation, lockControlsTime) {
 	triggerNetworkEvent('setPlayerAnimation', null, client.player.id, 0, Number(animation), Number(lockControlsTime));
