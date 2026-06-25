@@ -17,14 +17,13 @@ class Achievement {
 	}
 
 	static check(name, value, client) {
-		const i = Achievements.findIndex( (achievement) => achievement.name == name && achievement.value == value );
+		const achievement = Achievements.find( (a) => a.name === name && a.value === value );
 
-		if (i != -1) {
-			const achievement = Achievements[i];
+		if (achievement) {
 			const player = Player.get(client);
 
 			if (player) {
-				const completion = this.getGroupCompletion(name, value);
+				const completion = Achievement.getGroupCompletion(name, value);
 
 				Locale.sendMessage(client, false, COLOUR_WHITE, 'achievement.unlockedMessage', player.getLocale().getString(`achievement.${name}`), completion[0], completion[1]);
 				decho(3, client.name + ' has unlocked a ' + locale[0].getString(`achievement.${name}`) + ' achievement!');
@@ -32,12 +31,10 @@ class Achievement {
 				const reward = achievement.reward * value;
 				if (reward > 0 ) {
 					Locale.sendMessage(client, false, COLOUR_WHITE, 'achievement.rewardMessage', reward);
-
 					updateGlobalStat('completedAchievements', 1, true, true);
 
-					if (achievement.itemReward != null) {
+					if (achievement.itemReward) {
 						player.backpack.addItem(client, achievement.itemReward, Item.getDesc(achievement.itemReward));
-
 						Locale.sendMessage(client, false, COLOUR_WHITE, 'inventory.newItem', achievement.itemReward);
 					}
 
@@ -49,44 +46,31 @@ class Achievement {
 
 	// Return all achievement names (filtered)
 	static getFilteredList() {
-		const list = [];
-
-		Achievements.forEach((element) => {
-			if (!list.find((elemente) => elemente == element.name)) {
-				list.push(element.name);
-			}
-		});
-
-		return list;
+		return [...new Set(Achievements.map(a => a.name))];
 	}
 
 	static getGroup(name) {
-		const achievementGroup = Achievements.filter( (achievement) => achievement.name == name );
-
-		return achievementGroup;
+		return Achievements.filter( (achievement) => achievement.name === name );
 	}
 
 	static getGroupCompletion(name, value) {
-		const achievementGroup = this.getGroup(name);
-		let achievementCompleted = achievementGroup.reverse().findIndex( (achievement) => achievement.value <= value );
-		achievementCompleted < 0 ? achievementCompleted = 0 : achievementCompleted = achievementGroup.length - achievementCompleted;
+		const achievementGroup = Achievement.getGroup(name);
+		const completedCount = achievementGroup.filter( (a) => value >= a.value ).length;
 
-		const completion = [achievementCompleted, achievementGroup.length];
-
-		return completion;
+		return [completedCount, achievementGroup.length];
 	}
 
 	static getGroupNextLevelValueString(name, value) {
-		const achievementGroup = this.getGroup(name);
-		const groupCompletion = this.getGroupCompletion(name, value);
-		let completion;
+		const achievementGroup = Achievement.getGroup(name);
+		const groupCompletion = Achievement.getGroupCompletion(name, value);
+		
+		const safeValue = value || 0; // Prostsze zabezpieczenie undefined
 
-		if (typeof value == 'undefined') value = 0;
-
-		if (groupCompletion[0] >= groupCompletion[1]) completion = '100%';
-		else completion = `${value}/${achievementGroup[groupCompletion[0]].value}`;
-
-		return completion;
+		if (groupCompletion[0] >= groupCompletion[1]) {
+			return '100%';
+		} else {
+			return `${safeValue}/${achievementGroup[groupCompletion[0]].value}`;
+		}
 	}
 }
 function initAchievements() {
