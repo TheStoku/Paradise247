@@ -104,7 +104,7 @@ const commands = [
 	}},
 
 	// Vehicle commands
-	{name: 'v', level: 0, cost: 50, flags: ALLOW_ON_FOOT, arguments: 's', function: function(client, params) {
+	{name: 'v', level: 0, cost: 0, flags: ALLOW_ON_FOOT, arguments: 's', function: function(client, params) {
 		Vehicle.spawnTempVehicle(client, params);
 	}},
 	// { name: "car", level: 0, cost: 0, flags: ALLOW_VEHICLE, arguments: "", function: function(client,params) { carInfo(client, params); } },
