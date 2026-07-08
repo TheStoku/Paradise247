@@ -24,6 +24,7 @@ class Player {
 			headshots: 0,
 			races: 0,
 			wonRaces: 0,
+			transports: 0,
 			lastMessage: '',
 			lastVehicle: null,
 			questRepeats: 0,
@@ -221,8 +222,6 @@ class Player {
 				continentName = 'Space';
 			}
 
-			printMessage(this.client, 'join', countryName, continentName);
-
 			const lastSeen = new Date(this.db.last_seen * 1000);
 			const lastLogin = lastSeen.toLocaleDateString('pl-PL') + ' ' + lastSeen.toLocaleTimeString('pl-PL');
 
@@ -276,6 +275,7 @@ class Player {
 		this.client.setData('wonRaces', this.db.wonRaces, true);
 		this.client.setData('level', XP.parseByXP(this.db.xp).level, true);
 		this.client.setData('headshots', this.db.headshots, true);
+		this.client.setData('transports', this.db.transports, true);
 
 		// Stored spawnscreen data
 		this.client.setData('team', this.db.team, true);
@@ -384,6 +384,15 @@ class Player {
 		}
 
 		Achievement.check('races', this.db.races, this.client);
+	}
+
+	increaseTransports() {
+		this.db.transports++;
+		this.session.transports++;
+		this.client.setData('transports', this.db.transports);
+
+		Achievement.check('transports', this.db.transports, this.client);
+		Quest.check(this.client, 'transports');
 	}
 
 	increaseWonRaces() {
