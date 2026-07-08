@@ -44,6 +44,7 @@ bindEventHandler('OnResourceStart', thisResource, function(event, resource) {
 	initHiddenPackages();
 	initConvoyMission();
 	initQuests();
+	initTransportMinigame();
 
 	log(`* Loaded ${Team.length} teams.`, Log.INFORMATION);
 	log(`* Loaded ${Spawns.length} spawns.`, Log.INFORMATION);
@@ -127,6 +128,21 @@ function printMessage(client, type, ...args) {
 }
 
 addEventHandler('OnPlayerJoined', (event, client) => {
+	let countryName = null;
+	let continentName = null;
+
+	try {
+		countryName = module.geoip.getCountryName('GeoLite2-Country.mmdb', client.ip);
+		continentName = module.geoip.getContinentName('GeoLite2-Country.mmdb', client.ip);
+	} catch (error) {
+		console.error(error);
+
+		countryName = 'Localhost';
+		continentName = 'Space';
+	}
+
+	printMessage(client, 'join', countryName, continentName);
+
 	// Create new instance for player.
 	Players[client.index] = new Player(client);
 
