@@ -20,6 +20,7 @@ const earningBase = {
 	onlineAchievement: 100,
 	levelAchievement: 100,
 	headshots: 100,
+	transport: 20,
 };
 
 const xpBase = {
