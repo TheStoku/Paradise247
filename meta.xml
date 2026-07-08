@@ -142,6 +142,7 @@
 
 
 	<!-- Minigames -->
+	<script language="javascript" type="server" src="server/missions/transport.js" />
 	<script language="javascript" type="server" src="server/missions/minigames.js" />
 	<script language="javascript" type="server" src="server/missions/minigames/ctf.js" />
 	<script language="javascript" type="server" src="server/missions/minigames/ad.js" />
