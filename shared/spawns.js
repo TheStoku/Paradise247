@@ -72,7 +72,7 @@ function initSpawns() {
 
 		const WeaponSet = {
 			defaultSet: [1, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			defaultSelect: [0, 0, 0, 700, 50, 500, 500, 20, 20, 20, 20, 20],
+			defaultSelect: [0, 0, 0, 700, 50, 500, 0, 50, 0, 0, 0, 0],
 		};
 
 		new Spawn(Team[TEAM_PROTAGONISTS], 'Claude', 0, new Vec3(886.82, -307.98, 8.593), 1.483, camera.portland_hideout, WeaponSet.defaultSet, WeaponSet.defaultSelect);
