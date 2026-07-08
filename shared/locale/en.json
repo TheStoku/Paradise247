@@ -49,7 +49,8 @@
     "onlineTime": "Gamer",
     "level" : "Roleplayer",
     "headshots" : "Headshotter",
-    "races" : "Racer"
+    "races" : "Racer",
+    "transport" : "Courier"
   },
 
   "quest" : {
@@ -70,8 +71,9 @@
       "chat" : "send {1} chat message(s).",
       "bankEnter" : "enter the bank {1} time(s).",
       "bankExit" : "exit the bank {1} time(s).",
-      "bankDeposit" : "deposit ${2} in the bank.",
-      "bankWithdraw" : "withdraw ${2} from the bank."
+      "bankDeposit" : "deposit ${1} in the bank.",
+      "bankWithdraw" : "withdraw ${1} from the bank.",
+      "transport" : "finish ${1} deliveries."
     }
   },
 
@@ -350,6 +352,28 @@
       "start" : "You have started a Convoy mission. Deliver money to the bank showed on radar.",
       "end" : "Convoy finished! Your reward: ${1}",
       "corrupt" : "Convoy mission corrupted."
+    },
+
+    "transport": {
+      "loadingStarted": "🚚 [#0099FF]Started loading for vehicle {1} (Class: {2}, Max: {3} packages). Drive away whenever you're ready!",
+      "loadingItem": "📦 [#00FF00]Loaded cargo ({1}/{2})",
+      "loadingDeparted": "✅ [#00FF00]You left the warehouse taking {1} packages with you. Check the map!",
+      "loadingFull": "✅ [#00FF00]Loading 100% complete! All cargo is in the trunk. Hit the road!",
+      "deliveriesMarked": "📍 [#FFFF00]Marked {1} delivery points on the map. You can complete them in any order!",
+      "atDestination": "🚚 [#FFFF00]You are at the destination ({1}). Stop the vehicle for 2 seconds...",
+      "vehicleMoved": "⚠️ [#ffcc00]Vehicle moved! Unloading countdown reset.",
+      "leftDeliveryEarly": "⚠️ [#ffcc00]You left the drop-off point too early. Delivery postponed.",
+      "deliverySuccess": "📦 [#00FF00]Delivery completed! Distance: {1}m (Bonus: ${2}). Total: ${3}. Packages left: {4}",
+      "streakBonus": "🎉 [#FFD700]STREAK BONUS! This is your {1}. delivery in this session. You receive a ${2} bonus!",
+      "streakBonusBig": "~y~TRANSPORT BONUS! ~g~+${1}",
+      "allDelivered": "🚚 [#00FF00]You have delivered absolutely everything! Return to the warehouse for a new load.",
+      "jobCancelled": "❌ [#ff0000]Transport mission cancelled: {1}",
+      "unfinishedCargo": "🚚 [#ff0000]You still have undelivered cargo in your trunk. Deliver it before getting a new load!",
+      "reasonMovedEarly": "Vehicle moved before loading even a single package!",
+      "reasonLostVehicle": "You lost the mission vehicle!",
+      "reasonLeftVehicle": "You abandoned the mission vehicle!",
+      "reasonVehicleDestroyed": "Your mission vehicle was destroyed!",
+      "reasonExitedDuringLoading": "You exited the vehicle during loading!"
     }
   }
 }

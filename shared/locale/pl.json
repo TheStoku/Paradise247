@@ -49,7 +49,8 @@
     "onlineTime": "Gracz",
     "level": "Roleplayer",
     "headshots": "Strzelec wyborowy",
-    "races": "Rajdowiec"
+    "races": "Rajdowiec",
+    "transport" : "Kurier"
   },
 
   "quest": {
@@ -70,8 +71,9 @@
       "chat": "wyślij {1} wiadomość(i) na czacie.",
       "bankEnter": "wejdź do banku {1} raz(y).",
       "bankExit": "wyjdź z banku {1} raz(y).",
-      "bankDeposit": "wpłać ${2} do banku.",
-      "bankWithdraw": "wypłać ${2} z banku."
+      "bankDeposit": "wpłać ${1} do banku.",
+      "bankWithdraw": "wypłać ${1} z banku.",
+      "transport" : "wykonaj ${1} dostaw."
     }
   },
 
@@ -345,6 +347,28 @@
       "start": "Rozpocząłeś misję Konwoju. Dostarcz pieniądze do banku wskazanego na radarze.",
       "end": "Konwój zakończony! Twoja nagroda: ${1}",
       "corrupt": "Misja konwoju została zniszczona/anulowana."
+    },
+
+    "transport": {
+      "loadingStarted": "🚚 [#0099FF]Rozpoczęto załadunek dla pojazdu {1} (Klasa: {2}, Max: {3} paczek). Odjedź, gdy uznasz, że jesteś gotowy!",
+      "loadingItem": "📦 [#00FF00]Załadowano towar ({1}/{2})",
+      "loadingDeparted": "✅ [#00FF00]Odjechałeś z magazynu. Zabrałeś ze sobą {1} paczek. Sprawdź mapę!",
+      "loadingFull": "✅ [#00FF00]Załadunek 100% zakończony! Cały towar znajduje się na pace. Ruszaj w drogę!",
+      "deliveriesMarked": "📍 [#FFFF00]Zaznaczono {1} punktów dostaw na mapie. Możesz je realizować w dowolnej kolejności!",
+      "atDestination": "🚚 [#FFFF00]Jesteś u celu ({1}). Zatrzymaj pojazd na 2 sekundy...",
+      "vehicleMoved": "⚠️ [#ffcc00]Pojazd drgnął! Odliczanie do rozładunku zresetowane.",
+      "leftDeliveryEarly": "⚠️ [#ffcc00]Opuściłeś punkt rozładunku przed czasem. Dostawa odłożona.",
+      "deliverySuccess": "📦 [#00FF00]Dostawa zrealizowana! Dystans: {1}m (Premia: ${2}). Łącznie: ${3}. Zostało paczek w aucie: {4}",
+      "streakBonus": "🎉 [#FFD700]PREMIA ZA SERIĘ! To Twoja {1}. dostawa w tej sesji. Otrzymujesz bonus ${2}!",
+      "streakBonusBig": "~y~PREMIA TRANSPORTOWA! ~g~+${1}",
+      "allDelivered": "🚚 [#00FF00]Rozwiozłeś absolutnie wszystko! Wróć do magazynu po nowy załadunek.",
+      "jobCancelled": "❌ [#ff0000]Misja transportowa przerwana: {1}",
+      "unfinishedCargo": "🚚 [#ff0000]Wciąż posiadasz niedostarczony towar na pace. Rozwieź go przed kolejnym załadunkiem!",
+      "reasonMovedEarly": "Pojazd poruszył się przed załadowaniem chociażby jednej paczki!",
+      "reasonLostVehicle": "Straciłeś pojazd misyjny!",
+      "reasonLeftVehicle": "Opuściłeś pojazd misyjny!",
+      "reasonVehicleDestroyed": "Twój pojazd misyjny został zniszczony!",
+      "reasonExitedDuringLoading": "Wysiadłeś z pojazdu podczas załadunku!"
     }
   }
 }
