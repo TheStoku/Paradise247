@@ -11,11 +11,12 @@ class Sphere {
 		// End of hotfix.
 		this.id = Spheres.push(this);
 		this.callback = callback;
-
+		
 		// Create radar blip
 		if (args[0] != null) {
 			this.blip = gta.createBlipAttachedTo(
-				this.instance, args[0],
+				this.instance,
+				args[0], // Sprite
 				args[1] = 2, // Size
 				args[2] = 0, // Colour
 				args[3] = true, // Blip
