@@ -106,4 +106,5 @@ function initQuests() {
 	new Quest('bankDeposit', 1, earningBase.quest, 100);
 	new Quest('bankWithdraw', 1, earningBase.quest, 10);
 	new Quest('bankExit', 1, earningBase.quest);
+	new Quest('transport', 10, earningBase.transport);
 }
