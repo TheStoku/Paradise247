@@ -209,18 +209,7 @@ class Player {
 			this.client.setData('isLoggedIn', 1, true);
 			this.updateClientData();
 
-			let countryName = null;
-			let continentName = null;
-
-			try {
-				countryName = module.geoip.getCountryName('GeoLite2-Country.mmdb', this.client.ip);
-				continentName = module.geoip.getContinentName('GeoLite2-Country.mmdb', this.client.ip);
-			} catch (error) {
-				console.error(error);
-
-				countryName = 'Localhost';
-				continentName = 'Space';
-			}
+			
 
 			const lastSeen = new Date(this.db.last_seen * 1000);
 			const lastLogin = lastSeen.toLocaleDateString('pl-PL') + ' ' + lastSeen.toLocaleTimeString('pl-PL');
