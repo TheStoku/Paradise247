@@ -169,4 +169,10 @@ function initAchievements() {
 	new Achievement('races', 25, earningBase.raceAchievement, 'water');
 	new Achievement('races', 50, earningBase.raceAchievement, 'vest');
 	new Achievement('races', 500, earningBase.raceAchievement, 'vest');
+
+	new Achievement('transport', 1, earningBase.transport);
+	new Achievement('transport', 10, earningBase.transport, 'water');
+	new Achievement('transport', 100, earningBase.transport, 'vest');
+	new Achievement('transport', 1000, earningBase.transport, 'vest');
+	new Achievement('transport', 5000, earningBase.transport, 'vest');
 }
