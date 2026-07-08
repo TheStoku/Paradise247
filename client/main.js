@@ -1,77 +1,21 @@
 'use strict';
 
 let isHudEnabled = true;
-let isScriptReady = false;
 
+// bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
 bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
-	initAchievements();
+	setTimeout(() => {
+		initAchievements();
+	}, 3000);
 
 	if (gta.game == GAME_GTA_III) {
 		gta.setIslands(ISLAND_SHORESIDEVALE);
-		natives.SET_MOTION_BLUR(4);
 	}
 
 	bindKey(SDLK_h, KEYSTATE_UP, togglePhotoMode);
-	
-	isScriptReady=true;
 });
 
 let preInit = true;
-
-function initSpawn(isLoggedIn) {
-	const waitForScript = setInterval(() => {
-        if (typeof isScriptReady !== 'undefined' && isScriptReady === true) {
-            
-            clearInterval(waitForScript);
-	//if (isScriptReady && typeof isSpawnScreenReady !== 'undefined' && isSpawnScreenReady === true) {
-		//setTimeout(() => {
-			gta.setPlayerControl(false);
-			if (gta.game <= 4) gta.fadeCamera(true, 3.0, 1);
-			localPlayer.invincible = true;
-
-			const camera = Spawn.get(spawnScreen.skinSelection).camera;
-			gta.setCameraLookAt(new Vec3(camera.x + 200.0, camera.y + 200.0, camera.z + 200.0), localPlayer.position, false);
-
-			if (isLoggedIn < 1 ) {
-				gui.showCursor(true, false);
-				setChatWindowEnabled(true);
-				setHudState(false);
-
-				if (isLoggedIn == -1) {
-					const title = Locale.getString('client.gui.information');
-					const popupMessage = Locale.getString('client.gui.notRegistered', localClient.name);
-					const rulesMessage = Locale.getString('client.gui.rulesMessage');
-
-					new Popup(title, popupMessage, null, null, function() {
-						new Prompt(title, rulesMessage, null, null, null, function() {
-							new LoginWindow(isLoggedIn);
-						}, function() {
-							triggerNetworkEvent('gui.disconnect', 'Rules not accepted');
-						});
-					});
-				} else if (isLoggedIn == 0) {
-					new LoginWindow(isLoggedIn);
-				}
-			} /* else {
-				// TODO: Fix this.
-				/try {
-					dashboard.toggle();
-				} catch (error) {
-					for (let index = 0; index <= 7; index++) {
-						message('We have encountered an error. Please /reconnect', COLOUR_RED);
-					}
-				}
-			}*/
-
-			spawnScreen.enter();
-			preInit = false;
-		//}, 1500);
-	} else {
-		initSpawn(isLoggedIn);
-		//setTimeout(initSpawn, 500, isLoggedIn);
-	}
-	}, 100);
-}
 
 // TODO: Cleanup, refactor, implementations.
 addEventHandler('onPedSpawn', (event, ped) => {
@@ -88,7 +32,47 @@ addEventHandler('onPedSpawn', (event, ped) => {
 					if (!preInit) {
 						spawnScreen.enter();
 					} else {
-						initSpawn(isLoggedIn);
+						setTimeout(() => {
+							gta.setPlayerControl(false);
+							if (gta.game <= 4) gta.fadeCamera(true, 3.0, 1);
+							localPlayer.invincible = true;
+
+							const camera = Spawn.get(spawnScreen.skinSelection).camera;
+							gta.setCameraLookAt(new Vec3(camera.x + 200.0, camera.y + 200.0, camera.z + 200.0), localPlayer.position, false);
+
+							if (isLoggedIn < 1 ) {
+								gui.showCursor(true, false);
+								setChatWindowEnabled(true);
+								setHudState(false);
+
+								if (isLoggedIn == -1) {
+									const title = Locale.getString('client.gui.information');
+									const popupMessage = Locale.getString('client.gui.notRegistered', localClient.name);
+									const rulesMessage = Locale.getString('client.gui.rulesMessage');
+
+									new Popup(title, popupMessage, null, null, function() {
+										new Prompt(title, rulesMessage, null, null, null, function() {
+											new LoginWindow(isLoggedIn);
+										}, function() {
+											triggerNetworkEvent('gui.disconnect', 'Rules not accepted');
+										});
+									});
+								} else if (isLoggedIn == 0) {
+									new LoginWindow(isLoggedIn);
+								}
+							} /* else {
+								// TODO: Fix this.
+								/try {
+									dashboard.toggle();
+								} catch (error) {
+									for (let index = 0; index <= 7; index++) {
+										message('We have encountered an error. Please /reconnect', COLOUR_RED);
+									}
+								}
+							}*/
+
+							preInit = false;
+						}, 3000);
 					}
 					// if (showWelcomeMessage) guiWelcomeInit();
 					break;
@@ -129,7 +113,7 @@ addEventHandler('onPedWasted', function(event, ped, attackerPed, weapon, pedPiec
 });
 
 function playSound(i) {
-	//natives.PLAY_MISSION_AUDIO(int)
+	natives.PLAY_MISSION_AUDIO(int)
 	//natives.PLAY_MISSION_PASSED_TUNE(int)
 	gta.playFrontEndSound(Number(i), 1.0);
 	//94 cp
@@ -148,14 +132,6 @@ addCommandHandler('snd1', (command, params, client) => {
 
 addCommandHandler('snd2', (command, params, client) => {
 	natives.PLAY_MISSION_PASSED_TUNE(Number(params));
-});
-
-addCommandHandler('bm', (command, params, client) => {
-	natives.displayText(new Vec2(400, 300), params);
-});
-
-addCommandHandler('blur', (command, params, client) => {
-	natives.SET_MOTION_BLUR(Number(params));
 });
 
 addNetworkHandler('playFrontEndSound', (i, time) => {
