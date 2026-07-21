@@ -14,8 +14,8 @@ const localTestPos = new Vec2(0.0, 0.0);
 
 addEventHandler('OnEntityProcess', function(event, entity) {
 	if (entity.type === ELEMENT_PLAYER) {
-		// Add ped bleeding on low HP.
-		if (thisGame < 4) {
+		// Add ped bleeding on low HP. Needs to be tested if function works on IV.
+		if (thisGame < GAME_GTA_IV) {
 			entity.bleeding = entity.health <= 25;
 		}
 	}
