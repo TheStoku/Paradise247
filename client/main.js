@@ -19,38 +19,40 @@ bindEventHandler("OnResourceReady", thisResource, function (event, resource) {
 });
 
 function processPlayerSpawn () {
-	const spawnType = localClient.getData('spawnType');
+	setTimeout(() => {
+		const spawnType = localClient.getData('spawnType');
 
-	if (gta.game <= 4) gta.fadeCamera(false, 0.0, COLOUR_BLACK);
+		if (gta.game <= 4) gta.fadeCamera(false, 0.0, COLOUR_BLACK);
 
-	if (spawnType != null) {
-		switch (spawnType) {
-			case 0:
-				spawnScreen.enter();
-				break;
-			case 1:
-				// TODO: implement last position spawn type.
-				break;
-			case 2:
-				// TODO: implement stored position spawn type.
-				break;
-			case 3:
-				// TODO: implement Hospital respawn.
-				const id = 0;
+		if (spawnType != null) {
+			switch (spawnType) {
+				case 0:
+					spawnScreen.enter();
+					break;
+				case 1:
+					// TODO: implement last position spawn type.
+					break;
+				case 2:
+					// TODO: implement stored position spawn type.
+					break;
+				case 3:
+					// TODO: implement Hospital respawn.
+					const id = 0;
 
-				/* if (gta.game == GAME_GTA_III) {
-						if (player.island == ISLAND_PORTLAND) id = 3;
-						else if (player.island == ISLAND_STAUNTONISLAND) id = 4;
-						else id = 5;
-					} else if (gta.game == GAME_GTA_VC) {
-						// TODO: implement
-					}*/
+					/* if (gta.game == GAME_GTA_III) {
+							if (player.island == ISLAND_PORTLAND) id = 3;
+							else if (player.island == ISLAND_STAUNTONISLAND) id = 4;
+							else id = 5;
+						} else if (gta.game == GAME_GTA_VC) {
+							// TODO: implement
+						}*/
 
-				const hospital = gameLocations[gta.game][id];
-				localPlayer.position = hospital[1];
-				break;
+					const hospital = gameLocations[gta.game][id];
+					localPlayer.position = hospital[1];
+					break;
+			}
 		}
-	}
+	}, 1000);
 }
 
 addEventHandler('onLoginProcess', (event) => {
