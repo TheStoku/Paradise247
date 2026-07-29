@@ -101,10 +101,13 @@ addNetworkHandler('setPlayerHeading', (heading) => {
 	localPlayer.heading = Number(heading);
 });
 
-addNetworkHandler('setInitialData', (spawnSelection, weaponSelection, spawns) => {
+addNetworkHandler('setInitialData', (spawnSelection, weaponSelection, spawns, spawnType) => {
 	spawnScreen.skinSelection = spawnSelection;
 	spawnScreen.weaponSelection = weaponSelection;
 	spawnScreen.spawns = spawns;
+
+	localClient.setData('isLoggedIn', LOGIN_OK);
+	localClient.setData('spawnType', spawnType);
 
 	// This also means the login is completed, so we can use a spawnscreen
 	gui.showCursor(false, true);
