@@ -14,6 +14,10 @@ const Log = {ALL: 5, DEBUG: 4, VERBOSE: 3, INFORMATION: 2, WARNING: 1, ERROR: 0}
 const LOG_LEVEL = Log.DEBUG;
 const LOG_LEVEL_DEFAULT = Log.DEBUG;
 
+const LOGIN_NOT_REGISTERED = -1;
+const LOGIN_REGISTERED = 0;
+const LOGIN_OK = 1;
+
 const disconnectReasons = [
 	'Lost Connection',
 	'Disconnected',

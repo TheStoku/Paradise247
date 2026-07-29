@@ -36,7 +36,7 @@ class Player {
 		// Store spawned vehicle instance by player.
 		this.vehicle = null;
 
-		client.setData('isLoggedIn', -1);
+		client.setData('isLoggedIn', LOGIN_NOT_REGISTERED);
 		client.setData('isSpawned', false);
 		client.setData('team', 0);
 		client.setData('dojo', null, true);
@@ -124,15 +124,17 @@ class Player {
 			// Autologin by IP matching.
 			if (checkIPQuery(this.client)) this.completeLogin();
 			else {
-				this.client.setData('isLoggedIn', 0, true);
+				this.client.setData('isLoggedIn', LOGIN_REGISTERED, true);
 				Locale.sendMessage(this.client, false, COLOUR_RED, 'account.pleaseLogin', this.client.name);
 			}
-		} else Locale.sendMessage(this.client, false, COLOUR_RED, 'account.notRegistered', this.client.name);
+		} else {
+			Locale.sendMessage(this.client, false, COLOUR_RED, 'account.notRegistered', this.client.name);
+		}
 	}
 
 	register(password) {
 		// Check if player is already logged in.
-		if (this.client.getData('isLoggedIn') == 1) {
+		if (this.client.getData('isLoggedIn') === LOGIN_OK) {
 			Locale.sendMessage(this.client, false, COLOUR_LIME, 'account.alreadyLoggedIn');
 
 			return;
@@ -155,7 +157,7 @@ class Player {
 
 	passwordLogin(password) {
 		// Check if player is already logged in.
-		if (this.client.getData('isLoggedIn') == 1) {
+		if (this.client.getData('isLoggedIn') === LOGIN_OK) {
 			Locale.sendMessage(this.client, false, COLOUR_LIME, 'account.alreadyLoggedIn');
 
 			return;
@@ -206,7 +208,7 @@ class Player {
 					Array(200).fill(0)];
 			}
 
-			this.client.setData('isLoggedIn', 1, true);
+			this.client.setData('isLoggedIn', LOGIN_OK, true);
 			this.updateClientData();
 
 			
@@ -216,7 +218,7 @@ class Player {
 
 			Locale.sendMessage(this.client, false, COLOUR_WHITE, 'account.loginSuccess', lastLogin);
 
-			triggerNetworkEvent('setInitialData', this.client, this.db.team, this.db.weaponSelect, this.db.spawns);
+			triggerNetworkEvent('setInitialData', this.client, this.db.team, this.db.weaponSelect, this.db.spawns, this.db.spawnType);
 
 			// Print active quest.
 			Quest.print(this.client, null);
